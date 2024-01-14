@@ -111,67 +111,37 @@
                     </div>
 
 
-                    {{-- Row Grafik persuratan --}}
+                    {{-- Row Grafik --}}
                     <div class="row">
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7">
+
+                        <!-- Grafik Persuratan-->
+                        <div class="col-xl-4 col-lg-4">
                             <div class="card shadow mb-4">
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Grafik Data Persuratan</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                    </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body" style="height: 340px;">
-                                    <div class="chart-area" style="height: 100%;">
+                                    <div class="chart-pie pt-4 pb-2" style="height: 100%;">
                                         <canvas id="myAreaChart" style="width: 100%; height: 100%;"></canvas>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
+                        <!-- Grafik Pengislaman dan Konsultasi -->
+                        <div class="col-xl-8 col-lg-8">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">Grafik Pengislaman & Konsultasi</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
+                                    <div class="chart-area">
+                                        <canvas id="myPieChart" style="width: 100%; height: 100%;"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -312,7 +282,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
+                        <span>Copyright &copy; Masjid Agung Al Azhar by DalArmy 2024</span>
                     </div>
                 </div>
             </footer>
@@ -362,17 +332,30 @@
     <!-- Page level plugins -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Script untuk meng-handle peristiwa input -->
+
+    {{-- JS Data Persuratan --}}
     <script>
         var ctx = document.getElementById('myAreaChart').getContext('2d');
+
+        // Fungsi untuk mendapatkan warna acak
+        function randomColor() {
+            return 'rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math
+                .random() * 256) + ', 0.7)';
+        }
+
         var myLineChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: {!! json_encode($labelssurat) !!},
                 datasets: [{
                     label: 'Grafik Persuratan',
                     data: {!! json_encode($datasurat) !!},
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: Array.from({
+                        length: {!! count($labelssurat) !!}
+                    }, () => randomColor()),
+                    borderColor: Array.from({
+                        length: {!! count($labelssurat) !!}
+                    }, () => randomColor()),
                     borderWidth: 1
                 }]
             },
@@ -385,6 +368,40 @@
             }
         });
     </script>
+
+    {{-- JS Data Pengislaman & Konsultasi --}}
+    <script>
+        // Inisialisasi data untuk Pie Chart
+        var labelsdata = <?php echo $labelsdata; ?>;
+        var dataIslamKonsul = <?php echo $dataIslamKonsul; ?>;
+
+        // Menggambar Pie Chart menggunakan Chart.js
+        var ctx = document.getElementById('myPieChart').getContext('2d');
+        var myPieChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labelsdata,
+                datasets: [{
+                    label: 'Grafik Pengislaman & Konsultasi',
+                    data: dataIslamKonsul,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)',
+                    ],
+                    borderWidth: 1,
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            },
+        });
+    </script>
+
 
 </body>
 

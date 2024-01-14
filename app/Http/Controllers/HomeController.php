@@ -56,7 +56,46 @@ class HomeController extends Controller
             })
             ->paginate(5, ['*'], 'datainventaris_page');
 
+        // Query untuk jumlah total pertahun dari kolom jenkel_sp
+        $jenkelmuallaf = DB::table('tbl_sertifikatpengislaman')
+            ->select(DB::raw('YEAR(tgl_sp) as tahun'), 'jenkel_sp', DB::raw('COUNT(id_sp) as jumlah'))
+            ->groupBy(DB::raw('YEAR(tgl_sp)'), 'jenkel_sp')
+            ->get();
 
-        return view('home.h_index', compact('tbl_user', 'labelssurat', 'datasurat', 'laporkerja', 'datainventaris'));
+        // Query untuk jumlah total pertahun dari kolom agamasemula_sp
+        $agamasemula = DB::table('tbl_sertifikatpengislaman')
+            ->select(DB::raw('YEAR(tgl_sp) as tahun'), 'agamasemula_sp', DB::raw('COUNT(id_sp) as jumlah'))
+            ->whereNotIn('agamasemula_sp', ['-', '--Pilih--']) // Menambahkan klausa whereNotIn
+            ->groupBy(DB::raw('YEAR(tgl_sp)'), 'agamasemula_sp')
+            ->get();
+
+        // Query untuk jumlah total pertahun dari kolom id_jeniskonsultasi
+        $konsultasi = DB::table('tbl_formulirkonsultasi')
+            ->select(DB::raw('YEAR(tgl_fk) as tahun'), 'tbl_jeniskonsultasi.nama_jeniskonsultasi', DB::raw('COUNT(tbl_formulirkonsultasi.id_jeniskonsultasi) as jumlah'))
+            ->leftJoin('tbl_jeniskonsultasi', 'tbl_formulirkonsultasi.id_jeniskonsultasi', '=', 'tbl_jeniskonsultasi.id_jeniskonsultasi')
+            ->groupBy(DB::raw('YEAR(tgl_fk)'), 'tbl_formulirkonsultasi.id_jeniskonsultasi', 'tbl_jeniskonsultasi.nama_jeniskonsultasi')
+            ->get();
+
+        // Menggabungkan hasil dari query jenkelmuallaf, agamasemula, dan dataStatistik
+        $mergeIslamKonsul = array_merge($jenkelmuallaf->toArray(), $agamasemula->toArray(), $konsultasi->toArray());
+        // Sajikan data dalam format yang sesuai untuk chart.js
+        $labelsdata = [];
+        $dataIslamKonsul = [];
+
+        foreach ($mergeIslamKonsul  as $item) {
+            // Tambahkan label berdasarkan jenis kelamin atau agama
+            $labelsdata[] = $item->jenkel_sp ?? $item->agamasemula_sp ?? $item->nama_jeniskonsultasi;
+
+            // Tambahkan data jumlah
+            $dataIslamKonsul[] = $item->jumlah;
+        }
+
+        // Konversi array label ke format yang sesuai untuk Chart.js
+        $labelsdata = json_encode($labelsdata);
+        // Konversi array data jumlah ke format yang sesuai untuk Chart.js
+        $dataIslamKonsul = json_encode($dataIslamKonsul);
+
+
+        return view('home.h_index', compact('tbl_user', 'labelssurat', 'datasurat', 'laporkerja', 'datainventaris', 'dataIslamKonsul', 'labelsdata'));
     }
 }
