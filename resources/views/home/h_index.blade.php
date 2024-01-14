@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <link rel="shortcut icon" href="https://siap.al-azhar.id/upload/favicon.ico" type="image/x-icon">
     <title>E-MAA V2 - Dashboard</title>
 
     <!-- Custom fonts for this template-->
@@ -19,10 +19,9 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('sbadmin/css/sb-admin-2.min.css') }}" rel="stylesheet">
-
 </head>
 
-<body id="page-top">
+<body id="page-top" style="font-size: 14px;">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -65,6 +64,7 @@
                         <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-home fa-lg text-white"></i> E-Maa Dashboard V2</a>
                     </div>
+                    {{-- Row Data Karyawan --}}
                     <div class="row">
                         <div class="col-xl-12 col-lg-12">
                             <div class="card shadow">
@@ -74,36 +74,44 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- Data Karyawan --}}
                         @foreach ($tbl_user as $user)
                             <div class="col-xl-3 col-md-2 mb-2">
                                 <div class="card border-left-primary shadow h-100">
-                                    <div class="card-body">
+                                    <div class="card-body position-relative">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col">
                                                 <div class="text-xs font-weight-bold text-primary text-uppercase">
-                                                    {{ $user->nohp }} </div>
+                                                    {{ $user->nohp }}
+                                                </div>
                                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                                     {{ $user->nama_user }}
+                                                </div>
+                                                <div class="text-sm">
+                                                    {{ $user->email }}
                                                 </div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-user fa-2x text-gray-300"></i>
                                             </div>
+                                            <div class="col-auto mt-0 mb-5">
+                                                <span
+                                                    class="badge bg-primary text-light">{{ $loop->iteration + $tbl_user->firstItem() - 1 }}</span>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         @endforeach
                     </div>
-
                     <div class="row">
                         <div class="col-xl-12">
-                            {{ $tbl_user->links('pagination::bootstrap-5') }}
+                            {{ $tbl_user->appends(['tbl_user_page' => $tbl_user->currentPage()])->appends(request()->except('tbl_user_page'))->links('pagination::bootstrap-5') }}
                         </div>
                     </div>
 
 
+                    {{-- Row Grafik persuratan --}}
                     <div class="row">
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
@@ -170,166 +178,129 @@
                         </div>
                     </div>
 
-                    <!-- Content Row -->
+                    {{-- Row Lapor Keja --}}
                     <div class="row">
-
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-                                </div>
-                                <div class="card-body">
-                                    <h4 class="small font-weight-bold">Server Migration <span
-                                            class="float-right">20%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Sales Tracking <span
-                                            class="float-right">40%</span>
-                                    </h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Customer Database <span
-                                            class="float-right">60%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar" role="progressbar" style="width: 60%"
-                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Payout Details <span
-                                            class="float-right">80%</span>
-                                    </h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
-                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Account Setup <span
-                                            class="float-right">Complete!</span></h4>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Lapor Kerja Karyawan</h6>
                                 </div>
                             </div>
-
-                            <!-- Color System -->
-                            <div class="row">
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-primary text-white shadow">
-                                        <div class="card-body">
-                                            Primary
-                                            <div class="text-white-50 small">#4e73df</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-success text-white shadow">
-                                        <div class="card-body">
-                                            Success
-                                            <div class="text-white-50 small">#1cc88a</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-info text-white shadow">
-                                        <div class="card-body">
-                                            Info
-                                            <div class="text-white-50 small">#36b9cc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-warning text-white shadow">
-                                        <div class="card-body">
-                                            Warning
-                                            <div class="text-white-50 small">#f6c23e</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-danger text-white shadow">
-                                        <div class="card-body">
-                                            Danger
-                                            <div class="text-white-50 small">#e74a3b</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-secondary text-white shadow">
-                                        <div class="card-body">
-                                            Secondary
-                                            <div class="text-white-50 small">#858796</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-light text-black shadow">
-                                        <div class="card-body">
-                                            Light
-                                            <div class="text-black-50 small">#f8f9fc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-dark text-white shadow">
-                                        <div class="card-body">
-                                            Dark
-                                            <div class="text-white-50 small">#5a5c69</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
-
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="img/undraw_posting_photo.svg" alt="...">
+                        @foreach ($laporkerja as $kerja)
+                            <div class="col-lg-3">
+                                <!-- Illustrations -->
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h6 class="m-0 font-weight-bold text-primary">
+                                            {{ \Illuminate\Support\Str::limit($kerja->judul_laporkerja, 30) }}
+                                        </h6>
                                     </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a
-                                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>,
-                                        a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse
-                                        Illustrations
-                                        on
-                                        unDraw &rarr;</a>
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 8rem;"
+                                                src="{{ asset('sbadmin/img/undraw_rocket.svg') }}">
+                                        </div>
+                                        <p> {{ \Illuminate\Support\Str::limit($kerja->isi_laporkerja, 50) }}</p>
+                                        <span class="badge bg-primary text-light">Oleh :
+                                            {{ $kerja->nama_user }}</span>
+                                    </div>
                                 </div>
                             </div>
-
-                            <!-- Approach -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to
-                                        reduce
-                                        CSS bloat and poor page performance. Custom CSS classes are used to create
-                                        custom components and custom utility classes.</p>
-                                    <p class="mb-0">Before working with this theme, you should become familiar
-                                        with
-                                        the
-                                        Bootstrap framework, especially the utility classes.</p>
-                                </div>
-                            </div>
+                        @endforeach
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            {{ $laporkerja->appends(['laporkerja_page' => $laporkerja->currentPage()])->appends(request()->except('laporkerja_page'))->links('pagination::bootstrap-5') }}
 
                         </div>
                     </div>
+
+                    {{-- Row Datatable Inventaris --}}
+                    <div class="row mt-3">
+                        <div class="col-xl-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Tabel Inventaris Masjid</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="row mt-2">
+                                                        <div class="col-12">
+                                                            <form action="/" method="GET">
+                                                                <div class="row">
+                                                                    <div class="col-xl-4">
+                                                                        <input type="text"
+                                                                            class="form-control form-group"
+                                                                            name="cariinventaris" id="cariinventaris"
+                                                                            nameplaceholder="Cari Inventaris"
+                                                                            value="{{ Request('cariinventaris') }}">
+                                                                    </div>
+                                                                    <div class="col-xl-2">
+                                                                        <div class="form-group">
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">
+                                                                                <i class="fas fa-search fa-sm"></i>
+                                                                                search
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <table class="table table-bordered dataTable text-center"
+                                                        width="100%" cellspacing="0" role="grid"
+                                                        aria-describedby="dataTable_info" style="width: 100%;">
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th style="width: auto;">No.</th>
+                                                                <th style="width: auto;">Gambar</th>
+                                                                <th style="width: auto;">Nama</th>
+                                                                <th style="width: auto;">Merk</th>
+                                                                <th style="width: auto;">Tgl Beli</th>
+                                                                <th style="width: auto;">Lokasi</th>
+                                                                <th style="width: auto;">Stok</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($datainventaris as $inventaris)
+                                                                <tr class="odd">
+                                                                    <td class="sorting_1">
+                                                                        {{ $loop->iteration + $datainventaris->firstItem() - 1 }}
+                                                                    </td>
+                                                                    <td> <img
+                                                                            src="{{ asset('sbadmin/img/undraw_rocket.svg') }}"
+                                                                            style="height: 40px;">
+                                                                    </td>
+                                                                    <td>{{ $inventaris->nama_datainventaris }}</td>
+                                                                    <td>{{ $inventaris->nama_merk }}</td>
+                                                                    <td>{{ date('d-m-Y', strtotime($inventaris->tgl_datainventaris)) }}
+                                                                    </td>
+                                                                    <td>{{ $inventaris->nama_bagian }}</td>
+                                                                    <td>{{ $inventaris->stok_datainventaris }}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    {{ $datainventaris->appends(['datainventaris_page' => $datainventaris->currentPage()])->appends(request()->except('datainventaris_page'))->links('pagination::bootstrap-5') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
                 <!-- /.container-fluid -->
@@ -390,16 +361,16 @@
 
     <!-- Page level plugins -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <!-- Script untuk meng-handle peristiwa input -->
     <script>
         var ctx = document.getElementById('myAreaChart').getContext('2d');
         var myLineChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: {!! json_encode($labels) !!},
+                labels: {!! json_encode($labelssurat) !!},
                 datasets: [{
                     label: 'Grafik Persuratan',
-                    data: {!! json_encode($data) !!},
+                    data: {!! json_encode($datasurat) !!},
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1

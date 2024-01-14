@@ -13,7 +13,6 @@ class Karyawan extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = "tbl_user";
-    protected $primaryKey = "email";
 
     // Agar tanda string -," muncul di datatable
     // public $incrementing = false;
