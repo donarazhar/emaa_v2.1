@@ -1,214 +1,221 @@
 @extends('home.h_layoutsdashboard')
 @section('content')
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-home fa-lg text-white"></i>
-            E-Maa Dashboard V2</a>
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+        </div><!-- /.container-fluid -->
     </div>
-    {{-- Row Data Karyawan --}}
-    <div class="row">
-        <div class="col-xl-12 col-lg-12">
-            <div class="card shadow">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Data Karyawan</h6>
-                </div>
-            </div>
-        </div>
-        @foreach ($tbl_user as $user)
-            <div class="col-xl-3 col-md-2 mb-2">
-                <div class="card border-left-primary shadow h-100">
-                    <div class="card-body position-relative">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase">
-                                    {{ $user->nohp }}
-                                </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ $user->nama_user }}
-                                </div>
-                                <div class="text-sm">
-                                    {{ $user->email }}
-                                </div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-user fa-2x text-gray-300"></i>
-                            </div>
-                            <div class="col-auto mt-0 mb-5">
-                                <span
-                                    class="badge bg-primary text-light">{{ $loop->iteration + $tbl_user->firstItem() - 1 }}</span>
-                            </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            {{-- Data Karyawan --}}
+            <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="font-weight-bold">
+                                <i class="fas fa-chart-pie mr-1"></i>
+                                <strong>Data Karyawan</strong>
+                            </h5>
                         </div>
                     </div>
-
                 </div>
             </div>
-        @endforeach
-    </div>
-    <div class="row">
-        <div class="col-xl-12">
-            {{ $tbl_user->appends(['tbl_user_page' => $tbl_user->currentPage()])->appends(request()->except('tbl_user_page'))->links('pagination::bootstrap-5') }}
-        </div>
-    </div>
+            <div class="row">
+                @foreach ($tbl_user as $user)
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h4> {{ $user->nama_user }}</h4>
 
-
-    {{-- Row Grafik persuratan --}}
-    <div class="row">
-        <!-- Area Chart -->
-        <div class="col-xl-4 col-lg-4">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Grafik Data Persuratan</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                    </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body" style="height: 340px;">
-                    <div class="chart-area" style="height: 100%;">
-                        <canvas id="myAreaChart" style="width: 100%; height: 100%;"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pie Chart -->
-        <div class="col-xl-8 col-lg-8">
-            <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Grafik Pengislaman &
-                        Konsultasi</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="myPieChart" style="width: 100%; height: 100%;"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Row Lapor Keja --}}
-    <div class="row">
-        <div class="col-xl-12 col-lg-12">
-            <div class="card shadow">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Lapor Kerja Karyawan</h6>
-                </div>
-            </div>
-        </div>
-        @foreach ($laporkerja as $kerja)
-            <div class="col-lg-3">
-                <!-- Illustrations -->
-                <div class="card shadow">
-                    <div class="card-header">
-                        <h6 class="m-0 font-weight-bold text-primary">
-                            {{ \Illuminate\Support\Str::limit($kerja->judul_laporkerja, 30) }}
-                        </h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-center">
-                            <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 8rem;"
-                                src="{{ asset('sbadmin/img/undraw_rocket.svg') }}">
+                                <p> {{ $user->nohp }}</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <a class="small-box-footer"> {{ $user->email }} </a>
                         </div>
-                        <p> {{ \Illuminate\Support\Str::limit($kerja->isi_laporkerja, 50) }}</p>
-                        <span class="badge bg-primary text-light">Oleh :
-                            {{ $kerja->nama_user }}</span>
                     </div>
+                @endforeach
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ $tbl_user->appends(['tbl_user_page' => $tbl_user->currentPage()])->appends(request()->except('tbl_user_page'))->links('pagination::bootstrap-5') }}
                 </div>
             </div>
-        @endforeach
-    </div>
-    <div class="row">
-        <div class="col-xl-12">
-            {{ $laporkerja->appends(['laporkerja_page' => $laporkerja->currentPage()])->appends(request()->except('laporkerja_page'))->links('pagination::bootstrap-5') }}
 
-        </div>
-    </div>
-
-    {{-- Row Datatable Inventaris --}}
-    <div class="row mt-3">
-        <div class="col-xl-12">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Tabel Inventaris Masjid</h6>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="row mt-2">
-                                        <div class="col-12">
-                                            <form action="/" method="GET">
-                                                <div class="row">
-                                                    <div class="col-xl-4">
-                                                        <input type="text" class="form-control form-group"
-                                                            name="cariinventaris" id="cariinventaris"
-                                                            nameplaceholder="Cari Inventaris"
-                                                            value="{{ Request('cariinventaris') }}">
-                                                    </div>
-                                                    <div class="col-xl-2">
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="fas fa-search fa-sm"></i>
-                                                                search
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+            <!-- Main row -->
+            <div class="row">
+                <section class="col-lg-7 connectedSortable">
+                    <!-- Custom tabs (Charts with tabs)-->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-chart-pie mr-1"></i>
+                                <strong>Grafik Data</strong>
+                            </h3>
+                            <div class="card-tools">
+                                <ul class="nav nav-pills ml-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Pengislaman &
+                                            Konsultasi</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#sales-chart" data-toggle="tab">Persuratan</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><!-- /.card-header -->
+                        <div class="card-body" style="height: 320px;">
+                            <div class="tab-content p-0">
+                                <!-- Morris chart - Sales -->
+                                <div class="chart tab-pane active" id="revenue-chart" style="height: 300px;">
+                                    <canvas id="myPieChart" style="width: 100%;"></canvas>
+                                </div>
+                                <div class="chart tab-pane" id="sales-chart" style="width:80%; height: 320px;">
+                                    <canvas id="myAreaChart" style="width: 100%;"></canvas>
+                                </div>
+                            </div>
+                        </div><!-- /.card-body -->
+                    </div>
+                </section>
+                <section class="col-lg-5 connectedSortable">
+                    <!-- Calendar -->
+                    <div class="card bg-gradient-success">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">
+                                <i class="far fa-calendar-alt"></i>
+                                Calendar
+                            </h3>
+                            <!-- tools card -->
+                            <div class="card-tools">
+                                <!-- button with a dropdown -->
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success btn-sm dropdown-toggle"
+                                        data-toggle="dropdown" data-offset="-52">
+                                        <i class="fas fa-bars"></i>
+                                    </button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a href="#" class="dropdown-item">Add new event</a>
+                                        <a href="#" class="dropdown-item">Clear events</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="#" class="dropdown-item">View calendar</a>
                                     </div>
-                                    <table class="table table-bordered dataTable text-center" width="100%" cellspacing="0"
-                                        role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                                        <thead>
-                                            <tr role="row">
-                                                <th style="width: auto;">No.</th>
-                                                <th style="width: auto;">Gambar</th>
-                                                <th style="width: auto;">Nama</th>
-                                                <th style="width: auto;">Merk</th>
-                                                <th style="width: auto;">Tgl Beli</th>
-                                                <th style="width: auto;">Lokasi</th>
-                                                <th style="width: auto;">Stok</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($datainventaris as $inventaris)
-                                                <tr class="odd">
-                                                    <td class="sorting_1">
-                                                        {{ $loop->iteration + $datainventaris->firstItem() - 1 }}
-                                                    </td>
-                                                    <td> <img src="{{ asset('sbadmin/img/undraw_rocket.svg') }}"
-                                                            style="height: 40px;">
-                                                    </td>
-                                                    <td>{{ $inventaris->nama_datainventaris }}</td>
-                                                    <td>{{ $inventaris->nama_merk }}</td>
-                                                    <td>{{ date('d-m-Y', strtotime($inventaris->tgl_datainventaris)) }}
-                                                    </td>
-                                                    <td>{{ $inventaris->nama_bagian }}</td>
-                                                    <td>{{ $inventaris->stok_datainventaris }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
                                 </div>
+                                <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
+                            <!-- /. tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body pt-0">
+                            <!--The calendar -->
+                            <div id="calendar" style="width: 100%"></div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <div class="card bg-gradient-primary" hidden>
+                        <!-- /.card-body-->
+                        <div class="card-footer bg-transparent">
                             <div class="row">
-                                <div class="col-xl-12">
-                                    {{ $datainventaris->appends(['datainventaris_page' => $datainventaris->currentPage()])->appends(request()->except('datainventaris_page'))->links('pagination::bootstrap-5') }}
+                                <div class="col-4 text-center">
+                                    <div id="sparkline-1"></div>
+                                    <div class="text-white">Tamu</div>
                                 </div>
+                                <!-- ./col -->
+                                <div class="col-4 text-center">
+                                    <div id="sparkline-2"></div>
+                                    <div class="text-white">Jamaah</div>
+                                </div>
+                                <!-- ./col -->
+                                <div class="col-4 text-center">
+                                    <div id="sparkline-3"></div>
+                                    <div class="text-white">Muallaf</div>
+                                </div>
+                                <!-- ./col -->
                             </div>
+                            <!-- /.row -->
                         </div>
                     </div>
-                </div>
+
+
+                </section>
             </div>
+            <div class="row">
+                <section class="col-lg-12 connectedSortable">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-chart-pie mr-1"></i>
+                                <strong>DataTable Inventaris Barang</strong>
+                            </h3>
+                        </div>
+
+                        <div class="card-body">
+                            <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6"></div>
+                                    <div class="col-sm-12 col-md-6"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table id="example2"
+                                            class="table table-bordered table-hover dataTable dtr-inline text-center"
+                                            aria-describedby="example2_info">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th style="width: auto;">No.</th>
+                                                    <th style="width: auto;">Gambar</th>
+                                                    <th style="width: auto;">Nama</th>
+                                                    <th style="width: auto;">Merk</th>
+                                                    <th style="width: auto;">Tgl Beli</th>
+                                                    <th style="width: auto;">Lokasi</th>
+                                                    <th style="width: auto;">Stok</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($datainventaris as $inventaris)
+                                                    <tr class="odd">
+                                                        <td class="sorting_1">
+                                                            {{ $loop->iteration + $datainventaris->firstItem() - 1 }}
+                                                        </td>
+                                                        <td> <img src="{{ asset('sbadmin/img/undraw_rocket.svg') }}"
+                                                                style="height: 40px;">
+                                                        </td>
+                                                        <td>{{ $inventaris->nama_datainventaris }}</td>
+                                                        <td>{{ $inventaris->nama_merk }}</td>
+                                                        <td>{{ date('d-m-Y', strtotime($inventaris->tgl_datainventaris)) }}
+                                                        </td>
+                                                        <td>{{ $inventaris->nama_bagian }}</td>
+                                                        <td>{{ $inventaris->stok_datainventaris }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        {{ $datainventaris->appends(['datainventaris_page' => $datainventaris->currentPage()])->appends(request()->except('datainventaris_page'))->links('pagination::bootstrap-5') }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+
         </div>
-    </div>
+    </section>
+    <!-- /.content -->
 @endsection
 @push('myscript')
     <script>

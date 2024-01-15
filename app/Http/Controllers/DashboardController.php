@@ -14,20 +14,12 @@ class DashboardController extends Controller
         $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
 
         $tbl_userID = DB::table('tbl_user')
-            ->select('tbl_user.*', 'tbl_marbout.*')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
             ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
             ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
             ->first();
 
         return view('dashboard.dash_index', compact('tbl_userID'));
-    }
-
-    public function proseslogout()
-    {
-        // logout admin
-        if (Auth::guard('karyawan')->check()) {
-            Auth::guard('karyawan')->logout();
-            return redirect('/');
-        }
     }
 }

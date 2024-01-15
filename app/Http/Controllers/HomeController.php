@@ -119,7 +119,7 @@ class HomeController extends Controller
         }
     }
 
-    public function proseslogout()
+    public function h_proseslogout()
     {
         // logout karyawan
         if (Auth::guard('karyawan')->check()) {
