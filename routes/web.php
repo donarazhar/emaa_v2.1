@@ -1,5 +1,9 @@
 <?php
 
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\DashboardController;
+>>>>>>> 0a4395a (Halaman Dashboard Karyawan)
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+<<<<<<< HEAD
 // Route::get('/', function () {
 //     return view('home.h_index');
 // });
@@ -21,4 +26,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest:karyawan'])->group(function () {
     Route::get('/', [HomeController::class, 'h_index']);
+=======
+
+Route::middleware(['guest:karyawan'])->group(function () {
+    Route::get('/', [HomeController::class, 'h_index'])->name('index');
+    Route::get('/login', [HomeController::class, 'h_login'])->name('login');
+    Route::post('/proseslogin', [HomeController::class, 'h_proseslogin']);
+});
+
+Route::middleware(['auth:karyawan'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'dash_index']);
+    Route::get('/proseslogout', [DashboardController::class, 'proseslogout']);
+>>>>>>> 0a4395a (Halaman Dashboard Karyawan)
 });
