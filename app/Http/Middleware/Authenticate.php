@@ -12,9 +12,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-<<<<<<< HEAD
-        return $request->expectsJson() ? null : route('login');
-=======
         if (!$request->expectsJson()) {
             if ($request->is('panel/*')) {
                 return route('loginadmin');
@@ -22,6 +19,5 @@ class Authenticate extends Middleware
                 return route('/');
             }
         }
->>>>>>> 0a4395a (Halaman Dashboard Karyawan)
     }
 }
