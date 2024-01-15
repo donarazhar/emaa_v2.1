@@ -38,7 +38,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
-                    <span class="mr-2 d-none d-lg-inline text-dark small">Masjid Agung Al Azhar</span>
+                    <span class="mr-2 d-none d-lg-inline text-dark small"><strong>Masjid Agung Al Azhar</strong></span>
                     <img class="img-profile rounded-circle mr-2" src="{{ asset('sbadmin/img/logo.png') }}"
                         style="width:40px">
                 </li>
