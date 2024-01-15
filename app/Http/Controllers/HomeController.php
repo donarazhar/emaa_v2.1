@@ -6,6 +6,7 @@ use App\Models\InventarisModels;
 use App\Models\Karyawan;
 use App\Models\LaporkerjaModels;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -56,7 +57,74 @@ class HomeController extends Controller
             })
             ->paginate(5, ['*'], 'datainventaris_page');
 
+        // Query untuk jumlah total pertahun dari kolom jenkel_sp
+        $jenkelmuallaf = DB::table('tbl_sertifikatpengislaman')
+            ->select(DB::raw('YEAR(tgl_sp) as tahun'), 'jenkel_sp', DB::raw('COUNT(id_sp) as jumlah'))
+            ->groupBy(DB::raw('YEAR(tgl_sp)'), 'jenkel_sp')
+            ->get();
 
-        return view('home.h_index', compact('tbl_user', 'labelssurat', 'datasurat', 'laporkerja', 'datainventaris'));
+        // Query untuk jumlah total pertahun dari kolom agamasemula_sp
+        $agamasemula = DB::table('tbl_sertifikatpengislaman')
+            ->select(DB::raw('YEAR(tgl_sp) as tahun'), 'agamasemula_sp', DB::raw('COUNT(id_sp) as jumlah'))
+            ->whereNotIn('agamasemula_sp', ['-', '--Pilih--']) // Menambahkan klausa whereNotIn
+            ->groupBy(DB::raw('YEAR(tgl_sp)'), 'agamasemula_sp')
+            ->get();
+
+        // Query untuk jumlah total pertahun dari kolom id_jeniskonsultasi
+        $konsultasi = DB::table('tbl_formulirkonsultasi')
+            ->select(DB::raw('YEAR(tgl_fk) as tahun'), 'tbl_jeniskonsultasi.nama_jeniskonsultasi', DB::raw('COUNT(tbl_formulirkonsultasi.id_jeniskonsultasi) as jumlah'))
+            ->leftJoin('tbl_jeniskonsultasi', 'tbl_formulirkonsultasi.id_jeniskonsultasi', '=', 'tbl_jeniskonsultasi.id_jeniskonsultasi')
+            ->groupBy(DB::raw('YEAR(tgl_fk)'), 'tbl_formulirkonsultasi.id_jeniskonsultasi', 'tbl_jeniskonsultasi.nama_jeniskonsultasi')
+            ->get();
+
+        // Menggabungkan hasil dari query jenkelmuallaf, agamasemula, dan dataStatistik
+        $mergeIslamKonsul = array_merge($jenkelmuallaf->toArray(), $agamasemula->toArray(), $konsultasi->toArray());
+        // Sajikan data dalam format yang sesuai untuk chart.js
+        $labelsdata = [];
+        $dataIslamKonsul = [];
+
+        foreach ($mergeIslamKonsul  as $item) {
+            // Tambahkan label berdasarkan jenis kelamin atau agama
+            $labelsdata[] = $item->jenkel_sp ?? $item->agamasemula_sp ?? $item->nama_jeniskonsultasi;
+
+            // Tambahkan data jumlah
+            $dataIslamKonsul[] = $item->jumlah;
+        }
+
+        // Konversi array label ke format yang sesuai untuk Chart.js
+        $labelsdata = json_encode($labelsdata);
+        // Konversi array data jumlah ke format yang sesuai untuk Chart.js
+        $dataIslamKonsul = json_encode($dataIslamKonsul);
+
+
+        return view('home.h_index', compact('tbl_user', 'labelssurat', 'datasurat', 'laporkerja', 'datainventaris', 'dataIslamKonsul', 'labelsdata'));
+    }
+
+    public function h_login()
+    {
+        return view('home.h_login');
+    }
+
+    // Login user
+    public function h_proseslogin(Request $request)
+    {
+        // Untuk mengetahui Hash dari sebuah angka
+        // $pass = 123;
+        // echo Hash::make($pass);
+
+        if (Auth::guard('karyawan')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect('/dashboard');
+        } else {
+            return redirect('/')->with(['warning' => 'Nik / Password Salah']);
+        }
+    }
+
+    public function proseslogout()
+    {
+        // logout karyawan
+        if (Auth::guard('karyawan')->check()) {
+            Auth::guard('karyawan')->logout();
+            return redirect('/');
+        }
     }
 }

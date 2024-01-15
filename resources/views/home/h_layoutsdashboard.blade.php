@@ -58,8 +58,8 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     @yield('content')
+
 
                 </div>
                 <!-- /.container-fluid -->
@@ -71,7 +71,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Masjid Agung Al Azhar by DalArmy 2024</span>
+                        <span>Copyright &copy; Your Website 2021</span>
                     </div>
                 </div>
             </footer>
@@ -87,6 +87,7 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('sbadmin/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -100,7 +101,7 @@
     <!-- Page level plugins -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Script untuk meng-handle peristiwa input -->
-    @stack('after-script')
+    @stack('myscript')
 
 </body>
 
