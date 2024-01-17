@@ -25,4 +25,7 @@ Route::middleware(['guest:karyawan'])->group(function () {
 Route::middleware(['auth:karyawan'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dash_index']);
     Route::get('/proseslogout', [HomeController::class, 'h_proseslogout']);
+
+    Route::get('/dash_datamarbout', [DashboardController::class, 'dash_datamarbout']);
+    Route::post('/dash_detailmarbout', [DashboardController::class, 'dash_detailmarbout']);
 });
