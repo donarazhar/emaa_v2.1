@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <link rel="shortcut icon" href="https://siap.al-azhar.id/upload/favicon.ico" type="image/x-icon">
+    <title>E-Maa v2.1 | Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -41,6 +42,10 @@
                             class="fas fa-bars"></i></a>
                 </li>
             </ul>
+            <a class="nav-link" href="/proseslogout" aria-expanded="true">
+                <i class="fas fa-lock"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="badge badge-danger navbar-badge">Logout</span>
+            </a>
         </nav>
         <!-- /.navbar -->
 
@@ -58,8 +63,11 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="{{ asset('adminlte/img/undraw_profile_3.svg') }}" class="img-circle elevation-2"
-                            alt="User Image">
+                        @php
+                            $user = Auth::guard('karyawan')->user();
+                            $path = Storage::url('uploads/marbout/' . $user->foto_user);
+                        @endphp
+                        <img src="{{ $path }}" alt="avatar" class="img-circle elevation-2">
                     </div>
                     <div class="info">
                         <a href="/dashboard" class="d-block">{{ $tbl_userID->nama_user }}</a>
@@ -95,7 +103,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/dash_datamarbout" class="nav-link">
+                                    <a href="/marbout_index" class="nav-link">
                                         <i class="fas fa-user-check nav-icon"></i>
                                         <p>Data Marbout</p>
                                     </a>
@@ -110,7 +118,7 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="pages/examples/login.html" class="nav-link">
+                                            <a href="/marbout_suamiistri" class="nav-link">
                                                 <i class="fas fa-caret-right nav-icon"></i>
                                                 <p>Suami / Istri</p>
                                             </a>

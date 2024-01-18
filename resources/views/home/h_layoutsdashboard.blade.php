@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <link rel="shortcut icon" href="https://siap.al-azhar.id/upload/favicon.ico" type="image/x-icon">
+    <title>E-Maa v2.1 | Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -35,11 +36,15 @@
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0rem">
             <!-- Right navbar links -->
+            <a class="nav-link" href="/login" aria-expanded="true">
+                <i class="fas fa-lock"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="badge badge-success navbar-badge">Login</span>
+            </a>
             <ul class="navbar-nav ml-auto">
                 <!-- Messages Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <span class="mr-2 d-none d-lg-inline text-dark small"><strong>Masjid Agung Al Azhar</strong></span>
-                    <img class="img-profile rounded-circle mr-2" src="{{ asset('sbadmin/img/logo.png') }}"
+                    <img class="img-profile rounded-circle mr-2" src="{{ asset('adminlte/img/logo.png') }}"
                         style="width:40px">
                 </li>
             </ul>

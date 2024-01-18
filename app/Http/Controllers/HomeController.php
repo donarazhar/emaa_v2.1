@@ -8,6 +8,8 @@ use App\Models\LaporkerjaModels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class HomeController extends Controller
 {
@@ -100,6 +102,54 @@ class HomeController extends Controller
         return view('home.h_index', compact('tbl_user', 'labelssurat', 'datasurat', 'laporkerja', 'datainventaris', 'dataIslamKonsul', 'labelsdata'));
     }
 
+    public function h_daftar()
+    {
+        return view('home.h_daftar');
+    }
+
+    public function h_prosesdaftar(Request $request)
+    {
+        $namalengkap = $request->namalengkap;
+        $email = $request->email;
+        $nohp = $request->nohp;
+        $password = $request->password;
+
+        // Validasi untuk file yang diupload
+        $request->validate([
+            'foto' => 'image|mimes:png,jpg,jpeg|max:2024'
+        ]);
+
+
+        try {
+            // Periksa apakah file foto diupload
+            if ($request->hasFile('foto')) {
+                $fotoFile = $request->file('foto');
+                $fotouser = substr(hash('sha256', time()), 0, 25) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoFile->storeAs('public/uploads/marbout/', $fotouser);
+            } else {
+                // Jika tidak ada file foto diupload, beri nilai default atau sesuaikan dengan kebutuhan Anda
+                $fotouser = 'preview.png'; // Ganti dengan nama file default yang Anda inginkan
+            }
+
+
+            $data = [
+                'nama_user' => $namalengkap,
+                'foto_user' => $fotouser,
+                'email' => $email,
+                'nohp' => $nohp,
+                'password' => Hash::make($password),
+            ];
+
+            $simpan = DB::table('tbl_user')->insert($data);
+
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Email sudah terdaftar. Silakan gunakan email yang berbeda.']);
+        }
+    }
     public function h_login()
     {
         return view('home.h_login');

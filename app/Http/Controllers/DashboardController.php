@@ -108,40 +108,4 @@ class DashboardController extends Controller
 
         return view('dashboard.dash_index', compact('tbl_userID', 'tbl_user', 'labelssurat', 'datasurat', 'laporkerja', 'datainventaris', 'dataIslamKonsul', 'labelsdata'));
     }
-
-    public function dash_datamarbout()
-    {
-        $email = Auth::guard('karyawan')->user()->email;
-        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
-        $tbl_userID = DB::table('tbl_user')
-            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
-            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
-            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
-            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
-            ->first();
-
-
-        $tbl_marbout = DB::table('tbl_marbout')
-            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
-            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
-            ->select('tbl_marbout.*', 'tbl_user.*', 'tbl_unitkerja.nama_unitkerja')
-            ->orderby('tbl_user.nama_user')
-            ->paginate(10);
-
-        return view('dashboard.dashmarbout_index', compact('tbl_userID', 'tbl_marbout'));
-    }
-
-    public function dash_detailmarbout(Request $request)
-    {
-        $id = $request->id;
-        $tbl_marboutID = DB::table('tbl_marbout')
-            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
-            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
-            ->select('tbl_marbout.*', 'tbl_user.*', 'tbl_unitkerja.nama_unitkerja')
-            ->where('tbl_marbout.id_user', $id)
-            ->orderby('tbl_user.nama_user')
-            ->first();
-
-        return view('dashboard.dashmarbout_detail', compact('tbl_marboutID'));
-    }
 }
