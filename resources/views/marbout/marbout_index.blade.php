@@ -73,10 +73,17 @@
                                                                     <td>{{ $marbout->alamat }}
                                                                     </td>
                                                                     <td class="text-center">
-                                                                        <a class="fa fa-edit btn btn-xs btn-warning"></a>
-                                                                        <button
-                                                                            class="fa fa-trash-alt btn btn-xs btn-danger"
-                                                                            data-toggle="modal" data-target=""></button>
+                                                                        <a class="fa fa-edit btn btn-xs btn-warning edit"
+                                                                            href="#" id="{{ $marbout->id_marbout }}">
+                                                                        </a>
+                                                                        <form
+                                                                            action="/marbout_hapus/{{ $marbout->id_marbout }}"
+                                                                            method="POST">
+                                                                            @csrf
+                                                                            <a
+                                                                                class=" fa fa-trash-alt btn btn-danger btn-xs delete-confirm">
+                                                                            </a>
+                                                                        </form>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -273,6 +280,17 @@
             </div>
         </div>
     </div>
+
+
+    {{-- Modal Edit Form Marbout --}}
+    <div class="modal modal-blur fade" id="modal-editfrmmarbout" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body" id="loadeditform">
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('myscript')
     <script>
@@ -334,6 +352,24 @@
                 }
 
             });
+
+            // Proses edit dengan AJAX
+            $(".edit").click(function() {
+                var id = $(this).attr('id');
+                $.ajax({
+                    type: 'POST',
+                    url: '/marbout_edit',
+                    cache: false,
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        id: id
+                    },
+                    success: function(respond) {
+                        $('#loadeditform').html(respond);
+                    }
+                });
+                $("#modal-editfrmmarbout").modal("show");
+            });
             // Proses delete dengan AJAX
             $(".delete-confirm").click(function(e) {
                 var form = $(this).closest('form');
@@ -357,8 +393,6 @@
                     }
                 });
             });
-
-
 
         });
     </script>

@@ -17,6 +17,7 @@ class HomeController extends Controller
     {
         $tbl_user = Karyawan::paginate(4, ['*'], 'tbl_user_page');
         // Query untuk mendapatkan jumlah surat per nama_asalsurat
+
         $asalsurat = DB::table('tbl_transaksisurat')
             ->leftJoin('tbl_asalsurat', 'tbl_transaksisurat.id_asalsurat', '=', 'tbl_asalsurat.id_asalsurat')
             ->select('tbl_asalsurat.nama_asalsurat', DB::raw('COUNT(tbl_transaksisurat.id_transaksisurat) as jumlah'))
