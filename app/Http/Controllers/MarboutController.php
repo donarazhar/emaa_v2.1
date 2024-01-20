@@ -49,12 +49,84 @@ class MarboutController extends Controller
         $tbl_marboutID = DB::table('tbl_marbout')
             ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
             ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
-            ->select('tbl_marbout.*', 'tbl_user.*', 'tbl_unitkerja.nama_unitkerja')
+            ->select('tbl_marbout.*', 'tbl_user.*', 'tbl_unitkerja.*',)
             ->where('tbl_marbout.id_user', $id)
             ->orderby('tbl_user.nama_user')
             ->first();
 
-        return view('marbout.marbout_detail', compact('tbl_marboutID', 'tbl_userID'));
+        $tbl_datakelID = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->leftJoin('marbout_datakel', 'tbl_marbout.id_marbout', '=', 'marbout_datakel.id_marbout')
+            ->select('tbl_marbout.id_marbout', 'marbout_datakel.*')
+            ->where('tbl_marbout.id_user', $id)
+            ->get();
+
+        $tbl_datakel2ID = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->leftJoin('marbout_datakel2', 'tbl_marbout.id_marbout', '=', 'marbout_datakel2.id_marbout')
+            ->select('tbl_marbout.id_marbout', 'marbout_datakel2.*')
+            ->where('tbl_marbout.id_user', $id)
+            ->get();
+
+        $tbl_datakel3ID = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->leftJoin('marbout_datakel3', 'tbl_marbout.id_marbout', '=', 'marbout_datakel3.id_marbout')
+            ->select('tbl_marbout.id_marbout', 'marbout_datakel3.*')
+            ->where('tbl_marbout.id_user', $id)
+            ->get();
+
+        $tbl_sekolahID = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->leftJoin('marbout_sekolah', 'tbl_marbout.id_marbout', '=', 'marbout_sekolah.id_marbout')
+            ->select('tbl_marbout.id_marbout', 'marbout_sekolah.*')
+            ->where('tbl_marbout.id_user', $id)
+            ->get();
+
+        $tbl_bahasaID = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->leftJoin('marbout_bahasa', 'tbl_marbout.id_marbout', '=', 'marbout_bahasa.id_marbout')
+            ->select('tbl_marbout.id_marbout', 'marbout_bahasa.*')
+            ->where('tbl_marbout.id_user', $id)
+            ->get();
+
+        $tbl_jabatanID = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->leftJoin('marbout_jabatan', 'tbl_marbout.id_marbout', '=', 'marbout_jabatan.id_marbout')
+            ->leftJoin('marbout_kategori_jabatan', 'marbout_jabatan.id_katjabatan', '=', 'marbout_kategori_jabatan.id_katjabatan')
+            ->leftJoin('marbout_kategori_eselon', 'marbout_jabatan.id_kateselon', '=', 'marbout_kategori_eselon.id_kateselon')
+            ->select('tbl_marbout.id_marbout', 'marbout_jabatan.*', 'marbout_kategori_jabatan.*', 'marbout_kategori_eselon.*')
+            ->where('tbl_marbout.id_user', $id)
+            ->get();
+
+        $tbl_penugasanID = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->leftJoin('marbout_penugasan', 'tbl_marbout.id_marbout', '=', 'marbout_penugasan.id_marbout')
+            ->select('tbl_marbout.id_marbout', 'marbout_penugasan.*')
+            ->where('tbl_marbout.id_user', $id)
+            ->get();
+
+        $tbl_seminarID = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->leftJoin('marbout_seminar', 'tbl_marbout.id_marbout', '=', 'marbout_seminar.id_marbout')
+            ->select('tbl_marbout.id_marbout', 'marbout_seminar.*')
+            ->where('tbl_marbout.id_user', $id)
+            ->get();
+
+        $tbl_penghargaanID = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->leftJoin('marbout_penghargaan', 'tbl_marbout.id_marbout', '=', 'marbout_penghargaan.id_marbout')
+            ->select('tbl_marbout.id_marbout', 'marbout_penghargaan.*')
+            ->where('tbl_marbout.id_user', $id)
+            ->get();
+
+        $tbl_pelanggaranID = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->leftJoin('marbout_pelanggaran', 'tbl_marbout.id_marbout', '=', 'marbout_pelanggaran.id_marbout')
+            ->select('tbl_marbout.id_marbout', 'marbout_pelanggaran.*')
+            ->where('tbl_marbout.id_user', $id)
+            ->get();
+
+        return view('marbout.marbout_detail', compact('tbl_marboutID', 'tbl_userID', 'tbl_datakelID', 'tbl_datakel2ID', 'tbl_datakel3ID', 'tbl_sekolahID', 'tbl_bahasaID', 'tbl_jabatanID', 'tbl_penugasanID', 'tbl_seminarID', 'tbl_penghargaanID', 'tbl_pelanggaranID'));
     }
 
     public function marbout_tambah(Request $request)

@@ -93,44 +93,51 @@
                         data-accordion="false">
                         <li class="nav-header">Selamat Datang di Aplikasi</li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link active">
+                            <a href="#"
+                                class="nav-link {{ request()->is(['marbout_index', 'marbout_suamiistri', 'dashboard']) ? 'active' : '' }}">
                                 <i class="fas fa-users nav-icon"></i>
                                 <p>
                                     E-Marbout
                                     <i class="right fas fa-angle-left"></i>
-                                    <span class="right badge badge-danger">New</span>
+                                    <span class="right badge badge-danger">Klik</span>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/marbout_index" class="nav-link">
+                            <ul class="nav nav-treeview"
+                                style="{{ request()->is(['marbout_index', 'marbout_suamiistri']) ? 'display: block;' : 'display: none;' }}">
+                                <li
+                                    class="nav-item {{ request()->is(['marbout_index']) ? 'menu-is-opening menu-open' : '' }} ">
+                                    <a href="/marbout_index"
+                                        class="nav-link {{ request()->is(['marbout_index']) ? 'active' : '' }}">
                                         <i class="fas fa-user-check nav-icon"></i>
                                         <p>Data Marbout</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                <li class="nav-item {{ request()->is(['marbout_suamiistri']) ? 'active' : '' }}">
+                                    <a href="#"
+                                        class="nav-link {{ request()->is(['marbout_suamiistri']) ? 'active' : '' }} ">
                                         <i class="fas fa-users nav-icon"></i>
                                         <p>
                                             Riwayat Keluarga
                                             <i class="right fas fa-angle-left"></i>
                                         </p>
                                     </a>
-                                    <ul class="nav nav-treeview">
+                                    <ul class="nav nav-treeview"
+                                        style="{{ request()->is(['marbout_suamiistri']) ? 'display: block;' : 'display: none;' }}">
                                         <li class="nav-item">
-                                            <a href="/marbout_suamiistri" class="nav-link">
+                                            <a href="/marbout_suamiistri"
+                                                class="nav-link {{ request()->is(['marbout_suamiistri']) ? 'active' : '' }}">
                                                 <i class="fas fa-caret-right nav-icon"></i>
                                                 <p>Suami / Istri</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="pages/examples/register.html" class="nav-link">
+                                            <a href="#" class="nav-link">
                                                 <i class="fas fa-caret-right nav-icon"></i>
                                                 <p>Anak</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="pages/examples/forgot-password.html" class="nav-link">
+                                            <a href="#" class="nav-link">
                                                 <i class="fas fa-caret-right nav-icon"></i>
                                                 <p>Orang Tua</p>
                                             </a>
