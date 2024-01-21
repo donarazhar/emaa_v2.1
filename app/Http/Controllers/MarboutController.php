@@ -576,8 +576,94 @@ class MarboutController extends Controller
         $tbl_marbout = DB::table('tbl_marbout')
             ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
             ->get();
-        return view('marbout.marbout_jabatan', compact('tbl_userID', 'tbl_marbout'));
+
+        $tbl_katjabatan = DB::table('marbout_kategori_jabatan')->get();
+        $tbl_kateselon = DB::table('marbout_kategori_eselon')->get();
+
+        return view('marbout.marbout_jabatan', compact('tbl_userID', 'tbl_marbout', 'tbl_katjabatan', 'tbl_kateselon'));
     }
+
+    public function marbout_tambahjabatan(Request $request)
+    {
+        $idmarbout = $request->idmarbout;
+        $nomorsk = $request->nomorsk;
+        $tglsk = $request->tglsk;
+        $namajabatan = $request->namajabatan;
+        $namaeselon = $request->namaeselon;
+
+        // Validasi untuk file yang diupload
+        $request->validate([
+            'foto' => 'image|mimes:png,jpg,jpeg,pdf|max:2024'
+        ]);
+
+        try {
+
+            // Periksa apakah file foto diupload
+            if ($request->hasFile('foto')) {
+                $fotoFile = $request->file('foto');
+                $fotouser = substr(hash('sha256', time()), 0, 25) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoFile->storeAs('public/uploads/marbout/jabatan/', $fotouser);
+            } else {
+                // Jika tidak ada file foto diupload, beri nilai default atau sesuaikan dengan kebutuhan Anda
+                $fotouser = 'preview.png'; // Ganti dengan nama file default yang Anda inginkan
+            }
+
+            $data = [
+                'id_marbout' => $idmarbout,
+                'nosk_jabatan' => $nomorsk,
+                'tglsk_jabatan' => $tglsk,
+                'filesk_jabatan' => $fotouser,
+                'id_katjabatan' => $namajabatan,
+                'id_kateselon' => $namaeselon,
+            ];
+
+            $simpan = DB::table('marbout_jabatan')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function marbout_tambahkatjabatan(Request $request)
+    {
+        $namakategorijabatanmodal = $request->namakategorijabatanmodal;
+
+        try {
+            $data = [
+                'namajabatan' => $namakategorijabatanmodal,
+            ];
+
+            $simpan = DB::table('marbout_kategori_jabatan')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+    public function marbout_tambahkateselon(Request $request)
+    {
+        $namakategorieselonmodal = $request->namakategorieselonmodal;
+
+        try {
+            $data = [
+                'namaeselon' => $namakategorieselonmodal,
+            ];
+
+            $simpan = DB::table('marbout_kategori_eselon')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
     public function marbout_penugasan()
     {
         $email = Auth::guard('karyawan')->user()->email;
@@ -593,6 +679,7 @@ class MarboutController extends Controller
             ->get();
         return view('marbout.marbout_penugasan', compact('tbl_userID', 'tbl_marbout'));
     }
+
     public function marbout_seminar()
     {
         $email = Auth::guard('karyawan')->user()->email;
@@ -608,6 +695,7 @@ class MarboutController extends Controller
             ->get();
         return view('marbout.marbout_seminar', compact('tbl_userID', 'tbl_marbout'));
     }
+
     public function marbout_penghargaan()
     {
         $email = Auth::guard('karyawan')->user()->email;
@@ -623,6 +711,7 @@ class MarboutController extends Controller
             ->get();
         return view('marbout.marbout_penghargaan', compact('tbl_userID', 'tbl_marbout'));
     }
+
     public function marbout_pelanggaran()
     {
         $email = Auth::guard('karyawan')->user()->email;

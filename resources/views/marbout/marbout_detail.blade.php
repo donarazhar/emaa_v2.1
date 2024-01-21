@@ -492,6 +492,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th style="width: auto;">No</th>
+                                                            <th style="width: auto;">Foto</th>
                                                             <th style="width: auto;">Jabatan</th>
                                                             <th style="width: auto;">Eselon</th>
                                                             <th style="width: auto;">No SK</th>
@@ -502,6 +503,18 @@
                                                         @foreach ($tbl_jabatanID as $jabatan)
                                                             <tr>
                                                                 <td><small>{{ $loop->iteration }}</small></td>
+                                                                <td class="text-center">
+                                                                    @php
+                                                                        $path = Storage::url('uploads/marbout/jabatan/' . $jabatan->filesk_jabatan);
+                                                                    @endphp
+
+                                                                    @if (empty($jabatan->filesk_jabatan))
+                                                                        <img src="{{ asset('adminlte/img/nophoto.png') }}"
+                                                                            width="80px">
+                                                                    @else
+                                                                        <img src="{{ $path }}" width="40px">
+                                                                    @endif
+                                                                </td>
                                                                 <td><small>{{ $jabatan->namajabatan }}</small></td>
                                                                 <td><small>{{ $jabatan->namaeselon }}</small></td>
                                                                 <td><small>{{ $jabatan->nosk_jabatan }}</small></td>

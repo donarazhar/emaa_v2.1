@@ -53,6 +53,8 @@ Route::middleware(['auth:karyawan'])->group(function () {
     // Riwayat Kepegawaian
     Route::get('/marbout_jabatan', [MarboutController::class, 'marbout_jabatan']);
     Route::post('/marbout_tambahjabatan', [MarboutController::class, 'marbout_tambahjabatan']);
+    Route::post('/marbout_tambahkatjabatan', [MarboutController::class, 'marbout_tambahkatjabatan']);
+    Route::post('/marbout_tambahkateselon', [MarboutController::class, 'marbout_tambahkateselon']);
     Route::get('/marbout_penugasan', [MarboutController::class, 'marbout_penugasan']);
     Route::post('/marbout_tambahpenugasan', [MarboutController::class, 'marbout_tambahpenugasan']);
     Route::get('/marbout_seminar', [MarboutController::class, 'marbout_seminar']);
