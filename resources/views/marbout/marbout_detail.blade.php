@@ -467,6 +467,7 @@
                             {{-- AKHIR PANEL MENU MODAL --}}
                         </div>
 
+                        {{-- Awal Modal Jabatan --}}
                         <div class="modal fade" id="modal-xl" aria-hidden="true" style="display: none;">
                             <!-- AWAL MODAL JABATAN -->
                             <div class="modal-dialog modal-xl">
@@ -625,6 +626,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th style="width: auto;">No</th>
+                                                            <th style="width: auto;">Foto</th>
                                                             <th style="width: auto;">Seminar</th>
                                                             <th style="width: auto;">Lokasi</th>
                                                             <th style="width: auto;">Penyelenggara</th>
@@ -635,6 +637,18 @@
                                                         @foreach ($tbl_seminarID as $seminar)
                                                             <tr>
                                                                 <td><small>{{ $loop->iteration }}</small></td>
+                                                                <td class="text-center">
+                                                                    @php
+                                                                        $path = Storage::url('uploads/marbout/seminar/' . $seminar->file_seminar);
+                                                                    @endphp
+
+                                                                    @if (empty($seminar->file_seminar))
+                                                                        <img src="{{ asset('adminlte/img/nophoto.png') }}"
+                                                                            width="80px">
+                                                                    @else
+                                                                        <img src="{{ $path }}" width="40px">
+                                                                    @endif
+                                                                </td>
                                                                 <td><small>{{ $seminar->nama_seminar }}</small></td>
                                                                 <td><small>{{ $seminar->tempat_seminar }}</small>
                                                                 </td>
@@ -688,6 +702,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th style="width: auto;">No</th>
+                                                                <th style="width: auto;">Foto</th>
                                                                 <th style="width: auto;">Nama</th>
                                                                 <th style="width: auto;">Tahun</th>
                                                                 <th style="width: auto;">Instansi Pemberi</th>
@@ -697,6 +712,19 @@
                                                             @foreach ($tbl_penghargaanID as $penghargaan)
                                                                 <tr>
                                                                     <td><small>{{ $loop->iteration }}</small></td>
+                                                                    <td class="text-center">
+                                                                        @php
+                                                                            $path = Storage::url('uploads/marbout/penghargaan/' . $penghargaan->file_penghargaan);
+                                                                        @endphp
+
+                                                                        @if (empty($penghargaan->file_penghargaan))
+                                                                            <img src="{{ asset('adminlte/img/nophoto.png') }}"
+                                                                                width="80px">
+                                                                        @else
+                                                                            <img src="{{ $path }}"
+                                                                                width="40px">
+                                                                        @endif
+                                                                    </td>
                                                                     <td><small>{{ $penghargaan->nama_penghargaan }}</small>
                                                                     </td>
                                                                     <td><small>{{ $penghargaan->tahun_penghargaan }}</small>
@@ -748,6 +776,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th style="width: auto;">No</th>
+                                                            <th style="width: auto;">Foto</th>
                                                             <th style="width: auto;">Nama</th>
                                                             <th style="width: auto;">Nomor_Tgl SP</th>
                                                             <th style="width: auto;">Keterangan</th>
@@ -758,9 +787,21 @@
                                                         @foreach ($tbl_pelanggaranID as $pelanggaran)
                                                             <tr>
                                                                 <td><small>{{ $loop->iteration }}</small></td>
+                                                                <td class="text-center">
+                                                                    @php
+                                                                        $path = Storage::url('uploads/marbout/pelanggaran/' . $pelanggaran->file_pelanggaran);
+                                                                    @endphp
+
+                                                                    @if (empty($pelanggaran->file_pelanggaran))
+                                                                        <img src="{{ asset('adminlte/img/nophoto.png') }}"
+                                                                            width="80px">
+                                                                    @else
+                                                                        <img src="{{ $path }}" width="40px">
+                                                                    @endif
+                                                                </td>
                                                                 <td><small>{{ $pelanggaran->nama_pelanggaran }}</small>
                                                                 </td>
-                                                                <td><small>{{ $pelanggaran->no_pelanggaran }}_{{ date('d-m-Y', strtotime($pelanggaran->tgl_pelanggaran)) }}</small>
+                                                                <td><small>{{ $pelanggaran->no_pelanggaran }}/{{ date('d-m-Y', strtotime($pelanggaran->tgl_pelanggaran)) }}</small>
                                                                 </td>
                                                                 <td><small>{{ $pelanggaran->keterangan_pelanggaran }}</small>
                                                                 </td>

@@ -645,6 +645,7 @@ class MarboutController extends Controller
             return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
         }
     }
+
     public function marbout_tambahkateselon(Request $request)
     {
         $namakategorieselonmodal = $request->namakategorieselonmodal;
@@ -680,6 +681,33 @@ class MarboutController extends Controller
         return view('marbout.marbout_penugasan', compact('tbl_userID', 'tbl_marbout'));
     }
 
+    public function marbout_tambahpenugasan(Request $request)
+    {
+        $idmarbout = $request->idmarbout;
+        $tempatpenugasan = $request->tempatpenugasan;
+        $tahunpenugasan = $request->tahunpenugasan;
+        $lamapenugasan = $request->lamapenugasan;
+        $keteranganpenugasan = $request->keteranganpenugasan;
+
+        try {
+            $data = [
+                'id_marbout' => $idmarbout,
+                'tempat_penugasan' => $tempatpenugasan,
+                'tahun_penugasan' => $tahunpenugasan,
+                'lama_penugasan' => $lamapenugasan,
+                'keterangan_penugasan' => $keteranganpenugasan,
+            ];
+
+            $simpan = DB::table('marbout_penugasan')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
     public function marbout_seminar()
     {
         $email = Auth::guard('karyawan')->user()->email;
@@ -694,6 +722,51 @@ class MarboutController extends Controller
             ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
             ->get();
         return view('marbout.marbout_seminar', compact('tbl_userID', 'tbl_marbout'));
+    }
+
+    public function marbout_tambahseminar(Request $request)
+    {
+        $idmarbout = $request->idmarbout;
+        $namaseminar = $request->namaseminar;
+        $tempatseminar = $request->tempatseminar;
+        $penyelenggara = $request->penyelenggara;
+        $tglseminar = $request->tglseminar;
+
+
+        // Validasi untuk file yang diupload
+        $request->validate([
+            'foto' => 'image|mimes:png,jpg,jpeg,pdf|max:2024'
+        ]);
+
+        try {
+
+            // Periksa apakah file foto diupload
+            if ($request->hasFile('foto')) {
+                $fotoFile = $request->file('foto');
+                $fotouser = substr(hash('sha256', time()), 0, 25) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoFile->storeAs('public/uploads/marbout/seminar/', $fotouser);
+            } else {
+                // Jika tidak ada file foto diupload, beri nilai default atau sesuaikan dengan kebutuhan Anda
+                $fotouser = 'preview.png'; // Ganti dengan nama file default yang Anda inginkan
+            }
+            $data = [
+                'id_marbout' => $idmarbout,
+                'nama_seminar' => $namaseminar,
+                'tempat_seminar' => $tempatseminar,
+                'penyelenggara_seminar' => $penyelenggara,
+                'tgl_seminar' => $tglseminar,
+                'tgl_seminar' => $tglseminar,
+                'file_seminar' => $fotouser,
+            ];
+
+            $simpan = DB::table('marbout_seminar')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
     }
 
     public function marbout_penghargaan()
@@ -712,6 +785,47 @@ class MarboutController extends Controller
         return view('marbout.marbout_penghargaan', compact('tbl_userID', 'tbl_marbout'));
     }
 
+    public function marbout_tambahpenghargaan(Request $request)
+    {
+        $idmarbout = $request->idmarbout;
+        $namapenghargaan = $request->namapenghargaan;
+        $tahunpenghargaan = $request->tahunpenghargaan;
+        $instansipenghargaan = $request->instansipenghargaan;
+
+        // Validasi untuk file yang diupload
+        $request->validate([
+            'foto' => 'image|mimes:png,jpg,jpeg,pdf|max:2024'
+        ]);
+
+        try {
+
+            // Periksa apakah file foto diupload
+            if ($request->hasFile('foto')) {
+                $fotoFile = $request->file('foto');
+                $fotouser = substr(hash('sha256', time()), 0, 25) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoFile->storeAs('public/uploads/marbout/penghargaan/', $fotouser);
+            } else {
+                // Jika tidak ada file foto diupload, beri nilai default atau sesuaikan dengan kebutuhan Anda
+                $fotouser = 'preview.png'; // Ganti dengan nama file default yang Anda inginkan
+            }
+            $data = [
+                'id_marbout' => $idmarbout,
+                'nama_penghargaan' => $namapenghargaan,
+                'tahun_penghargaan' => $tahunpenghargaan,
+                'instansi_penghargaan' => $instansipenghargaan,
+                'file_penghargaan' => $fotouser,
+            ];
+
+            $simpan = DB::table('marbout_penghargaan')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
     public function marbout_pelanggaran()
     {
         $email = Auth::guard('karyawan')->user()->email;
@@ -726,5 +840,48 @@ class MarboutController extends Controller
             ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
             ->get();
         return view('marbout.marbout_pelanggaran', compact('tbl_userID', 'tbl_marbout'));
+    }
+
+    public function marbout_tambahpelanggaran(Request $request)
+    {
+        $idmarbout = $request->idmarbout;
+        $namapelanggaran = $request->namapelanggaran;
+        $nomorpelanggaran = $request->nomorpelanggaran;
+        $tglpelanggaran = $request->tglpelanggaran;
+        $keteranganpelanggaran = $request->keteranganpelanggaran;
+
+        // Validasi untuk file yang diupload
+        $request->validate([
+            'foto' => 'image|mimes:png,jpg,jpeg,pdf|max:2024'
+        ]);
+
+        try {
+
+            // Periksa apakah file foto diupload
+            if ($request->hasFile('foto')) {
+                $fotoFile = $request->file('foto');
+                $fotouser = substr(hash('sha256', time()), 0, 25) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoFile->storeAs('public/uploads/marbout/pelanggaran/', $fotouser);
+            } else {
+                // Jika tidak ada file foto diupload, beri nilai default atau sesuaikan dengan kebutuhan Anda
+                $fotouser = 'preview.png'; // Ganti dengan nama file default yang Anda inginkan
+            }
+            $data = [
+                'id_marbout' => $idmarbout,
+                'nama_pelanggaran' => $namapelanggaran,
+                'no_pelanggaran' => $nomorpelanggaran,
+                'tgl_pelanggaran' => $tglpelanggaran,
+                'keterangan_pelanggaran' => $keteranganpelanggaran,
+                'file_pelanggaran' => $fotouser,
+            ];
+
+            $simpan = DB::table('marbout_pelanggaran')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
     }
 }

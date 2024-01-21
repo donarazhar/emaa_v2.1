@@ -4,7 +4,7 @@
         <div class="box box-primary box-solid">
             <div class="card card-dark">
                 <div class="card-header">
-                    <i class="fas fa-scroll nav-icon">&nbsp;&nbsp;&nbsp;&nbsp;Form Data Pendidikan</i>
+                    <i class="fas fa-scroll nav-icon">&nbsp;&nbsp;&nbsp;&nbsp;Form Data Penghargaan</i>
                 </div>
                 <div class="box-body">
                     <div class="card-body">
@@ -24,12 +24,13 @@
                                 <div class="col-lg-1"></div>
                                 <div class="col-lg-10">
                                     <div class="modal-body">
-                                        <form action="/marbout_tambahsekolah" method="post">
+                                        <form action="/marbout_tambahpenghargaan" enctype="multipart/form-data"
+                                            method="post" accept-charset="utf-8">
                                             @csrf
                                             <div class="form-group row">
-                                                <label for="namamarbout" class="col-sm-3 col-form-label text-left">Nama
+                                                <label for="namamarbout" class="col-lg-3 col-form-label text-left">Nama
                                                     Marbout</label>
-                                                <div class="col-sm-9">
+                                                <div class="col-lg-9">
                                                     <select id="idmarbout" class="form-control" name="idmarbout" required>
                                                         <option value="">...</option>
                                                         @foreach ($tbl_marbout as $marbout)
@@ -40,68 +41,48 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="tingkat"
-                                                    class="col-sm-3 col-form-label text-left">Tingkat</label>
-                                                <div class="col-sm-9">
-                                                    <input name="tingkat" type="text" class="form-control" id="tingkat"
-                                                        required>
+                                                <label for="namapenghargaan" class="col-lg-3 col-form-label text-left">Nama
+                                                    Penghargaan</label>
+                                                <div class="col-lg-9">
+                                                    <input name="namapenghargaan" type="text" class="form-control"
+                                                        id="namapenghargaan">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="namasekolah" class="col-sm-3 col-form-label text-left">Nama
-                                                    Sekolah/Universitas</label>
-                                                <div class="col-sm-9">
-                                                    <input name="namasekolah" type="text" class="form-control"
-                                                        id="namasekolah" required>
+                                                <label for="tahunpenghargaan" class="col-lg-3 col-form-label text-left">Pada
+                                                    Tahun</label>
+                                                <div class="col-lg-9">
+                                                    <input name="tahunpenghargaan" type="text" class="form-control"
+                                                        id="tahunpenghargaan">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="lokasi"
-                                                    class="col-sm-3 col-form-label text-left">Lokasi</label>
-                                                <div class="col-sm-9">
-                                                    <input name="lokasi" type="text" class="form-control" id="lokasi"
-                                                        required>
+                                                <label for="instansipenghargaan"
+                                                    class="col-lg-3 col-form-label text-left">Instansi Pemberi</label>
+                                                <div class="col-lg-9">
+                                                    <input name="instansipenghargaan" type="text" class="form-control"
+                                                        id="instansipenghargaan">
                                                 </div>
                                             </div>
+
                                             <div class="form-group row">
-                                                <label for="jurusan"
-                                                    class="col-sm-3 col-form-label text-left">Jurusan</label>
+                                                <label for="foto" class="col-sm-3 col-form-label text-left">File
+                                                    Penghargaan</label>
                                                 <div class="col-sm-9">
-                                                    <input name="jurusan" type="text" class="form-control" id="jurusan"
-                                                        required>
+                                                    <input type="file" class="form-control" name="foto"
+                                                        accept="image/*" placeholder="Pas Photo" class="form-control"
+                                                        id="fileInput" onchange="previewFile()">
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-sm-5">
-                                                    <div class="form-group row">
-                                                        <label for="nomorijazah"
-                                                            class="col-sm-7 col-form-label text-left">Nomor
-                                                            &amp; Tgl Ijazah</label>
-                                                        <div class="col-sm-5">
-                                                            <input name="nomorijazah" type="text" class="form-control"
-                                                                id="nomorijazah" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-7">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-12">
-                                                            <input name="tglijazah" type="date"
-                                                                class="form-control text-left" id="tglijazah" required>
-                                                        </div>
-                                                    </div>
+                                            <div class="form-group mb-5">
+                                                <div class="col-lg-12 text-center">
+                                                    <img src="{{ asset('adminlte/img/preview.png') }}" alt="Preview"
+                                                        id="previewImage" style="max-width: 100%; max-height: 200px;">
                                                 </div>
                                             </div>
+
                                             <div class="form-group row">
-                                                <label for="namakepsek" class="col-sm-3 col-form-label text-left">Nama
-                                                    Kepsek/Rektor</label>
-                                                <div class="col-sm-9">
-                                                    <input name="namakepsek" type="text" class="form-control"
-                                                        id="namakepsek" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label text-left"></label>
+                                                <label class="col-lg-3 col-form-label text-left"></label>
                                                 <div class="col-md-9">
                                                     <button type="submit" name="save" value="save"
                                                         class="btn btn-primary"><i class="fas fa-save"></i>
@@ -110,6 +91,7 @@
                                                             class="fas fa-undo"></i>&nbsp;Cancel</a>
                                                 </div>
                                             </div>
+
                                         </form>
                                     </div>
                                 </div>
@@ -120,3 +102,25 @@
                 </div>
             </div>
         @endsection
+
+        @push('myscript')
+            <script>
+                function previewFile() {
+                    var preview = document.getElementById('previewImage');
+                    var fileInput = document.getElementById('fileInput');
+                    var file = fileInput.files[0];
+
+                    var reader = new FileReader();
+
+                    reader.onloadend = function() {
+                        preview.src = reader.result;
+                    };
+
+                    if (file) {
+                        reader.readAsDataURL(file);
+                    } else {
+                        preview.src = "";
+                    }
+                }
+            </script>
+        @endpush

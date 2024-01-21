@@ -117,7 +117,7 @@
                                                     <div class="form-group row">
                                                         <div class="col-sm-7">
                                                             <input name="tglsk" type="date"
-                                                                class="form-control text-left" id="tglsk">
+                                                                class="form-control text-left" id="tglsk" required>
                                                         </div>
                                                     </div>
                                                 </div>
