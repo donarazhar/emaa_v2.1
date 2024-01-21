@@ -4,7 +4,7 @@
         <div class="box box-primary box-solid">
             <div class="card card-dark">
                 <div class="card-header">
-                    <i class="fas fa-scroll nav-icon">&nbsp;&nbsp;&nbsp;&nbsp;Form Data Suami/Istri</i>
+                    <i class="fas fa-scroll nav-icon">&nbsp;&nbsp;&nbsp;&nbsp;Form Data Orang Tua</i>
                 </div>
                 <div class="box-body">
                     <div class="card-body">
@@ -23,9 +23,9 @@
 
                             <div class="row">
                                 <div class="col-lg-1"></div>
-                                <div class="col-sm-10">
+                                <div class="col-lg-10">
                                     <div class="modal-body">
-                                        <form action="/marbout_tambahdatakel" method="post" enctype="multipart/form-data">
+                                        <form action="/marbout_tambahdatakel3" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group row">
                                                 <label for="namamarbout" class="col-sm-3 col-form-label text-left">Nama
@@ -49,7 +49,7 @@
                                             </div>
                                             <div class="form-group row">
                                                 <label for="namadatakel" class="col-sm-3 col-form-label text-left">Nama
-                                                    Suami/Istri</label>
+                                                    Orang Tua</label>
                                                 <div class="col-sm-9">
                                                     <input name="namadatakel" type="text" class="form-control"
                                                         id="namadatakel" required>
@@ -74,6 +74,17 @@
                                                                 class="form-control text-left" id="tgllahir" required>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="jenkel" class="col-sm-3 col-form-label text-left">Jenis
+                                                    Kelamin</label>
+                                                <div class="col-sm-9">
+                                                    <select name="jenkel" class="default-select2 form-control" required>
+                                                        <option value="">...</option>
+                                                        <option value="Laki-Laki">Laki-Laki</option>
+                                                        <option value="Perempuan">Perempuan</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -106,8 +117,10 @@
                                                 <div class="col-sm-9">
                                                     <select name="statushub" class="default-select2 form-control" required>
                                                         <option value="">...</option>
-                                                        <option value="Suami">Suami</option>
-                                                        <option value="Istri">Istri</option>
+                                                        <option value="Ayah Kandung">1. Ayah Kandung</option>
+                                                        <option value="Ibu Kandung">2. Anak Kandung</option>
+                                                        <option value="Ayah Sambung">3. Ayah Sambung</option>
+                                                        <option value="Ibu Sambung">4. Anak Sambung</option>
                                                     </select>
                                                 </div>
                                             </div>

@@ -94,7 +94,7 @@
                         <li class="nav-header">Selamat Datang di Aplikasi</li>
                         <li class="nav-item">
                             <a href="#"
-                                class="nav-link {{ request()->is(['marbout_index', 'marbout_suamiistri', 'dashboard']) ? 'active' : '' }}">
+                                class="nav-link {{ request()->is(['dashboard', 'marbout_index', 'marbout_suamiistri', 'marbout_anak', 'marbout_orangtua', 'marbout_sekolah', 'marbout_bahasa', 'marbout_jabatan', 'marbout_penugasan', 'marbout_seminar', 'marbout_penghargaan', 'marbout_pelanggaran']) ? 'active' : '' }}">
                                 <i class="fas fa-users nav-icon"></i>
                                 <p>
                                     E-Marbout
@@ -103,7 +103,7 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview"
-                                style="{{ request()->is(['marbout_index', 'marbout_suamiistri']) ? 'display: block;' : 'display: none;' }}">
+                                style="{{ request()->is(['marbout_index', 'marbout_suamiistri', 'marbout_anak', 'marbout_orangtua', 'marbout_sekolah', 'marbout_bahasa', 'marbout_jabatan', 'marbout_penugasan', 'marbout_seminar', 'marbout_penghargaan', 'marbout_pelanggaran']) ? 'display: block;' : 'display: none;' }}">
                                 <li
                                     class="nav-item {{ request()->is(['marbout_index']) ? 'menu-is-opening menu-open' : '' }} ">
                                     <a href="/marbout_index"
@@ -112,9 +112,12 @@
                                         <p>Data Marbout</p>
                                     </a>
                                 </li>
-                                <li class="nav-item {{ request()->is(['marbout_suamiistri']) ? 'active' : '' }}">
+
+                                {{-- Riwayat Keluaraga --}}
+                                <li
+                                    class="nav-item {{ request()->is(['marbout_suamiistri', 'marbout_anak', 'marbout_orangtua']) ? 'active' : '' }}">
                                     <a href="#"
-                                        class="nav-link {{ request()->is(['marbout_suamiistri']) ? 'active' : '' }} ">
+                                        class="nav-link {{ request()->is(['marbout_suamiistri', 'marbout_anak', 'marbout_orangtua']) ? 'active' : '' }} ">
                                         <i class="fas fa-users nav-icon"></i>
                                         <p>
                                             Riwayat Keluarga
@@ -122,28 +125,119 @@
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview"
-                                        style="{{ request()->is(['marbout_suamiistri']) ? 'display: block;' : 'display: none;' }}">
-                                        <li class="nav-item">
+                                        style="{{ request()->is(['marbout_suamiistri', 'marbout_anak', 'marbout_orangtua']) ? 'display: block;' : 'display: none;' }}">
+                                        <li
+                                            class="nav-item {{ request()->is(['marbout_suamiistri']) ? 'active' : '' }}">
                                             <a href="/marbout_suamiistri"
                                                 class="nav-link {{ request()->is(['marbout_suamiistri']) ? 'active' : '' }}">
                                                 <i class="fas fa-caret-right nav-icon"></i>
                                                 <p>Suami / Istri</p>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
+                                        <li class="nav-item  {{ request()->is(['marbout_anak']) ? 'active' : '' }}">
+                                            <a href="/marbout_anak"
+                                                class="nav-link {{ request()->is(['marbout_anak']) ? 'active' : '' }}">
                                                 <i class="fas fa-caret-right nav-icon"></i>
                                                 <p>Anak</p>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
+                                        <li
+                                            class="nav-item {{ request()->is(['marbout_orangtua']) ? 'active' : '' }}">
+                                            <a href="/marbout_orangtua"
+                                                class="nav-link {{ request()->is(['marbout_orangtua']) ? 'active' : '' }}">
                                                 <i class="fas fa-caret-right nav-icon"></i>
                                                 <p>Orang Tua</p>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
+
+                                {{-- Riwayat Pendidikan --}}
+                                <li
+                                    class="nav-item {{ request()->is(['marbout_sekolah', 'marbout_bahasa']) ? 'active' : '' }}">
+                                    <a href="#"
+                                        class="nav-link {{ request()->is(['marbout_sekolah', 'marbout_bahasa']) ? 'active' : '' }} ">
+                                        <i class="fas fa-graduation-cap nav-icon"></i>
+                                        <p>
+                                            Riwayat Pendidikan
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview"
+                                        style="{{ request()->is(['marbout_sekolah', 'marbout_bahasa']) ? 'display: block;' : 'display: none;' }}">
+                                        <li class="nav-item {{ request()->is(['marbout_sekolah']) ? 'active' : '' }}">
+                                            <a href="/marbout_sekolah"
+                                                class="nav-link {{ request()->is(['marbout_sekolah']) ? 'active' : '' }}">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>Sekolah</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item  {{ request()->is(['marbout_bahasa']) ? 'active' : '' }}">
+                                            <a href="/marbout_bahasa"
+                                                class="nav-link {{ request()->is(['marbout_bahasa']) ? 'active' : '' }}">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>Penguasaan Bahasa</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                {{-- Riawayat Kepegawaian --}}
+                                <li
+                                    class="nav-item {{ request()->is(['marbout_jabatan', 'marbout_penugasan', 'marbout_seminar', 'marbout_penghargaan', 'marbout_pelanggaran']) ? 'active' : '' }}">
+                                    <a href="#"
+                                        class="nav-link {{ request()->is(['marbout_jabatan', 'marbout_penugasan', 'marbout_seminar', 'marbout_penghargaan', 'marbout_pelanggaran']) ? 'active' : '' }}">
+                                        <i class="fas fa-briefcase nav-icon"></i>
+                                        <p>
+                                            Kepegawaian
+                                            <i class="right fas fa-angle-down"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview"
+                                        style="{{ request()->is(['marbout_jabatan', 'marbout_penugasan', 'marbout_seminar', 'marbout_penghargaan', 'marbout_pelanggaran']) ? 'display: block;' : 'display: none;' }}">
+                                        <li class="nav-item {{ request()->is(['marbout_jabatan']) ? 'active' : '' }}">
+                                            <a href="/marbout_jabatan"
+                                                class="nav-link {{ request()->is(['marbout_jabatan']) ? 'active' : '' }}">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>Jabatan</p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            class="nav-item {{ request()->is(['marbout_penugasan']) ? 'active' : '' }}">
+                                            <a href="/marbout_penugasan"
+                                                class="nav-link {{ request()->is(['marbout_penugasan']) ? 'active' : '' }}">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>Penugasan</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item {{ request()->is(['marbout_seminar']) ? 'active' : '' }}">
+                                            <a href="/marbout_seminar"
+                                                class="nav-link {{ request()->is(['marbout_seminar']) ? 'active' : '' }}">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>Seminar</p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            class="nav-item {{ request()->is(['marbout_penghargaan']) ? 'active' : '' }}">
+                                            <a href="/marbout_penghargaan"
+                                                class="nav-link {{ request()->is(['marbout_penghargaan']) ? 'active' : '' }}">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>Penghargaan</p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            class="nav-item {{ request()->is(['marbout_pelanggaran']) ? 'active' : '' }}">
+                                            <a href="/marbout_pelanggaran"
+                                                class="nav-link {{ request()->is(['marbout_pelanggaran']) ? 'active' : '' }}">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>Pelanggaran</p>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+
                             </ul>
                         </li>
                         <li class="nav-header">MISCELLANEOUS</li>

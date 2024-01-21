@@ -58,7 +58,14 @@
                                                                         @php
                                                                             $path = Storage::url('uploads/marbout/' . $marbout->foto_user);
                                                                         @endphp
-                                                                        <img src="{{ $path }}" width="80px">
+
+                                                                        @if (empty($marbout->foto_user))
+                                                                            <img src="{{ asset('adminlte/img/preview.png') }}"
+                                                                                width="80px">
+                                                                        @else
+                                                                            <img src="{{ $path }}" width="80px">
+                                                                        @endif
+
                                                                     </td>
                                                                     <td>{{ $marbout->nip }}</td>
                                                                     <td class="text-left">

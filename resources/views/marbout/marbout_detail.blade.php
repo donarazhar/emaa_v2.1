@@ -141,6 +141,7 @@
                                                                         <thead>
                                                                             <tr role="row">
                                                                                 <th style="width: auto;">No</th>
+                                                                                <th style="width: auto;">Foto</th>
                                                                                 <th style="width: auto;">NIK</th>
                                                                                 <th style="width: auto;">Nama</th>
                                                                                 <th style="width: auto;">TTL</th>
@@ -154,6 +155,19 @@
                                                                                 <tr class="odd">
                                                                                     <td class="sorting_1">
                                                                                         <small>{{ $loop->iteration }}</small>
+                                                                                    </td>
+                                                                                    <td class="text-center">
+                                                                                        @php
+                                                                                            $path = Storage::url('uploads/marbout/datakel/' . $datakel->foto);
+                                                                                        @endphp
+
+                                                                                        @if (empty($datakel->foto))
+                                                                                            <img src="{{ asset('adminlte/img/nophoto.png') }}"
+                                                                                                width="80px">
+                                                                                        @else
+                                                                                            <img src="{{ $path }}"
+                                                                                                width="80px">
+                                                                                        @endif
                                                                                     </td>
                                                                                     <td><small>{{ $datakel->nik }}</small>
                                                                                     </td>
@@ -194,6 +208,7 @@
                                                                         <thead>
                                                                             <tr role="row">
                                                                                 <th style="width: auto;">No</th>
+                                                                                <th style="width: auto;">Foto</th>
                                                                                 <th style="width: auto;">NIK</th>
                                                                                 <th style="width: auto;">Nama</th>
                                                                                 <th style="width: auto;">TTL</th>
@@ -208,6 +223,19 @@
                                                                                 <tr class="odd">
                                                                                     <td class="sorting_1">
                                                                                         <small>{{ $loop->iteration }}</small>
+                                                                                    </td>
+                                                                                    <td class="text-center">
+                                                                                        @php
+                                                                                            $path = Storage::url('uploads/marbout/datakel2/' . $datakel2->foto2);
+                                                                                        @endphp
+
+                                                                                        @if (empty($datakel2->foto2))
+                                                                                            <img src="{{ asset('adminlte/img/nophoto.png') }}"
+                                                                                                width="80px">
+                                                                                        @else
+                                                                                            <img src="{{ $path }}"
+                                                                                                width="80px">
+                                                                                        @endif
                                                                                     </td>
                                                                                     <td><small>{{ $datakel2->nik2 }}</small>
                                                                                     </td>
@@ -250,6 +278,7 @@
                                                                         <thead>
                                                                             <tr role="row">
                                                                                 <th style="width: auto;">No</th>
+                                                                                <th style="width: auto;">Foto</th>
                                                                                 <th style="width: auto;">NIK</th>
                                                                                 <th style="width: auto;">Nama</th>
                                                                                 <th style="width: auto;">TTL</th>
@@ -263,6 +292,19 @@
                                                                                 <tr class="odd">
                                                                                     <td class="sorting_1">
                                                                                         <small>{{ $loop->iteration }}</small>
+                                                                                    </td>
+                                                                                    <td class="text-center">
+                                                                                        @php
+                                                                                            $path = Storage::url('uploads/marbout/datakel3/' . $datakel->foto);
+                                                                                        @endphp
+
+                                                                                        @if (empty($datakel->foto))
+                                                                                            <img src="{{ asset('adminlte/img/nophoto.png') }}"
+                                                                                                width="80px">
+                                                                                        @else
+                                                                                            <img src="{{ $path }}"
+                                                                                                width="80px">
+                                                                                        @endif
                                                                                     </td>
                                                                                     <td><small>{{ $datakel3->nik3 }}</small>
                                                                                     </td>
@@ -463,7 +505,8 @@
                                                                 <td><small>{{ $jabatan->namajabatan }}</small></td>
                                                                 <td><small>{{ $jabatan->namaeselon }}</small></td>
                                                                 <td><small>{{ $jabatan->nosk_jabatan }}</small></td>
-                                                                <td><small>{{ $jabatan->tglsk_jabatan }}</small></td>
+                                                                <td><small>{{ date('d-m-Y', strtotime($jabatan->tglsk_jabatan)) }}</small>
+                                                                </td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>

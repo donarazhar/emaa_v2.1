@@ -330,4 +330,312 @@ class MarboutController extends Controller
             return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
         }
     }
+
+
+    public function marbout_anak()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+        $tbl_marbout = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->get();
+        return view('marbout.marbout_anak', compact('tbl_userID', 'tbl_marbout'));
+    }
+
+    public function marbout_tambahdatakel2(Request $request)
+    {
+        $idmarbout = $request->idmarbout;
+        $nik = $request->nik;
+        $namadatakel = $request->namadatakel;
+        $tempatlahir = $request->tempatlahir;
+        $tgllahir = $request->tgllahir;
+        $jenkel = $request->jenkel;
+        $pendidikan = $request->pendidikan;
+        $pekerjaan = $request->pekerjaan;
+        $statushub = $request->statushub;
+
+
+        // Validasi untuk file yang diupload
+        $request->validate([
+            'foto' => 'image|mimes:png,jpg,jpeg|max:2024'
+        ]);
+
+        try {
+            // Periksa apakah file foto diupload
+            if ($request->hasFile('foto')) {
+                $fotoFile = $request->file('foto');
+                $fotouser = substr(hash('sha256', time()), 0, 25) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoFile->storeAs('public/uploads/marbout/datakel2/', $fotouser);
+            } else {
+                // Jika tidak ada file foto diupload, beri nilai default atau sesuaikan dengan kebutuhan Anda
+                $fotouser = 'preview.png'; // Ganti dengan nama file default yang Anda inginkan
+            }
+
+
+            $data = [
+                'id_marbout' => $idmarbout,
+                'nik2' => $nik,
+                'namadatakel2' => $namadatakel,
+                'pendidikan2' => $pendidikan,
+                'pekerjaan2' => $pekerjaan,
+                'status_hub2' => $statushub,
+                'tempat_lahir2' => $tempatlahir,
+                'tgl_lahir2' => $tgllahir,
+                'jenkel2' => $jenkel,
+                'foto2' => $fotouser,
+
+            ];
+
+            $simpan = DB::table('marbout_datakel2')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function marbout_orangtua()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+        $tbl_marbout = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->get();
+        return view('marbout.marbout_orangtua', compact('tbl_userID', 'tbl_marbout'));
+    }
+
+    public function marbout_tambahdatakel3(Request $request)
+    {
+        $idmarbout = $request->idmarbout;
+        $nik = $request->nik;
+        $namadatakel = $request->namadatakel;
+        $tempatlahir = $request->tempatlahir;
+        $tgllahir = $request->tgllahir;
+        $jenkel = $request->jenkel;
+        $pendidikan = $request->pendidikan;
+        $pekerjaan = $request->pekerjaan;
+        $statushub = $request->statushub;
+
+
+        // Validasi untuk file yang diupload
+        $request->validate([
+            'foto' => 'image|mimes:png,jpg,jpeg|max:2024'
+        ]);
+
+        try {
+            // Periksa apakah file foto diupload
+            if ($request->hasFile('foto')) {
+                $fotoFile = $request->file('foto');
+                $fotouser = substr(hash('sha256', time()), 0, 25) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoFile->storeAs('public/uploads/marbout/datakel3/', $fotouser);
+            } else {
+                // Jika tidak ada file foto diupload, beri nilai default atau sesuaikan dengan kebutuhan Anda
+                $fotouser = 'preview.png'; // Ganti dengan nama file default yang Anda inginkan
+            }
+
+
+            $data = [
+                'id_marbout' => $idmarbout,
+                'nik3' => $nik,
+                'namadatakel3' => $namadatakel,
+                'pendidikan3' => $pendidikan,
+                'pekerjaan3' => $pekerjaan,
+                'status_hub3' => $statushub,
+                'tempat_lahir3' => $tempatlahir,
+                'tgl_lahir3' => $tgllahir,
+                'jenkel3' => $jenkel,
+                'foto3' => $fotouser,
+
+            ];
+
+            $simpan = DB::table('marbout_datakel3')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function marbout_sekolah()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+        $tbl_marbout = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->get();
+        return view('marbout.marbout_sekolah', compact('tbl_userID', 'tbl_marbout'));
+    }
+
+    public function marbout_tambahsekolah(Request $request)
+    {
+        $idmarbout = $request->idmarbout;
+        $tingkat = $request->tingkat;
+        $namasekolah = $request->namasekolah;
+        $lokasi = $request->lokasi;
+        $jurusan = $request->jurusan;
+        $nomorijazah = $request->nomorijazah;
+        $tglijazah = $request->tglijazah;
+        $namakepsek = $request->namakepsek;
+
+        try {
+            $data = [
+                'id_marbout' => $idmarbout,
+                'tingkat' => $tingkat,
+                'namasekolah' => $namasekolah,
+                'lokasi' => $lokasi,
+                'jurusan' => $jurusan,
+                'nomorijazah' => $nomorijazah,
+                'tgl_ijazah' => $tglijazah,
+                'namakepsek' => $namakepsek,
+            ];
+
+            $simpan = DB::table('marbout_sekolah')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+
+    public function marbout_bahasa()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+        $tbl_marbout = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->get();
+        return view('marbout.marbout_bahasa', compact('tbl_userID', 'tbl_marbout'));
+    }
+
+    public function marbout_tambahbahasa(Request $request)
+    {
+        $idmarbout = $request->idmarbout;
+        $jenisbahasa = $request->jenisbahasa;
+        $bahasa = $request->bahasa;
+        $kemampuan = $request->kemampuan;
+
+        try {
+            $data = [
+                'id_marbout' => $idmarbout,
+                'jenisbahasa' => $jenisbahasa,
+                'bahasa' => $bahasa,
+                'kemampuan' => $kemampuan,
+            ];
+
+            $simpan = DB::table('marbout_bahasa')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function marbout_jabatan()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+        $tbl_marbout = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->get();
+        return view('marbout.marbout_jabatan', compact('tbl_userID', 'tbl_marbout'));
+    }
+    public function marbout_penugasan()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+        $tbl_marbout = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->get();
+        return view('marbout.marbout_penugasan', compact('tbl_userID', 'tbl_marbout'));
+    }
+    public function marbout_seminar()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+        $tbl_marbout = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->get();
+        return view('marbout.marbout_seminar', compact('tbl_userID', 'tbl_marbout'));
+    }
+    public function marbout_penghargaan()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+        $tbl_marbout = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->get();
+        return view('marbout.marbout_penghargaan', compact('tbl_userID', 'tbl_marbout'));
+    }
+    public function marbout_pelanggaran()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+        $tbl_marbout = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->get();
+        return view('marbout.marbout_pelanggaran', compact('tbl_userID', 'tbl_marbout'));
+    }
 }

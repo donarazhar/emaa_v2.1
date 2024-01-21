@@ -166,7 +166,7 @@ class HomeController extends Controller
         if (Auth::guard('karyawan')->attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect('/dashboard');
         } else {
-            return redirect('/')->with(['warning' => 'Nik / Password Salah']);
+            return redirect('/login')->with(['warning' => 'Nik / Password Salah']);
         }
     }
 

@@ -189,8 +189,9 @@
                                                         <td class="sorting_1">
                                                             {{ $loop->iteration + $datainventaris->firstItem() - 1 }}
                                                         </td>
-                                                        <td> <img src="{{ asset('sbadmin/img/undraw_rocket.svg') }}"
-                                                                style="height: 40px;">
+                                                        <td>
+                                                            <img src="{{ asset('adminlte/img/preview.png') }}"
+                                                                style="height: 80px;">
                                                         </td>
                                                         <td>{{ $inventaris->nama_datainventaris }}</td>
                                                         <td>{{ $inventaris->nama_merk }}</td>
