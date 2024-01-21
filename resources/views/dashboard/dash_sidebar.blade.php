@@ -94,7 +94,7 @@
                         <li class="nav-header">Selamat Datang di Aplikasi</li>
                         <li class="nav-item">
                             <a href="#"
-                                class="nav-link {{ request()->is(['dashboard', 'marbout_index', 'marbout_suamiistri', 'marbout_anak', 'marbout_orangtua', 'marbout_sekolah', 'marbout_bahasa', 'marbout_jabatan', 'marbout_penugasan', 'marbout_seminar', 'marbout_penghargaan', 'marbout_pelanggaran']) ? 'active' : '' }}">
+                                class="nav-link {{ request()->is(['dashboard', 'marbout_index', 'marbout_suamiistri', 'marbout_anak', 'marbout_orangtua', 'marbout_sekolah', 'marbout_bahasa', 'marbout_jabatan', 'marbout_penugasan', 'marbout_seminar', 'marbout_penghargaan', 'marbout_pelanggaran', 'marbout_mutasi', 'marbout_dp4']) ? 'active' : '' }}">
                                 <i class="fas fa-users nav-icon"></i>
                                 <p>
                                     E-Marbout
@@ -103,7 +103,7 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview"
-                                style="{{ request()->is(['marbout_index', 'marbout_suamiistri', 'marbout_anak', 'marbout_orangtua', 'marbout_sekolah', 'marbout_bahasa', 'marbout_jabatan', 'marbout_penugasan', 'marbout_seminar', 'marbout_penghargaan', 'marbout_pelanggaran']) ? 'display: block;' : 'display: none;' }}">
+                                style="{{ request()->is(['marbout_index', 'marbout_suamiistri', 'marbout_anak', 'marbout_orangtua', 'marbout_sekolah', 'marbout_bahasa', 'marbout_jabatan', 'marbout_penugasan', 'marbout_seminar', 'marbout_penghargaan', 'marbout_pelanggaran', 'marbout_mutasi', 'marbout_dp4']) ? 'display: block;' : 'display: none;' }}">
                                 <li
                                     class="nav-item {{ request()->is(['marbout_index']) ? 'menu-is-opening menu-open' : '' }} ">
                                     <a href="/marbout_index"
@@ -236,10 +236,26 @@
 
                                     </ul>
                                 </li>
+                                {{-- Mutasi --}}
+                                <li class="nav-item {{ request()->is(['marbout_mutasi']) ? 'active' : '' }} ">
+                                    <a href="/marbout_mutasi"
+                                        class="nav-link {{ request()->is(['marbout_mutasi']) ? 'active' : '' }}">
+                                        <i class="fas fa-exchange-alt nav-icon"></i>
+                                        <p>Mutasi</p>
+                                    </a>
+                                </li>
+                                {{-- DP4 --}}
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-exchange-alt nav-icon"></i>
+                                        <p>DP4</p>
+                                    </a>
+                                </li>
 
 
                             </ul>
                         </li>
+
                         <li class="nav-header">MISCELLANEOUS</li>
 
                     </ul>

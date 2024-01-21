@@ -126,25 +126,27 @@
                     </div>
                 </div>
             </div>
-        @endsection
-        @push('myscript')
-            <script>
-                function previewFile() {
-                    var preview = document.getElementById('previewImage');
-                    var fileInput = document.getElementById('fileInput');
-                    var file = fileInput.files[0];
+        </div>
+    </div>
+@endsection
+@push('myscript')
+    <script>
+        function previewFile() {
+            var preview = document.getElementById('previewImage');
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
 
-                    var reader = new FileReader();
+            var reader = new FileReader();
 
-                    reader.onloadend = function() {
-                        preview.src = reader.result;
-                    };
+            reader.onloadend = function() {
+                preview.src = reader.result;
+            };
 
-                    if (file) {
-                        reader.readAsDataURL(file);
-                    } else {
-                        preview.src = "";
-                    }
-                }
-            </script>
-        @endpush
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+        }
+    </script>
+@endpush

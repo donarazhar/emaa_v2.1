@@ -158,155 +158,155 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            {{-- Modal Jabatan --}}
-            <div class="modal fade" id="modal-jabatan">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content ">
-                        <div class="modal-header bg-dark">
-                            <h6 class=" fa fa-archive modal-title">&nbsp;&nbsp;Form Data Jabatan</h6>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span></button>
+    {{-- Modal Jabatan --}}
+    <div class="modal fade" id="modal-jabatan">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content ">
+                <div class="modal-header bg-dark">
+                    <h6 class=" fa fa-archive modal-title">&nbsp;&nbsp;Form Data Jabatan</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <form action="marbout_tambahkatjabatan" method="post" accept-charset="utf-8">
+                        @csrf
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <label for="jabatan">Nama Jabatan</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <input name="namakategorijabatanmodal" type="text" class="form-control"
+                                    id="namakategorijabatanmodal">
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <button type="submit"
+                                        class="btn btn-warning fas fa-save nav-icon">&nbsp;Simpan</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <form action="marbout_tambahkatjabatan" method="post" accept-charset="utf-8">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <div class="form-group">
-                                            <label for="jabatan">Nama Jabatan</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <input name="namakategorijabatanmodal" type="text" class="form-control"
-                                            id="namakategorijabatanmodal">
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <div class="form-group">
-                                            <button type="submit"
-                                                class="btn btn-warning fas fa-save nav-icon">&nbsp;Simpan</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="modal-body">
-                                <div class="card card-outline">
-                                    <div class="card-body table-responsive p-0" style="height: 150%;">
-                                        <table class="table table-bordered table-head-fixed text-nowrap">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: auto;">No</th>
-                                                    <th style="width: auto;">Nama</th>
-                                                    <th style="width: auto;">Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($tbl_katjabatan as $jabatan)
-                                                    <tr>
-                                                        <td><small>{{ $loop->iteration }}</small></td>
-                                                        <td><small>{{ $jabatan->namajabatan }}</small></td>
-                                                        <td>
-                                                            <a class="fa fa-edit btn btn-xs btn-warning"
-                                                                href="#"></a>
-                                                            <button class="fa fa-trash-alt btn btn-xs btn-danger"
-                                                                data-toggle="modal" data-target="#"></button>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                    </form>
+                    <div class="modal-body">
+                        <div class="card card-outline">
+                            <div class="card-body table-responsive p-0" style="height: 150%;">
+                                <table class="table table-bordered table-head-fixed text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: auto;">No</th>
+                                            <th style="width: auto;">Nama</th>
+                                            <th style="width: auto;">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($tbl_katjabatan as $jabatan)
+                                            <tr>
+                                                <td><small>{{ $loop->iteration }}</small></td>
+                                                <td><small>{{ $jabatan->namajabatan }}</small></td>
+                                                <td>
+                                                    <a class="fa fa-edit btn btn-xs btn-warning" href="#"></a>
+                                                    <button class="fa fa-trash-alt btn btn-xs btn-danger"
+                                                        data-toggle="modal" data-target="#"></button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            {{-- Modal Eselon --}}
-            <div class="modal fade" id="modal-eselon">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content ">
-                        <div class="modal-header bg-dark">
-                            <h6 class=" fa fa-archive modal-title">&nbsp;&nbsp;Form Data Jabatan</h6>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span></button>
+    {{-- Modal Eselon --}}
+    <div class="modal fade" id="modal-eselon">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content ">
+                <div class="modal-header bg-dark">
+                    <h6 class=" fa fa-archive modal-title">&nbsp;&nbsp;Form Data Jabatan</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/marbout_tambahkateselon" method="post" accept-charset="utf-8">
+                        @csrf
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <label for="jabatan">Nama Eselon</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <input name="namakategorieselonmodal" type="text" class="form-control"
+                                    id="namakategorieselonmodal">
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <button type="submit"
+                                        class="btn btn-warning fas fa-save nav-icon">&nbsp;Simpan</button>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="modal-body">
-                            <form action="/marbout_tambahkateselon" method="post" accept-charset="utf-8">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <div class="form-group">
-                                            <label for="jabatan">Nama Eselon</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <input name="namakategorieselonmodal" type="text" class="form-control"
-                                            id="namakategorieselonmodal">
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <div class="form-group">
-                                            <button type="submit"
-                                                class="btn btn-warning fas fa-save nav-icon">&nbsp;Simpan</button>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="card card-outline">
+                                <div class="card-body table-responsive p-0" style="height: 150%;">
+                                    <table class="table table-bordered table-head-fixed text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: auto;">No</th>
+                                                <th style="width: auto;">Nama</th>
+                                                <th style="width: auto;">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($tbl_kateselon as $eselon)
+                                                <tr>
+                                                    <td><small>{{ $loop->iteration }}</small></td>
+                                                    <td><small>{{ $eselon->namaeselon }}</small></td>
+                                                    <td>
+                                                        <a class="fa fa-edit btn btn-xs btn-warning" href="#"></a>
+                                                        <button class="fa fa-trash-alt btn btn-xs btn-danger"
+                                                            data-toggle="modal" data-target="#"></button>
 
-                                <div class="modal-body">
-                                    <div class="card card-outline">
-                                        <div class="card-body table-responsive p-0" style="height: 150%;">
-                                            <table class="table table-bordered table-head-fixed text-nowrap">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="width: auto;">No</th>
-                                                        <th style="width: auto;">Nama</th>
-                                                        <th style="width: auto;">Aksi</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($tbl_kateselon as $eselon)
-                                                        <tr>
-                                                            <td><small>{{ $loop->iteration }}</small></td>
-                                                            <td><small>{{ $eselon->namaeselon }}</small></td>
-                                                            <td>
-                                                                <a class="fa fa-edit btn btn-xs btn-warning"
-                                                                    href="#"></a>
-                                                                <button class="fa fa-trash-alt btn btn-xs btn-danger"
-                                                                    data-toggle="modal" data-target="#"></button>
-
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        @endsection
-        @push('myscript')
-            <script>
-                function previewFile() {
-                    var preview = document.getElementById('previewImage');
-                    var fileInput = document.getElementById('fileInput');
-                    var file = fileInput.files[0];
+        </div>
+    </div>
+@endsection
+@push('myscript')
+    <script>
+        function previewFile() {
+            var preview = document.getElementById('previewImage');
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
 
-                    var reader = new FileReader();
+            var reader = new FileReader();
 
-                    reader.onloadend = function() {
-                        preview.src = reader.result;
-                    };
+            reader.onloadend = function() {
+                preview.src = reader.result;
+            };
 
-                    if (file) {
-                        reader.readAsDataURL(file);
-                    } else {
-                        preview.src = "";
-                    }
-                }
-            </script>
-        @endpush
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+        }
+    </script>
+@endpush

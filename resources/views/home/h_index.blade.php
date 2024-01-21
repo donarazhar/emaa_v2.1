@@ -189,9 +189,16 @@
                                                         <td class="sorting_1">
                                                             {{ $loop->iteration + $datainventaris->firstItem() - 1 }}
                                                         </td>
-                                                        <td>
-                                                            <img src="{{ asset('adminlte/img/preview.png') }}"
-                                                                style="height: 80px;">
+                                                        <td class="text-center">
+                                                            @php
+                                                                $path = Storage::url('uploads/marbout/inventaris/' . $inventaris->foto_datainventaris);
+                                                            @endphp
+                                                            @if (empty($inventaris->foto_datainventaris))
+                                                                <img src="{{ asset('adminlte/img/preview.png') }}"
+                                                                    width="80px">
+                                                            @else
+                                                                <img src="{{ $path }}" width="80px">
+                                                            @endif
                                                         </td>
                                                         <td>{{ $inventaris->nama_datainventaris }}</td>
                                                         <td>{{ $inventaris->nama_merk }}</td>

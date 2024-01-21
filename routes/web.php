@@ -63,4 +63,12 @@ Route::middleware(['auth:karyawan'])->group(function () {
     Route::post('/marbout_tambahpenghargaan', [MarboutController::class, 'marbout_tambahpenghargaan']);
     Route::get('/marbout_pelanggaran', [MarboutController::class, 'marbout_pelanggaran']);
     Route::post('/marbout_tambahpelanggaran', [MarboutController::class, 'marbout_tambahpelanggaran']);
+
+    // Mutasi
+    Route::get('/marbout_mutasi', [MarboutController::class, 'marbout_mutasi']);
+    Route::post('/marbout_tambahmutasi', [MarboutController::class, 'marbout_tambahmutasi']);
+    Route::post('/marbout_mutasi', [MarboutController::class, 'marbout_mutasi']);
+    Route::post('/marbout_editmutasi', [MarboutController::class, 'marbout_editmutasi']);
+    Route::post('/marbout_updatemutasi/{id}', [MarboutController::class, 'marbout_updatemutasi']);
+    Route::post('/marbout_hapusmutasi/{id_marbout}', [MarboutController::class, 'marbout_hapusmutasi']);
 });

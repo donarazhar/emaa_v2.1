@@ -884,4 +884,156 @@ class MarboutController extends Controller
             return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
         }
     }
+
+    public function marbout_mutasi()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+        $tbl_marbout = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->get();
+
+        $tbl_mutasi = DB::table('marbout_mutasi')
+            ->join('tbl_marbout', 'marbout_mutasi.id_marbout', '=', 'tbl_marbout.id_marbout')
+            ->join('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->select('marbout_mutasi.*', 'tbl_user.nama_user')
+            ->get();
+
+        return view('marbout.marbout_mutasi', compact('tbl_userID', 'tbl_marbout', 'tbl_mutasi'));
+    }
+
+    public function marbout_tambahmutasi(Request $request)
+    {
+        $idmarbout = $request->idmarbout;
+        $jenismutasi = $request->jenismutasi;
+        $noskmutasi = $request->noskmutasi;
+        $tglskmutasi = $request->tglskmutasi;
+        $keteranganmutasi = $request->keteranganmutasi;
+
+        // Validasi untuk file yang diupload
+        $request->validate([
+            'foto' => 'image|mimes:png,jpg,jpeg,pdf|max:2024'
+        ]);
+
+        try {
+
+            // Periksa apakah file foto diupload
+            if ($request->hasFile('foto')) {
+                $fotoFile = $request->file('foto');
+                $fotouser = substr(hash('sha256', time()), 0, 25) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoFile->storeAs('public/uploads/marbout/mutasi/', $fotouser);
+            } else {
+                // Jika tidak ada file foto diupload, beri nilai default atau sesuaikan dengan kebutuhan Anda
+                $fotouser = 'preview.png'; // Ganti dengan nama file default yang Anda inginkan
+            }
+            $data = [
+                'id_marbout' => $idmarbout,
+                'jenis_mutasi' => $jenismutasi,
+                'nosk_mutasi' => $noskmutasi,
+                'tglsk_mutasi' => $tglskmutasi,
+                'keterangan_mutasi' => $keteranganmutasi,
+                'filesk_mutasi' => $fotouser,
+            ];
+
+            $simpan = DB::table('marbout_mutasi')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function marbout_editmutasi(Request $request)
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+        $tbl_marbout = DB::table('tbl_marbout')
+            ->leftJoin('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->get();
+
+        $tbl_mutasiID = DB::table('marbout_mutasi')
+            ->join('tbl_marbout', 'marbout_mutasi.id_marbout', '=', 'tbl_marbout.id_marbout')
+            ->join('tbl_user', 'tbl_marbout.id_user', '=', 'tbl_user.id_user')
+            ->select('marbout_mutasi.*', 'tbl_user.nama_user')
+            ->where('id_mutasi', $request->id)
+            ->first();
+
+        return view('marbout.marbout_editmutasi', compact('tbl_userID', 'tbl_marbout', 'tbl_mutasiID'));
+    }
+
+    public function marbout_updatemutasi($id_mutasi, Request $request)
+    {
+        // Ambil data dari tabel tbl_marbout dengan ID yang diberikan
+        $mutasi = DB::table('marbout_mutasi')->where('id_mutasi', $id_mutasi)->first();
+
+
+        if (!$mutasi) {
+            // Handle jika data tidak ditemukan
+            return redirect()->back()->with(['warning' => 'Data tidak ditemukan.']);
+        }
+
+        $idmarbout = $request->idmarbout;
+        $jenismutasi = $request->jenismutasi;
+        $noskmutasi = $request->noskmutasi;
+        $tglskmutasi = $request->tglskmutasi;
+        $keteranganmutasi = $request->keteranganmutasi;
+
+        // Validasi untuk file yang diupload
+        $request->validate([
+            'foto' => 'image|mimes:png,jpg,jpeg,pdf|max:2024'
+        ]);
+
+        try {
+
+            // Periksa apakah file foto diupload
+            if ($request->hasFile('foto')) {
+                $fotoFile = $request->file('foto');
+                $fotouser = substr(hash('sha256', time()), 0, 25) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoFile->storeAs('public/uploads/marbout/mutasi/', $fotouser);
+            } else {
+                // Jika tidak ada file foto diupload, beri nilai default atau sesuaikan dengan kebutuhan Anda
+                $fotouser = 'preview.png'; // Ganti dengan nama file default yang Anda inginkan
+            }
+            $data = [
+                'id_marbout' => $idmarbout,
+                'jenis_mutasi' => $jenismutasi,
+                'nosk_mutasi' => $noskmutasi,
+                'tglsk_mutasi' => $tglskmutasi,
+                'keterangan_mutasi' => $keteranganmutasi,
+                'filesk_mutasi' => $fotouser,
+            ];
+
+            $simpan = DB::table('marbout_mutasi')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function marbout_hapusmutasi($id_marbout)
+    {
+        $delete = DB::table('marbout_mutasi')->where('id_marbout', $id_marbout)->delete();
+        if ($delete) {
+            return Redirect::back()->with(['success' => 'Data Berhasil Dihapus']);
+        } else {
+            return Redirect::back()->with(['warning' => 'Data Gagal Dihapus']);
+        }
+    }
 }
