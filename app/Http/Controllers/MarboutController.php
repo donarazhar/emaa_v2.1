@@ -26,7 +26,7 @@ class MarboutController extends Controller
             ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
             ->select('tbl_marbout.*', 'tbl_user.*', 'tbl_unitkerja.nama_unitkerja')
             ->orderby('tbl_user.nama_user')
-            ->paginate(10);
+            ->get();
 
         $tbl_user = DB::table('tbl_user')->get();
         $tbl_unitkerja = DB::table('tbl_unitkerja')->get();
@@ -979,14 +979,10 @@ class MarboutController extends Controller
     {
         // Ambil data dari tabel tbl_marbout dengan ID yang diberikan
         $mutasi = DB::table('marbout_mutasi')->where('id_mutasi', $id_mutasi)->first();
-
-
         if (!$mutasi) {
             // Handle jika data tidak ditemukan
             return redirect()->back()->with(['warning' => 'Data tidak ditemukan.']);
         }
-
-        $idmarbout = $request->idmarbout;
         $jenismutasi = $request->jenismutasi;
         $noskmutasi = $request->noskmutasi;
         $tglskmutasi = $request->tglskmutasi;
@@ -1009,7 +1005,7 @@ class MarboutController extends Controller
                 $fotouser = 'preview.png'; // Ganti dengan nama file default yang Anda inginkan
             }
             $data = [
-                'id_marbout' => $idmarbout,
+
                 'jenis_mutasi' => $jenismutasi,
                 'nosk_mutasi' => $noskmutasi,
                 'tglsk_mutasi' => $tglskmutasi,
@@ -1017,8 +1013,8 @@ class MarboutController extends Controller
                 'filesk_mutasi' => $fotouser,
             ];
 
-            $simpan = DB::table('marbout_mutasi')->insert($data);
-            if ($simpan) {
+            $update = DB::table('marbout_mutasi')->where('id_mutasi', $id_mutasi)->update($data);
+            if ($update) {
                 return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
             }
         } catch (\Exception $e) {

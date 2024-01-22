@@ -33,9 +33,9 @@
                                         <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <table id="example1"
-                                                        class="table table-bordered table-striped dataTable no-footer"
-                                                        role="grid" aria-describedby="example1_info">
+                                                    <table
+                                                        class="table table-responsive table-bordered table-striped dataTable no-footer"
+                                                        role="grid" aria-describedby="example1_info" id="example2">
                                                         <thead>
                                                             <tr role="row">
                                                                 <th style="width: auto;">No</th>
@@ -52,7 +52,7 @@
                                                             @foreach ($tbl_marbout as $marbout)
                                                                 <tr class="odd">
                                                                     <td class="sorting_1">
-                                                                        {{ $loop->iteration + $tbl_marbout->firstItem() - 1 }}
+                                                                        {{ $loop->iteration }}
                                                                     </td>
                                                                     <td class="text-center">
                                                                         @php
@@ -98,12 +98,6 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    {{ $tbl_marbout->links('pagination::bootstrap-5') }}
-                                                </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -299,67 +293,10 @@
         </div>
     </div>
 @endsection
+
 @push('myscript')
     <script>
         $(function() {
-
-            //Script takan tombol tambah
-            $("#btnTambahMarbout").click(function() {
-                $("#modal-frmmarbout").modal("show");
-            });
-
-            // Proses simpan dengan AJAX
-            $("#btnSimpanData").click(function(e) {
-
-                var kode_aas = $("#kode_aas").val();
-                var nama_aas = $("#nama_aas").val();
-                var status = $("#status").val();
-                var kategori = $("#kategori").val();
-
-                if (kode_aas == "") {
-                    Swal.fire({
-                        title: 'Warning!',
-                        text: 'Kode AAS Harus Diisi',
-                        icon: 'warning',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#kode_aas").focus();
-                    });
-                    return false;
-                } else if (nama_aas == "") {
-                    Swal.fire({
-                        title: 'Warning!',
-                        text: 'Nama Akun AAS Harus Diisi',
-                        icon: 'warning',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#nama_aas").focus();
-                    });
-                    return false;
-                } else if (status == "") {
-                    Swal.fire({
-                        title: 'Warning!',
-                        text: 'Status Akun Harus Diisi',
-                        icon: 'warning',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#status").focus();
-                    });
-                    return false;
-                } else if (kategori == "") {
-                    Swal.fire({
-                        title: 'Warning!',
-                        text: 'Kategori Akun Harus Diisi',
-                        icon: 'warning',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#kategori").focus();
-                    });
-                    return false;
-                }
-
-            });
-
             // Proses edit dengan AJAX
             $(".edit").click(function() {
                 var id = $(this).attr('id');
@@ -401,6 +338,19 @@
                 });
             });
 
+        });
+    </script>
+    <script>
+        $(function() {
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
         });
     </script>
 @endpush

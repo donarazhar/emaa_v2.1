@@ -134,7 +134,7 @@
                                 <div class="col-lg-4 mt-5">
                                     <button type="submit" name="save" value="save" class="btn btn-primary"><i
                                             class="fas fa-save"></i>
-                                        &nbsp;Save</button>&nbsp;
+                                        &nbsp;Update</button>&nbsp;
                                     <a type="button" class="btn btn-default active" href=""><i
                                             class="fas fa-undo"></i>&nbsp;Cancel</a>
                                 </div>

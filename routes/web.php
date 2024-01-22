@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FrontofficeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MarboutController;
 use Illuminate\Support\Facades\Route;
@@ -71,4 +72,30 @@ Route::middleware(['auth:karyawan'])->group(function () {
     Route::post('/marbout_editmutasi', [MarboutController::class, 'marbout_editmutasi']);
     Route::post('/marbout_updatemutasi/{id}', [MarboutController::class, 'marbout_updatemutasi']);
     Route::post('/marbout_hapusmutasi/{id_marbout}', [MarboutController::class, 'marbout_hapusmutasi']);
+
+
+    // FRONT OFFICE
+    Route::get('/front_kategorisurat', [FrontofficeController::class, 'front_kategorisurat']);
+    Route::post('/front_tambahkatsurat', [FrontofficeController::class, 'front_tambahkatsurat']);
+    Route::post('/front_editkatsurat', [FrontofficeController::class, 'front_editkatsurat']);
+    Route::post('/front_updatekatsurat/{id}', [FrontofficeController::class, 'front_updatekatsurat']);
+    Route::post('/front_hapuskatsurat/{id_kategori}', [FrontofficeController::class, 'front_hapuskatsurat']);
+
+    Route::get('/front_asalsurat', [FrontofficeController::class, 'front_asalsurat']);
+    Route::post('/front_tambahasalsurat', [FrontofficeController::class, 'front_tambahasalsurat']);
+    Route::post('/front_editasalsurat', [FrontofficeController::class, 'front_editasalsurat']);
+    Route::post('/front_updateasalsurat/{id}', [FrontofficeController::class, 'front_updateasalsurat']);
+    Route::post('/front_hapusasalsurat/{id_asalsurat}', [FrontofficeController::class, 'front_hapusasalsurat']);
+
+    Route::get('/front_datasurat', [FrontofficeController::class, 'front_datasurat']);
+    Route::post('/front_tambahdatasurat', [FrontofficeController::class, 'front_tambahdatasurat']);
+    Route::post('/front_editdatasurat', [FrontofficeController::class, 'front_editdatasurat']);
+    Route::post('/front_updatedatasurat/{id}', [FrontofficeController::class, 'front_updatedatasurat']);
+    Route::post('/front_hapusdatasurat/{id_transaksi}', [FrontofficeController::class, 'front_hapusdatasurat']);
+
+    Route::get('/front_bukutamu', [FrontofficeController::class, 'front_bukutamu']);
+    Route::get('/front_kategorilayanan', [FrontofficeController::class, 'front_kategorilayanan']);
+    Route::get('/front_dataimam', [FrontofficeController::class, 'front_dataimam']);
+    Route::get('/front_dataimam', [FrontofficeController::class, 'front_dataimam']);
+    Route::get('/front_layanan', [FrontofficeController::class, 'front_layanan']);
 });

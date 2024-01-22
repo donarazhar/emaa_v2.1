@@ -34,7 +34,12 @@
                                 <p> {{ $user->nohp }}</p>
                             </div>
                             <div class="icon">
-                                <i class="fas fa-users"></i>
+                                <i class="img-profile rounded-circle">
+                                    @php
+                                        $path = Storage::url('uploads/marbout/' . $user->foto_user);
+                                    @endphp
+                                    <img src="{{ $path }}" width="40px">
+                                </i>
                             </div>
                             <a class="small-box-footer"> {{ $user->email }} </a>
                         </div>

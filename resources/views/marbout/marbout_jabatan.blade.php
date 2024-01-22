@@ -22,7 +22,7 @@
                             @endif
                             <div class="row">
                                 <div class="col-lg-1"></div>
-                                <div class="col-sm-11">
+                                <div class="col-sm-10">
                                     <div class="modal-body">
                                         <form action="/marbout_tambahjabatan" method="post" accept-charset="utf-8"
                                             enctype="multipart/form-data">

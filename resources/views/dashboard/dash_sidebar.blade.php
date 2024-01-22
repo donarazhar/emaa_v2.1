@@ -29,6 +29,11 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/summernote/summernote-bs4.min.css') }}">
+    {{-- Datatable --}}
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -92,6 +97,8 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-header">Selamat Datang di Aplikasi</li>
+
+                        {{-- SIDEBAR E-MARBOUT --}}
                         <li class="nav-item">
                             <a href="#"
                                 class="nav-link {{ request()->is(['dashboard', 'marbout_index', 'marbout_suamiistri', 'marbout_anak', 'marbout_orangtua', 'marbout_sekolah', 'marbout_bahasa', 'marbout_jabatan', 'marbout_penugasan', 'marbout_seminar', 'marbout_penghargaan', 'marbout_pelanggaran', 'marbout_mutasi', 'marbout_dp4']) ? 'active' : '' }}">
@@ -251,8 +258,135 @@
                                         <p>DP4</p>
                                     </a>
                                 </li>
-
-
+                            </ul>
+                        </li>
+                        {{-- SIDEBAR E-FRONT OFFICE --}}
+                        <li class="nav-item">
+                            <a href="#"
+                                class="nav-link {{ request()->is(['dashboard', 'front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan']) ? 'active' : '' }}">
+                                <i class="fas fa-door-open nav-icon"></i>
+                                <p>
+                                    eMAA Front Office
+                                    <i class="right fas fa-angle-down"></i>
+                                    <span class="right badge badge-danger">Klik</span>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview"
+                                style="{{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan']) ? 'display: block;' : 'display: none;' }}">
+                                <li class="nav-item {{ request()->is(['front_kategorisurat']) ? 'active' : '' }}">
+                                    <a href="#"
+                                        class="nav-link {{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat']) ? 'active' : '' }}">
+                                        <i class="fas fa-address-card nav-icon"></i>
+                                        <p>
+                                            Persuratan
+                                            <i class="right fas fa-angle-down"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview"
+                                        style="{{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan']) ? 'display: block;' : 'display: none;' }}">
+                                        <li
+                                            class="nav-item {{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat']) ? 'active' : '' }}">
+                                            <a href="#"
+                                                class="nav-link {{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat']) ? 'active' : '' }}">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>
+                                                    Master
+                                                    <i class="right fas fa-angle-down"></i>
+                                                </p>
+                                            </a>
+                                            <ul class="nav nav-treeview"
+                                                style="{{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan']) ? 'display: block;' : 'display: none;' }}">
+                                                <li
+                                                    class="nav-item {{ request()->is(['front_kategorisurat']) ? 'active' : '' }}">
+                                                    <a href="/front_kategorisurat"
+                                                        class="nav-link {{ request()->is(['front_kategorisurat']) ? 'active' : '' }}">
+                                                        <i class="far fa-dot-circle nav-icon"></i>
+                                                        <p>Kategori Surat</p>
+                                                    </a>
+                                                </li>
+                                                <li
+                                                    class="nav-item {{ request()->is(['front_asalsurat']) ? 'active' : '' }}">
+                                                    <a href="/front_asalsurat"
+                                                        class="nav-link {{ request()->is(['front_asalsurat']) ? 'active' : '' }}">
+                                                        <i class="far fa-dot-circle nav-icon"></i>
+                                                        <p>Asal Surat</p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item {{ request()->is(['front_datasurat']) ? 'active' : '' }}">
+                                            <a href="/front_datasurat"
+                                                class="nav-link {{ request()->is(['front_datasurat']) ? 'active' : '' }}">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>Transaksi Surat</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>Laporan Surat</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-address-card nav-icon"></i>
+                                        <p>
+                                            Layanan
+                                            <i class="right fas fa-angle-down"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>
+                                                    Master
+                                                    <i class="right fas fa-angle-down"></i>
+                                                </p>
+                                            </a>
+                                            <ul class="nav nav-treeview">
+                                                <li class="nav-item">
+                                                    <a href="/front_bukutamu" target="_blank" class="nav-link">
+                                                        <i class="far fa-dot-circle nav-icon"></i>
+                                                        <p>Buku Tamu</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="/front_kategorilayanan" class="nav-link">
+                                                        <i class="far fa-dot-circle nav-icon"></i>
+                                                        <p>Kategori Layanan</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="/front_dataimam" class="nav-link">
+                                                        <i class="far fa-dot-circle nav-icon"></i>
+                                                        <p>Data Takmir &amp; Imam</p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="/front_layanan" class="nav-link">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>Transaksi Layanan</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fas fa-caret-right nav-icon"></i>
+                                                <p>Laporan Layanan</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-calendar-alt nav-icon"></i>
+                                        <p>Kegiatan</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
@@ -321,8 +455,14 @@
     <script src="{{ asset('adminlte/dist/js/demo.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('adminlte/dist/js/pages/dashboard.js') }}"></script>
+    {{-- Datatable --}}
+    <script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert.js') }}"></script>
-
     @stack('myscript')
 </body>
 
