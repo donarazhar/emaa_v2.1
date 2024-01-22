@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Karyawan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -320,5 +321,45 @@ class FrontofficeController extends Controller
         } else {
             return Redirect::back()->with(['warning' => 'Data Gagal Dihapus']);
         }
+    }
+
+    public function front_laporansurat(Request $request)
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $asalsurat = DB::table('tbl_transaksisurat')
+            ->leftJoin('tbl_asalsurat', 'tbl_transaksisurat.id_asalsurat', '=', 'tbl_asalsurat.id_asalsurat')
+            ->select('tbl_asalsurat.nama_asalsurat', DB::raw('COUNT(tbl_transaksisurat.id_transaksisurat) as jumlah'))
+            ->groupBy('tbl_asalsurat.nama_asalsurat')
+            ->get();
+
+        // Query untuk mendapatkan jumlah surat per nama_kategori
+        $kategori = DB::table('tbl_transaksisurat')
+            ->leftJoin('tbl_kategori', 'tbl_transaksisurat.id_kategori', '=', 'tbl_kategori.id_kategori')
+            ->select('tbl_kategori.nama_kategori', DB::raw('COUNT(tbl_transaksisurat.id_transaksisurat) as jumlah'))
+            ->groupBy('tbl_kategori.nama_kategori')
+            ->get();
+
+        // Gabungkan hasil dari dua query di atas
+        $merge_tbltransaksisurat = array_merge($asalsurat->toArray(), $kategori->toArray());
+
+        // Sajikan data dalam format yang sesuai untuk chart.js
+        $labelssurat = [];
+        $datasurat = [];
+
+        foreach ($merge_tbltransaksisurat as $item) {
+            $labelssurat[] = $item->nama_asalsurat ?? $item->nama_kategori;
+            $datasurat[] = $item->jumlah;
+        }
+
+        return view('front.front_laporansurat', compact('tbl_userID', 'labelssurat', 'datasurat'));
     }
 }

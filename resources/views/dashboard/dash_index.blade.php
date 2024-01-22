@@ -5,8 +5,6 @@
         <div class="container-fluid">
         </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-header -->
-
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -144,13 +142,9 @@
                                     <div id="sparkline-3"></div>
                                     <div class="text-white">Muallaf</div>
                                 </div>
-                                <!-- ./col -->
                             </div>
-                            <!-- /.row -->
                         </div>
                     </div>
-
-
                 </section>
             </div>
             <div class="row">

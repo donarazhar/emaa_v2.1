@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FrontLayananController;
 use App\Http\Controllers\FrontofficeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MarboutController;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['guest:karyawan'])->group(function () {
-    Route::get('/', [HomeController::class, 'h_index'])->name('index');
+    Route::get('/', [HomeController::class, 'h_index'])->name('/');
     Route::get('/daftar', [HomeController::class, 'h_daftar']);
     Route::get('/login', [HomeController::class, 'h_login']);
     Route::post('/proseslogin', [HomeController::class, 'h_proseslogin']);
@@ -93,7 +94,15 @@ Route::middleware(['auth:karyawan'])->group(function () {
     Route::post('/front_updatedatasurat/{id}', [FrontofficeController::class, 'front_updatedatasurat']);
     Route::post('/front_hapusdatasurat/{id_transaksi}', [FrontofficeController::class, 'front_hapusdatasurat']);
 
-    Route::get('/front_bukutamu', [FrontofficeController::class, 'front_bukutamu']);
+    Route::get('/front_laporansurat', [FrontofficeController::class, 'front_laporansurat']);
+
+    Route::get('/frontlayanan_bukutamu', [FrontLayananController::class, 'frontlayanan_bukutamu']);
+    Route::post('/frontlayanan_tambahdatatamu', [FrontLayananController::class, 'frontlayanan_tambahdatatamu']);
+    Route::get('/frontlayanan_pengislaman', [FrontLayananController::class, 'frontlayanan_pengislaman']);
+    Route::post('/frontlayanan_tambahdatapengislaman', [FrontLayananController::class, 'frontlayanan_tambahdatapengislaman']);
+    Route::get('/frontlayanan_konsultasi', [FrontLayananController::class, 'frontlayanan_konsultasi']);
+    Route::post('/frontlayanan_tambahdatakonsultasi', [FrontLayananController::class, 'frontlayanan_tambahdatakonsultasi']);
+
     Route::get('/front_kategorilayanan', [FrontofficeController::class, 'front_kategorilayanan']);
     Route::get('/front_dataimam', [FrontofficeController::class, 'front_dataimam']);
     Route::get('/front_dataimam', [FrontofficeController::class, 'front_dataimam']);

@@ -100,8 +100,7 @@
 
                         {{-- SIDEBAR E-MARBOUT --}}
                         <li class="nav-item">
-                            <a href="#"
-                                class="nav-link {{ request()->is(['dashboard', 'marbout_index', 'marbout_suamiistri', 'marbout_anak', 'marbout_orangtua', 'marbout_sekolah', 'marbout_bahasa', 'marbout_jabatan', 'marbout_penugasan', 'marbout_seminar', 'marbout_penghargaan', 'marbout_pelanggaran', 'marbout_mutasi', 'marbout_dp4']) ? 'active' : '' }}">
+                            <a href="#" class="nav-link {{ request()->is(['*']) ? 'active' : '' }}">
                                 <i class="fas fa-users nav-icon"></i>
                                 <p>
                                     E-Marbout
@@ -243,6 +242,7 @@
 
                                     </ul>
                                 </li>
+
                                 {{-- Mutasi --}}
                                 <li class="nav-item {{ request()->is(['marbout_mutasi']) ? 'active' : '' }} ">
                                     <a href="/marbout_mutasi"
@@ -251,6 +251,7 @@
                                         <p>Mutasi</p>
                                     </a>
                                 </li>
+
                                 {{-- DP4 --}}
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
@@ -260,10 +261,10 @@
                                 </li>
                             </ul>
                         </li>
+
                         {{-- SIDEBAR E-FRONT OFFICE --}}
                         <li class="nav-item">
-                            <a href="#"
-                                class="nav-link {{ request()->is(['dashboard', 'front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan']) ? 'active' : '' }}">
+                            <a href="#" class="nav-link {{ request()->is(['*']) ? 'active' : '' }}">
                                 <i class="fas fa-door-open nav-icon"></i>
                                 <p>
                                     eMAA Front Office
@@ -272,10 +273,11 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview"
-                                style="{{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan']) ? 'display: block;' : 'display: none;' }}">
-                                <li class="nav-item {{ request()->is(['front_kategorisurat']) ? 'active' : '' }}">
+                                style="{{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan', 'front_laporansurat']) ? 'display: block;' : 'display: none;' }}">
+                                <li
+                                    class="nav-item {{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan', 'front_laporansurat']) ? 'active' : '' }}">
                                     <a href="#"
-                                        class="nav-link {{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat']) ? 'active' : '' }}">
+                                        class="nav-link {{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan', 'front_laporansurat']) ? 'active' : '' }}">
                                         <i class="fas fa-address-card nav-icon"></i>
                                         <p>
                                             Persuratan
@@ -283,11 +285,11 @@
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview"
-                                        style="{{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan']) ? 'display: block;' : 'display: none;' }}">
+                                        style="{{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan', 'front_laporansurat']) ? 'display: block;' : 'display: none;' }}">
                                         <li
-                                            class="nav-item {{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat']) ? 'active' : '' }}">
+                                            class="nav-item {{ request()->is(['front_kategorisurat', 'front_asalsurat']) ? 'active' : '' }}">
                                             <a href="#"
-                                                class="nav-link {{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat']) ? 'active' : '' }}">
+                                                class="nav-link {{ request()->is(['front_kategorisurat', 'front_asalsurat']) ? 'active' : '' }}">
                                                 <i class="fas fa-caret-right nav-icon"></i>
                                                 <p>
                                                     Master
@@ -295,7 +297,7 @@
                                                 </p>
                                             </a>
                                             <ul class="nav nav-treeview"
-                                                style="{{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan']) ? 'display: block;' : 'display: none;' }}">
+                                                style="{{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan', 'front_laporansurat']) ? 'display: block;' : 'display: none;' }}">
                                                 <li
                                                     class="nav-item {{ request()->is(['front_kategorisurat']) ? 'active' : '' }}">
                                                     <a href="/front_kategorisurat"
@@ -321,14 +323,17 @@
                                                 <p>Transaksi Surat</p>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
+                                        <li
+                                            class="nav-item {{ request()->is(['front_laporansurat']) ? 'active' : '' }}">
+                                            <a href="/front_laporansurat"
+                                                class="nav-link {{ request()->is(['front_laporansurat']) ? 'active' : '' }}">
                                                 <i class="fas fa-caret-right nav-icon"></i>
                                                 <p>Laporan Surat</p>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
+
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
                                         <i class="fas fa-address-card nav-icon"></i>
@@ -348,7 +353,8 @@
                                             </a>
                                             <ul class="nav nav-treeview">
                                                 <li class="nav-item">
-                                                    <a href="/front_bukutamu" target="_blank" class="nav-link">
+                                                    <a href="/frontlayanan_bukutamu" class="nav-link"
+                                                        target="_blank">
                                                         <i class="far fa-dot-circle nav-icon"></i>
                                                         <p>Buku Tamu</p>
                                                     </a>
