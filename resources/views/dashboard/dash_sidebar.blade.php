@@ -360,7 +360,7 @@
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="/front_kategorilayanan" class="nav-link">
+                                                    <a href="/frontlayanan_kategorilayanan" class="nav-link">
                                                         <i class="far fa-dot-circle nav-icon"></i>
                                                         <p>Kategori Layanan</p>
                                                     </a>

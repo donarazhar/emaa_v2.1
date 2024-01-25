@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class FrontLayananController extends Controller
 {
@@ -51,7 +52,7 @@ class FrontLayananController extends Controller
         }
     }
 
-
+    // PENGISLAMAN
     public function frontlayanan_pengislaman()
     {
         $email = Auth::guard('karyawan')->user()->email;
@@ -112,7 +113,7 @@ class FrontLayananController extends Controller
         }
     }
 
-
+    // KONSULTASI
     public function frontlayanan_konsultasi()
     {
         $email = Auth::guard('karyawan')->user()->email;
@@ -170,6 +171,268 @@ class FrontLayananController extends Controller
         } catch (\Exception $e) {
             // Tampilkan pesan kesalahan
             return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    // KATEGORI LAYANAN
+    public function frontlayanan_kategorilayanan()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_katlayanan = DB::table('tbl_kategorilayanan')->get();
+        $tbl_jeniskonsultasi = DB::table('tbl_jeniskonsultasi')->get();
+        $tbl_jenispengislaman = DB::table('tbl_jenispengislaman')->get();
+
+        return view('frontlayanan.layanan_kategorilayanan', compact('tbl_userID', 'tbl_katlayanan', 'tbl_jeniskonsultasi', 'tbl_jenispengislaman'));
+    }
+
+    public function frontlayanan_tambahkategorilayanan(Request $request)
+    {
+        $namakategorilayananmodal = $request->namakategorilayananmodal;
+        $deksripsikategorilayananmodal = $request->deksripsikategorilayananmodal;
+
+        try {
+            $data = [
+                'nama_kategorilayanan' => $namakategorilayananmodal,
+                'deskripsi' => $deksripsikategorilayananmodal,
+
+            ];
+
+            $simpan = DB::table('tbl_kategorilayanan')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function frontlayanan_editkategorilayanan(Request $request)
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_kategorilayananID = DB::table('tbl_kategorilayanan')
+            ->where('id_kategorilayanan', $request->id)
+            ->first();
+
+        return view('frontlayanan.layanan_editkategorilayanan', compact('tbl_userID', 'tbl_kategorilayananID'));
+    }
+
+    public function frontlayanan_updatekategorilayanan($id_kategorilayanan, Request $request)
+    {
+        // Ambil data dari tabel tbl_marbout dengan ID yang diberikan
+        $kategorilayanan = DB::table('tbl_kategorilayanan')->where('id_kategorilayanan', $id_kategorilayanan)->first();
+
+        if (!$kategorilayanan) {
+            // Handle jika data tidak ditemukan
+            return redirect()->back()->with(['warning' => 'Data tidak ditemukan.']);
+        }
+
+        $namakategorilayananmodal = $request->namakategorilayananmodal;
+        $deksripsikategorilayananmodal = $request->deksripsikategorilayananmodal;
+
+        try {
+            $data = [
+
+                'nama_kategorilayanan' => $namakategorilayananmodal,
+                'deskripsi' => $deksripsikategorilayananmodal,
+            ];
+
+            $update = DB::table('tbl_kategorilayanan')->where('id_kategorilayanan', $id_kategorilayanan)->update($data);
+            if ($update) {
+                return redirect()->back()->with(['success' => 'Data berhasil diupdate']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function frontlayanan_hapuskategorilayanan($id_kategorilayanan)
+    {
+        $delete = DB::table('tbl_kategorilayanan')->where('id_kategorilayanan', $id_kategorilayanan)->delete();
+        if ($delete) {
+            return Redirect::back()->with(['success' => 'Data Berhasil Dihapus']);
+        } else {
+            return Redirect::back()->with(['warning' => 'Data Gagal Dihapus']);
+        }
+    }
+
+    // JENIS KONSULTASI
+    public function frontlayanan_tambahjeniskonsultasi(Request $request)
+    {
+        $namajeniskonsultasimodal = $request->namajeniskonsultasimodal;
+        $deksripsijeniskonsultasimodal = $request->deksripsijeniskonsultasimodal;
+
+        try {
+            $data = [
+                'nama_jeniskonsultasi' => $namajeniskonsultasimodal,
+                'deskripsi' => $deksripsijeniskonsultasimodal,
+
+            ];
+
+            $simpan = DB::table('tbl_jeniskonsultasi')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function frontlayanan_editjeniskonsultasi(Request $request)
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_jeniskonsultasiID = DB::table('tbl_jeniskonsultasi')
+            ->where('id_jeniskonsultasi', $request->id)
+            ->first();
+
+        return view('frontlayanan.layanan_editjeniskonsultasi', compact('tbl_userID', 'tbl_jeniskonsultasiID'));
+    }
+
+    public function frontlayanan_updatejeniskonsultasi($id_jeniskonsultasi, Request $request)
+    {
+        // Ambil data dari tabel tbl_marbout dengan ID yang diberikan
+        $jeniskonsultasi = DB::table('tbl_jeniskonsultasi')->where('id_jeniskonsultasi', $id_jeniskonsultasi)->first();
+
+        if (!$jeniskonsultasi) {
+            // Handle jika data tidak ditemukan
+            return redirect()->back()->with(['warning' => 'Data tidak ditemukan.']);
+        }
+
+        $namajeniskonsultasimodal = $request->namajeniskonsultasimodal;
+        $deksripsijeniskonsultasimodal = $request->deksripsijeniskonsultasimodal;
+
+        try {
+            $data = [
+
+                'nama_jeniskonsultasi' => $namajeniskonsultasimodal,
+                'deskripsi' => $deksripsijeniskonsultasimodal,
+            ];
+
+            $update = DB::table('tbl_jeniskonsultasi')->where('id_jeniskonsultasi', $id_jeniskonsultasi)->update($data);
+            if ($update) {
+                return redirect()->back()->with(['success' => 'Data berhasil diupdate']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function frontlayanan_hapusjeniskonsultasi($id_jeniskonsultasi)
+    {
+        $delete = DB::table('tbl_jeniskonsultasi')->where('id_jeniskonsultasi', $id_jeniskonsultasi)->delete();
+        if ($delete) {
+            return Redirect::back()->with(['success' => 'Data Berhasil Dihapus']);
+        } else {
+            return Redirect::back()->with(['warning' => 'Data Gagal Dihapus']);
+        }
+    }
+
+
+    // JENIS PENGISLAMAN
+    public function frontlayanan_tambahjenispengislaman(Request $request)
+    {
+        $namajenispengislamanmodal = $request->namajenispengislamanmodal;
+        $deksripsijenispengislamanmodal = $request->deksripsijenispengislamanmodal;
+
+        try {
+            $data = [
+                'nama_jenispengislaman' => $namajenispengislamanmodal,
+                'deskripsi' => $deksripsijenispengislamanmodal,
+
+            ];
+
+            $simpan = DB::table('tbl_jenispengislaman')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function frontlayanan_editjenispengislaman(Request $request)
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_jenispengislamanID = DB::table('tbl_jenispengislaman')
+            ->where('id_jenispengislaman', $request->id)
+            ->first();
+
+        return view('frontlayanan.layanan_editjenispengislaman', compact('tbl_userID', 'tbl_jenispengislamanID'));
+    }
+
+    public function frontlayanan_updatejenispengislaman($id_jenispengislaman, Request $request)
+    {
+        // Ambil data dari tabel tbl_marbout dengan ID yang diberikan
+        $jenispengislaman = DB::table('tbl_jenispengislaman')->where('id_jenispengislaman', $id_jenispengislaman)->first();
+
+        if (!$jenispengislaman) {
+            // Handle jika data tidak ditemukan
+            return redirect()->back()->with(['warning' => 'Data tidak ditemukan.']);
+        }
+
+        $namajenispengislamanmodal = $request->namajenispengislamanmodal;
+        $deksripsijenispengislamanmodal = $request->deksripsijenispengislamanmodal;
+
+        try {
+            $data = [
+
+                'nama_jenispengislaman' => $namajenispengislamanmodal,
+                'deskripsi' => $deksripsijenispengislamanmodal,
+            ];
+
+            $update = DB::table('tbl_jenispengislaman')->where('id_jenispengislaman', $id_jenispengislaman)->update($data);
+            if ($update) {
+                return redirect()->back()->with(['success' => 'Data berhasil diupdate']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function frontlayanan_hapusjenispengislaman($id_jenispengislaman)
+    {
+        $delete = DB::table('tbl_jenispengislaman')->where('id_jenispengislaman', $id_jenispengislaman)->delete();
+        if ($delete) {
+            return Redirect::back()->with(['success' => 'Data Berhasil Dihapus']);
+        } else {
+            return Redirect::back()->with(['warning' => 'Data Gagal Dihapus']);
         }
     }
 }

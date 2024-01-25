@@ -37,10 +37,6 @@
             <div class="card card-outline-tabs">
                 <div class="card-body">
                     <div class="tab-content">
-
-
-
-
                     </div>
                 </div>
             </div>

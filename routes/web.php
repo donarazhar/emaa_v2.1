@@ -103,7 +103,24 @@ Route::middleware(['auth:karyawan'])->group(function () {
     Route::get('/frontlayanan_konsultasi', [FrontLayananController::class, 'frontlayanan_konsultasi']);
     Route::post('/frontlayanan_tambahdatakonsultasi', [FrontLayananController::class, 'frontlayanan_tambahdatakonsultasi']);
 
-    Route::get('/front_kategorilayanan', [FrontofficeController::class, 'front_kategorilayanan']);
+    Route::get('/frontlayanan_kategorilayanan', [FrontLayananController::class, 'frontlayanan_kategorilayanan']);
+    Route::post('/frontlayanan_tambahkategorilayanan', [FrontLayananController::class, 'frontlayanan_tambahkategorilayanan']);
+    Route::post('/frontlayanan_editkategorilayanan', [FrontLayananController::class, 'frontlayanan_editkategorilayanan']);
+    Route::post('/frontlayanan_updatekategorilayanan/{id}', [FrontLayananController::class, 'frontlayanan_updatekategorilayanan']);
+    Route::post('/frontlayanan_hapuskategorilayanan/{id_kategorilayanan}', [FrontLayananController::class, 'frontlayanan_hapuskategorilayanan']);
+
+    Route::post('/frontlayanan_tambahjeniskonsultasi', [FrontLayananController::class, 'frontlayanan_tambahjeniskonsultasi']);
+    Route::post('/frontlayanan_editjeniskonsultasi', [FrontLayananController::class, 'frontlayanan_editjeniskonsultasi']);
+    Route::post('/frontlayanan_updatejeniskonsultasi/{id}', [FrontLayananController::class, 'frontlayanan_updatejeniskonsultasi']);
+    Route::post('/frontlayanan_hapusjeniskonsultasi/{id_jeniskonsultasi}', [FrontLayananController::class, 'frontlayanan_hapusjeniskonsultasi']);
+
+    Route::post('/frontlayanan_tambahjenispengislaman', [FrontLayananController::class, 'frontlayanan_tambahjenispengislaman']);
+    Route::post('/frontlayanan_editjenispengislaman', [FrontLayananController::class, 'frontlayanan_editjenispengislaman']);
+    Route::post('/frontlayanan_updatejenispengislaman/{id}', [FrontLayananController::class, 'frontlayanan_updatejenispengislaman']);
+    Route::post('/frontlayanan_hapusjenispengislaman/{id_jenispengislaman}', [FrontLayananController::class, 'frontlayanan_hapusjenispengislaman']);
+
+
+
     Route::get('/front_dataimam', [FrontofficeController::class, 'front_dataimam']);
     Route::get('/front_dataimam', [FrontofficeController::class, 'front_dataimam']);
     Route::get('/front_layanan', [FrontofficeController::class, 'front_layanan']);
