@@ -195,8 +195,9 @@
                                 <div class="form-group row">
                                     <label for="alasanspmodal" class="col-sm-2 col-form-label">Alasan</label>
                                     <div class="col-sm-10">
-                                        <textarea name="alasanspmodal" rows="5" type="text" class="form-control" id="alasanspmodal"
-                                            placeholder="Alasan memeluk Agama Islam..." required></textarea>
+                                        <input name="alasanspmodal" type="text" class="form-control"
+                                            id="alasanspmodal" placeholder="Alasan memeluk Agama Islam..."
+                                            required></input>
                                     </div>
                                 </div>
                                 <div class="form-group row">

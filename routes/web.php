@@ -126,4 +126,12 @@ Route::middleware(['auth:karyawan'])->group(function () {
     Route::post('/frontlayanan_hapusdataimam/{id_dataimam}', [FrontLayananController::class, 'frontlayanan_hapusdataimam']);
 
     Route::get('/frontlayanan_datalayanan', [FrontLayananController::class, 'frontlayanan_datalayanan']);
+    Route::post('/frontlayanan_editdatatamu', [FrontLayananController::class, 'frontlayanan_editdatatamu']);
+    Route::post('/frontlayanan_updatedatatamu/{id}', [FrontLayananController::class, 'frontlayanan_updatedatatamu']);
+    Route::post('/frontlayanan_hapusdatatamu/{id_tamu}', [FrontLayananController::class, 'frontlayanan_hapusdatatamu']);
+
+    Route::post('/frontlayanan_editdatapengislaman', [FrontLayananController::class, 'frontlayanan_editdatapengislaman']);
+    Route::post('/frontlayanan_updatedatapengislaman/{id}', [FrontLayananController::class, 'frontlayanan_updatedatapengislaman']);
+    Route::post('/frontlayanan_hapusdatapengislaman/{id_sp}', [FrontLayananController::class, 'frontlayanan_hapusdatapengislaman']);
+    Route::post('/frontlayanan_cetaksp/{id_sp}', [FrontLayananController::class, 'frontlayanan_cetaksp']);
 });

@@ -71,8 +71,8 @@
                             <div class="form-group row">
                                 <label for="keperluantamumodal" class="col-sm-2 col-form-label">Keperluan</label>
                                 <div class="col-sm-10">
-                                    <textarea name="keperluantamumodal" rows="5" type="text" class="form-control" id="keperluantamumodal"
-                                        placeholder="Masukkan keperluan anda..." required></textarea>
+                                    <input name="keperluantamumodal" type="text" class="form-control"
+                                        id="keperluantamumodal" placeholder="Masukkan keperluan anda..." required></input>
                                 </div>
                             </div>
                             <div class="form-group row">

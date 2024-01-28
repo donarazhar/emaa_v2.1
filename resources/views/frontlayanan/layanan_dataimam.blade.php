@@ -63,7 +63,6 @@
                                                                     class=" fa fa-trash-alt btn btn-danger btn-xs delete-confirm">
                                                                 </a>
                                                             </form>
-
                                                     </tr>
                                                 @endforeach
                                             </tbody>

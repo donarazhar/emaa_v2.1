@@ -28,6 +28,17 @@
 
                         </ul>
                     </div>
+                    {{-- Pesan error --}}
+                    @if (Session::get('success'))
+                        <div class="alert alert-success">
+                            {{ Session::get('success') }}
+                        </div>
+                    @endif
+                    @if (Session::get('warning'))
+                        <div class="alert alert-warning">
+                            {{ Session::get('warning') }}
+                        </div>
+                    @endif
                     <div class="card-body">
                         <div class="tab-content" id="custom-tabs-two-tabContent">
 
@@ -71,14 +82,18 @@
                                                                                 <td>{{ $tamu->email_tamu }}</td>
                                                                                 <td>{{ $tamu->keperluan_tamu }}</td>
                                                                                 <td class="text-center inline-block">
-                                                                                    <button
-                                                                                        class="fa fa-edit btn btn-xs btn-warning"
-                                                                                        data-toggle="modal"
-                                                                                        data-target="#edittamu74"></button>
-                                                                                    <button
-                                                                                        class="fa fa-trash-alt btn btn-xs btn-danger"
-                                                                                        data-toggle="modal"
-                                                                                        data-target="#hapustamu74"></button>
+                                                                                    <a class="fa fa-edit btn btn-xs btn-warning edit"
+                                                                                        href="#"
+                                                                                        id="{{ $tamu->id_tamu }}">
+                                                                                    </a>
+                                                                                    <form
+                                                                                        action="/frontlayanan_hapusdatatamu/{{ $tamu->id_tamu }}"
+                                                                                        method="POST">
+                                                                                        @csrf
+                                                                                        <a
+                                                                                            class=" fa fa-trash-alt btn btn-danger btn-xs delete-confirm">
+                                                                                        </a>
+                                                                                    </form>
                                                                                 </td>
                                                                             </tr>
                                                                         @endforeach
@@ -94,57 +109,12 @@
                                 </div>
                             </div>
 
-                            <!-- edit datatamu -->
-                            <div class="modal fade" id="edittamu">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                            {{-- Modal Edit Data Tamu --}}
+                            <div class="modal modal-blur fade" id="modal-editdatatamu" tabindex="-1" role="dialog"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                     <div class="modal-content">
-                                        <div class="modal-header bg-primary">
-                                            <h6 class="far fa-edit modal-title">&nbsp;&nbsp;Mengubah Data Tamu</h6>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">×</span></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="/frontlayanan_editdatatamu" method="post" accept-charset="utf-8">
-                                                @csrf
-                                                <div class="form-group">
-                                                    <label for="namatamumodal">Nama Tamu</label>
-                                                    <input name="namatamumodal" type="text" class="form-control"
-                                                        id="namatamumodal" value="asdasd" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="alamattamumodal">Alamat</label>
-                                                    <input name="alamattamumodal" type="text" class="form-control"
-                                                        id="alamattamumodal" value="asdasd" required>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label for="nohptamumodal">No Handphone</label>
-                                                            <input name="nohptamumodal" type="text"
-                                                                class="form-control" id="nohptamumodal" value="asdasd"
-                                                                required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label for="emailtamumodal">Email</label>
-                                                            <input name="emailtamumodal" type="text"
-                                                                class="form-control" id="emailtamumodal" value="asdasd"
-                                                                required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="keperluantamumodal">Keperluan</label>
-                                                    <textarea name="keperluantamumodal" rows="5" class="form-control" id="keperluantamumodal">asdasd</textarea>
-                                                </div>
-                                                <div class="modal-footer justify-content-between">
-                                                    <button type="button" class="btn btn-default pull-left"
-                                                        data-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-primary">Edit</button>
-                                                </div>
-                                            </form>
+                                        <div class="modal-body" id="loadeditform">
                                         </div>
                                     </div>
                                 </div>
@@ -153,21 +123,6 @@
                             <!-- PENGISLAMAN -->
                             <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel"
                                 aria-labelledby="custom-tabs-two-profile-tab">
-                                <div class="row">
-                                    <div class="col-md">
-                                        <div class="box box-primary box-solid">
-                                            <div class="box-tools box-title pull-left">
-                                                <div class="box-header with-border">
-                                                    <h3 class="box-title"></h3>
-                                                    <button type="button" class="btn btn-primary btn-sm btn-flat"
-                                                        data-toggle="modal" data-target="#tambahpengislaman">
-                                                        <i class=""></i>Tambah+</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 {{-- Datatable Pengislaman --}}
                                 <div class="row">
                                     <div class="col-md-12">
@@ -204,20 +159,29 @@
                                                                                 <td>{{ $pengislaman->agamasemula_sp }}</td>
                                                                                 <td>{{ $pengislaman->nama_imam }}</td>
                                                                                 <td class="text-center inline-block">
-                                                                                    <button
-                                                                                        class="fa fa-edit btn btn-xs btn-warning"
-                                                                                        data-toggle="modal"
-                                                                                        data-target="#editsp113"></button>
-                                                                                    <button
-                                                                                        class="fa fa-trash-alt btn btn-xs btn-danger"
-                                                                                        data-toggle="modal"
-                                                                                        data-target="#hapussp113"></button>
+                                                                                    <a class="fa fa-edit btn btn-xs btn-warning edit2"
+                                                                                        href="#"
+                                                                                        id2="{{ $pengislaman->id_sp }}">
+                                                                                    </a>
+                                                                                    <form
+                                                                                        action="/frontlayanan_hapusdatapengislaman/{{ $pengislaman->id_sp }}"
+                                                                                        method="POST">
+                                                                                        @csrf
+                                                                                        <a
+                                                                                            class=" fa fa-trash-alt btn btn-danger btn-xs delete-confirm2">
+                                                                                        </a>
+                                                                                    </form>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <a href="frontlayanan_cetaksp"
-                                                                                        target="_blank"
-                                                                                        class="btn btn-xs btn-success"><i
-                                                                                            class="fa fa-print"></i></a>
+                                                                                    <form
+                                                                                        action="/frontlayanan_cetaksp/{{ $pengislaman->id_sp }}"
+                                                                                        method="POST" target="_blank">
+                                                                                        @csrf
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-xs btn-success"><i
+                                                                                                class="fa fa-print"></i>
+                                                                                        </button>
+                                                                                    </form>
                                                                                 </td>
                                                                             </tr>
                                                                         @endforeach
@@ -234,282 +198,13 @@
                             </div>
                             <!-- AKHIR PENGISLAMAN -->
 
-                            <!-- edit datasp  -->
-                            <div class="modal fade" id="tambahpengislaman">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
+
+                            {{-- Modal Edit Data Pengislaman --}}
+                            <div class="modal modal-blur fade" id="modal-editdatapengislaman" tabindex="-1"
+                                role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                     <div class="modal-content">
-                                        <div class="modal-header bg-primary">
-                                            <h6 class="far fa-envelope modal-title">&nbsp;&nbsp;Menambahkan Data</h6>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">×</span></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="frontlayanan_editdatasp" method="post" accept-charset="utf-8">
-                                                <div class="box-body">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label for="nospmodal">No Sertifikat</label>
-                                                                <input name="nospmodal" type="text"
-                                                                    class="form-control" id="nospmodal"
-                                                                    placeholder="No sertifikat..." required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <div class="form-group">
-                                                                <label for="jamspmodal">Jam</label>
-                                                                <input name="jamspmodal" type="text"
-                                                                    class="form-control" id="jamspmodal"
-                                                                    placeholder="WIB..." required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="harispmodal">Hari</label>
-                                                                <select id="harispmodal" class="form-control"
-                                                                    name="harispmodal">
-                                                                    <option selected="">--Pilih--</option>
-                                                                    <option value="Senin">Senin</option>
-                                                                    <option value="Selasa">Selasa</option>
-                                                                    <option value="Rabu">Rabu</option>
-                                                                    <option value="Kamis">Kamis</option>
-                                                                    <option value="Jum'at">Jum'at</option>
-                                                                    <option value="Sabtu">Sabtu</option>
-                                                                    <option value="Ahad">Ahad</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="tglspmodal">Tgl</label>
-                                                                <input name="tglspmodal" type="text"
-                                                                    class="form-control" id="tglspmodal"
-                                                                    placeholder="Masukkan tgl..." required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-7">
-                                                            <div class="form-group">
-                                                                <label for="namaspmodal">Nama Lengkap</label>
-                                                                <input name="namaspmodal" type="text"
-                                                                    class="form-control" id="namaspmodal"
-                                                                    placeholder="Masukkan nama lengkap..." required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <div class="form-group">
-                                                                <label for="jenkelspmodal">Jenis Kelamin</label>
-                                                                <select id="jenkelspmodal" class="form-control"
-                                                                    name="jenkelspmodal">
-                                                                    <option selected="">--Pilih--</option>
-                                                                    <option value="Laki-Laki">Laki-Laki</option>
-                                                                    <option value="Perempuan">Perempuan</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-7">
-                                                            <div class="form-group">
-                                                                <label for="ttlspmodal">Tempat &amp; Tgl Lahir</label>
-                                                                <input name="ttlspmodal" type="text"
-                                                                    class="form-control" id="ttlspmodal"
-                                                                    placeholder="Masukkan tempat lahir, tgl lahir..."
-                                                                    required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <div class="form-group">
-                                                                <label for="agamasemulaspmodal">Agama Semula</label>
-                                                                <select id="agamasemulaspmodal" class="form-control"
-                                                                    name="agamasemulaspmodal">
-                                                                    <option selected="">--Pilih--</option>
-                                                                    <option value="Kristen">Kristen</option>
-                                                                    <option value="Katholik">Katholik</option>
-                                                                    <option value="Budha">Budha</option>
-                                                                    <option value="Hindu">Hindu</option>
-                                                                    <option value="Khonghucu">Khonghucu</option>
-                                                                    <option value="Atheis">Atheis</option>
-                                                                    <option value="-">Tidak ada</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="alamatspmodal">Alamat Jalan</label>
-                                                        <input name="alamatspmodal" type="text" class="form-control"
-                                                            id="alamatspmodal"
-                                                            placeholder="Masukkan alamat jalan lengkap..." required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="alamat2spmodal">Kelurahan / Kecamatan / Provinsi
-                                                        </label>
-                                                        <input name="alamat2spmodal" type="text" class="form-control"
-                                                            id="alamat2spmodal"
-                                                            placeholder="Masukkan kelurahan /kecamatan / provinsi..."
-                                                            required>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="pekerjaanspmodal">Pekerjaan</label>
-                                                                <input name="pekerjaanspmodal" type="text"
-                                                                    class="form-control" id="pekerjaanspmodal"
-                                                                    placeholder="Masukkan pekerjaan anda..." required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="saksispmodal">Saksi Saksi</label>
-                                                                <input name="saksispmodal" type="text"
-                                                                    class="form-control" id="saksispmodal"
-                                                                    placeholder="Nama lengkap saksi pertama..." required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="namabaruspmodal">Nama Baru Muallaf
-                                                                    <small>*boleh tidak diisi</small> </label>
-                                                                <input name="namabaruspmodal" type="text"
-                                                                    class="form-control" id="namabaruspmodal"
-                                                                    placeholder="Masukkan nama baru jika ingin ada...">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <input name="saksi2spmodal" type="text"
-                                                                    class="form-control" id="saksi2spmodal"
-                                                                    placeholder="Nama lengkap saksi kedua..." required>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input name="saksi3spmodal" type="text"
-                                                                    class="form-control" id="saksi3spmodal"
-                                                                    placeholder="Nama lengkap saksi ketiga jika ada..."
-                                                                    required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-7">
-                                                            <div class="form-group">
-                                                                <label for="alasanspmodal">Alasan Memeluk Islam</label>
-                                                                <input name="alasanspmodal" type="text"
-                                                                    class="form-control" id="alasanspmodal"
-                                                                    placeholder="Masukkan alasan memeluk islam..."
-                                                                    required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <div class="form-group">
-                                                                <label for="imamspmodal">Imam/Takmir</label>
-                                                                <select id="imamspmodal" class="form-control"
-                                                                    name="imamspmodal">
-                                                                    <option value="">--Pilih--</option>
-                                                                    <option value="32">H. Bukhari Muslim, SQ., MH
-                                                                    </option>
-                                                                    <option value="31">Dr. H. Yusup Hidayat, S.Ag., M.H
-                                                                    </option>
-                                                                    <option value="30">H. Risdin Zein Said</option>
-                                                                    <option value="29">H. Mukhtar Ibnu, M.Pd.I</option>
-                                                                    <option value="28">H. Achmad Khotib, SQ., MA
-                                                                    </option>
-                                                                    <option value="19">Dr. H. Shobahussurur, MA
-                                                                    </option>
-                                                                    <option value="18">H. Agus Nur Qowim, SQ., M.Pd.I
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-5">
-                                                            <div class="form-group">
-                                                                <label for="nohpspmodal">No Handphone</label>
-                                                                <input name="nohpspmodal" type="text"
-                                                                    class="form-control" id="nohpspmodal"
-                                                                    placeholder="Masukkan nohp anda..." required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            <div class="form-group">
-                                                                <label for="emailspmodal">Email</label>
-                                                                <input name="emailspmodal" type="text"
-                                                                    class="form-control" id="emailspmodal"
-                                                                    placeholder="Masukkan email anda..." required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="tglmasehispmodal">Tgl Masehi</label>
-                                                                <input name="tglmasehispmodal" type="text"
-                                                                    class="form-control" id="tglmasehispmodal"
-                                                                    placeholder="Tgl masehi..." required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="tahunmasehispmodal">Tahun Masehi</label>
-                                                                <select id="tahunmasehispmodal" class="form-control"
-                                                                    name="tahunmasehispmodal">
-                                                                    <option selected="">--Pilih--</option>
-                                                                    <option value="2020">2020</option>
-                                                                    <option value="2021">2021</option>
-                                                                    <option value="2022">2022</option>
-                                                                    <option value="2023">2023</option>
-                                                                    <option value="2024">2024</option>
-                                                                    <option value="2025">2025</option>
-                                                                    <option value="2026">2026</option>
-                                                                    <option value="2027">2027</option>
-                                                                    <option value="2028">2028</option>
-                                                                    <option value="2029">2029</option>
-                                                                    <option value="2030">2030</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="tglhijriyahspmodal">Tgl Hijriyah</label>
-                                                                <input name="tglhijriyahspmodal" type="text"
-                                                                    class="form-control" id="tglhijriyahspmodal"
-                                                                    placeholder="Tgl hijriyah..." required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label for="tahunhijriyahspmodal">Tahun Hijriyah</label>
-                                                                <select id="tahunhijriyahspmodal" class="form-control"
-                                                                    name="tahunhijriyahspmodal">
-                                                                    <option selected="">--Pilih--</option>
-                                                                    <option value="1442">1442</option>
-                                                                    <option value="1443">1443</option>
-                                                                    <option value="1444">1444</option>
-                                                                    <option value="1445">1445</option>
-                                                                    <option value="1446">1446</option>
-                                                                    <option value="1447">1447</option>
-                                                                    <option value="1448">1448</option>
-                                                                    <option value="1449">1449</option>
-                                                                    <option value="1450">1450</option>
-                                                                    <option value="1451">1451</option>
-                                                                    <option value="1452">1452</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer justify-content-between">
-                                                        <button type="button" class="btn btn-default pull-left"
-                                                            data-dismiss="modal">Batal</button>
-                                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                        <div class="modal-body" id="loadeditformpengislaman">
                                         </div>
                                     </div>
                                 </div>
@@ -524,9 +219,9 @@
                                             <div class="box-tools box-title pull-left">
                                                 <div class="box-header with-border">
                                                     <h3 class="box-title"></h3>
-                                                    <button type="button" class="btn btn-primary btn-sm btn-flat"
+                                                    <button type="button" class="btn btn-primary btn-md btn-flat mb-3"
                                                         data-toggle="modal" data-target="#tambahkonsultasi">
-                                                        <i class=""></i>Tambah+</button>
+                                                        <i class=""></i>Buat Jadwal Konsultasi</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -602,20 +297,20 @@
                                 </div>
                             </div>
 
-                            <!-- ADD /.KONSULTASI  -->
+                            <!-- Buat Jadwal KONSULTASI  -->
                             <div class="modal fade" id="tambahkonsultasi">
                                 <div class="modal-dialog modal-lg modal-dialog-centered">
                                     <div class="modal-content">
-                                        <div class="modal-header bg-primary">
-                                            <h6 class=" fa fa-archive modal-title">&nbsp;&nbsp;Menambah Data</h6>
+                                        <div class="modal-header bg-dark">
+                                            <h6 class=" fa fa-archive modal-title">&nbsp;&nbsp;Buat Jadwal Konsultasi</h6>
                                             <button type="button" class="close" data-dismiss="modal"
                                                 aria-label="Close">
                                                 <span aria-hidden="true">×</span></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="/frontlayanan_tambahdatafk" method="post"
+                                            <form action="/frontlayanan_tambahdatakonsultasi" method="post"
                                                 accept-charset="utf-8">
-
+                                                @csrf
                                                 <div class="box-body">
                                                     <div class="row">
                                                         <div class="col-sm-5">
@@ -650,82 +345,6 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-7">
-                                                            <div class="form-group">
-                                                                <label for="namafkmodal">Nama Lengkap</label>
-                                                                <input name="namafkmodal" type="text"
-                                                                    class="form-control" id="namafkmodal"
-                                                                    placeholder="Masukkan nama lengkap..." required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-5">
-                                                            <div class="form-group">
-                                                                <label for="jenkelfkmodal">Jenis Kelamin</label>
-                                                                <select id="jenkelfkmodal" class="form-control"
-                                                                    name="jenkelfkmodal">
-                                                                    <option selected="">--Pilih--</option>
-                                                                    <option value="Laki-Laki">Laki-Laki</option>
-                                                                    <option value="Perempuan">Perempuan</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label for="ttlfkmodal">Tempat &amp; Tgl Lahir</label>
-                                                                <input name="ttlfkmodal" type="text"
-                                                                    class="form-control" id="ttlfkmodal"
-                                                                    placeholder="Masukkan tempat lahir, tgl lahir..."
-                                                                    required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <div class="form-group">
-                                                                    <label for="pekerjaanfkmodal">Pekerjaan</label>
-                                                                    <input name="pekerjaanfkmodal" type="text"
-                                                                        class="form-control" id="pekerjaanfkmodal"
-                                                                        placeholder="Masukkan pekerjaan anda..." required>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label for="nohpfkmodal">No Handphone</label>
-                                                                <input name="nohpfkmodal" type="text"
-                                                                    class="form-control" id="nohpfkmodal"
-                                                                    placeholder="Masukkan nohp anda..." required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="form-group">
-                                                                <label for="emailfkmodal">Email</label>
-                                                                <input name="emailfkmodal" type="text"
-                                                                    class="form-control" id="emailfkmodal"
-                                                                    placeholder="Masukkan email anda..." required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label for="alamatfkmodal">Alamat Jalan</label>
-                                                        <input name="alamatfkmodal" type="text" class="form-control"
-                                                            id="alamatfkmodal"
-                                                            placeholder="Masukkan alamat jalan lengkap..." required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="alamat2fkmodal">Kelurahan / Kecamatan / Provinsi
-                                                        </label>
-                                                        <input name="alamat2fkmodal" type="text" class="form-control"
-                                                            id="alamat2fkmodal"
-                                                            placeholder="Masukkan kelurahan /kecamatan / provinsi..."
-                                                            required>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-sm-6">
@@ -764,12 +383,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="deskripsifkmodal">Deskripsi Permasalahan</label>
-                                                        <textarea name="deskripsifkmodal" type="text" class="form-control" id="deskripsifkmodal" rows="5"
-                                                            placeholder="Masukkan deskripsi permasalahan..."></textarea>
-                                                    </div>
-
                                                     <div class="modal-footer justify-content-between">
                                                         <button type="button" class="btn btn-default pull-left"
                                                             data-dismiss="modal">Batal</button>
@@ -797,17 +410,17 @@
                 var id = $(this).attr('id');
                 $.ajax({
                     type: 'POST',
-                    url: '/frontlayanan_editkategorilayanan',
+                    url: '/frontlayanan_editdatatamu',
                     cache: false,
                     data: {
                         _token: "{{ csrf_token() }}",
                         id: id
                     },
                     success: function(respond) {
-                        $('#loadeditformkategorilayanan').html(respond);
+                        $('#loadeditform').html(respond);
                     }
                 });
-                $("#modal-editfrmeditkategorilayanan").modal("show");
+                $("#modal-editdatatamu").modal("show");
             });
             // Proses delete dengan AJAX
             $(".delete-confirm").click(function(e) {
@@ -843,17 +456,17 @@
                 var id = $(this).attr('id2');
                 $.ajax({
                     type: 'POST',
-                    url: '/frontlayanan_editjeniskonsultasi',
+                    url: '/frontlayanan_editdatapengislaman',
                     cache: false,
                     data: {
                         _token: "{{ csrf_token() }}",
                         id: id
                     },
                     success: function(respond) {
-                        $('#loadeditformjeniskonsultasi').html(respond);
+                        $('#loadeditformpengislaman').html(respond);
                     }
                 });
-                $("#modal-editfrmeditjeniskonsultasi").modal("show");
+                $("#modal-editdatapengislaman").modal("show");
             });
             // Proses delete dengan AJAX
             $(".delete-confirm2").click(function(e) {

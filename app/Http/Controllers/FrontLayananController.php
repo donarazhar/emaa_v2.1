@@ -564,6 +564,189 @@ class FrontLayananController extends Controller
             ->orderBy('id_fk', 'DESC')
             ->get();
 
+
         return view('frontlayanan.layanan_datalayanan', compact('tbl_userID', 'tbl_tamu', 'tbl_pengislaman', 'tbl_konsultasi'));
+    }
+
+    public function frontlayanan_editdatatamu(Request $request)
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_tamuID = DB::table('tbl_tamu')
+            ->where('id_tamu', $request->id)
+            ->first();
+
+        return view('frontlayanan.layanan_editdatatamu', compact('tbl_userID', 'tbl_tamuID'));
+    }
+
+    public function frontlayanan_updatedatatamu($id_tamu, Request $request)
+    {
+        // Ambil data dari tabel tbl_marbout dengan ID yang diberikan
+        $tamu = DB::table('tbl_tamu')->where('id_tamu', $id_tamu)->first();
+
+        if (!$tamu) {
+            // Handle jika data tidak ditemukan
+            return redirect()->back()->with(['warning' => 'Data tidak ditemukan.']);
+        }
+
+        $namatamumodal = $request->namatamumodal;
+        $alamattamumodal = $request->alamattamumodal;
+        $nohptamumodal = $request->nohptamumodal;
+        $emailtamumodal = $request->emailtamumodal;
+        $keperluantamumodal = $request->keperluantamumodal;
+        try {
+            $data = [
+                'nama_tamu' => $namatamumodal,
+                'alamat_tamu' => $alamattamumodal,
+                'nohp_tamu' => $nohptamumodal,
+                'email_tamu' => $emailtamumodal,
+                'keperluan_tamu' => $keperluantamumodal,
+            ];
+
+            $update = DB::table('tbl_tamu')->where('id_tamu', $id_tamu)->update($data);
+            if ($update) {
+                return redirect()->back()->with(['success' => 'Data berhasil diupdate']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function frontlayanan_hapusdatatamu($id_tamu)
+    {
+        $delete = DB::table('tbl_tamu')->where('id_tamu', $id_tamu)->delete();
+        if ($delete) {
+            return Redirect::back()->with(['success' => 'Data Berhasil Dihapus']);
+        } else {
+            return Redirect::back()->with(['warning' => 'Data Gagal Dihapus']);
+        }
+    }
+
+    public function frontlayanan_editdatapengislaman(Request $request)
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_pengislamanID = DB::table('tbl_sertifikatpengislaman')
+            ->leftJoin('tbl_imam', 'tbl_sertifikatpengislaman.id_imam', '=', 'tbl_imam.id_imam')
+            ->leftJoin('tbl_jenispengislaman', 'tbl_sertifikatpengislaman.id_jenispengislaman', '=', 'tbl_jenispengislaman.id_jenispengislaman')
+            ->where('id_sp', $request->id)
+            ->first();
+
+        $tbl_imam = DB::table('tbl_imam')->get();
+        $tbl_jenispengislaman = DB::table('tbl_jenispengislaman')->get();
+
+        return view('frontlayanan.layanan_editdatapengislaman', compact('tbl_userID', 'tbl_pengislamanID', 'tbl_imam', 'tbl_jenispengislaman'));
+    }
+
+    public function frontlayanan_updatedatapengislaman($id_sp, Request $request)
+    {
+        // Ambil data dari tabel tbl_marbout dengan ID yang diberikan
+        $pengislaman = DB::table('tbl_sertifikatpengislaman')->where('id_sp', $id_sp)->first();
+
+        if (!$pengislaman) {
+            // Handle jika data tidak ditemukan
+            return redirect()->back()->with(['warning' => 'Data tidak ditemukan.']);
+        }
+
+        $nospmodal = $request->nospmodal;
+        $jamspmodal = $request->jamspmodal;
+        $harispmodal = $request->harispmodal;
+        $tglspmodal = $request->tglspmodal;
+        $namaspmodal = $request->namaspmodal;
+
+        $jenkelspmodal = $request->jenkelspmodal;
+        $ttlspmodal = $request->ttlspmodal;
+        $agamasemulaspmodal = $request->agamasemulaspmodal;
+        $alamatspmodal = $request->alamatspmodal;
+        $alamat2spmodal = $request->alamat2spmodal;
+        $pekerjaanspmodal = $request->pekerjaanspmodal;
+        $saksispmodal = $request->saksispmodal;
+        $namabaruspmodal = $request->namabaruspmodal;
+
+        $saksi2spmodal = $request->saksi2spmodal;
+        $saksi3spmodal = $request->saksi3spmodal;
+        $alasanspmodal = $request->alasanspmodal;
+        $imamspmodal = $request->imamspmodal;
+        $nohpspmodal = $request->nohpspmodal;
+        $emailspmodal = $request->emailspmodal;
+        $tglmasehispmodal = $request->tglmasehispmodal;
+        $tahunmasehispmodal = $request->tahunmasehispmodal;
+
+        $tglhijriyahspmodal = $request->tglhijriyahspmodal;
+        $tahunhijriyahspmodal = $request->tahunhijriyahspmodal;
+        $jenispengislamanmodal = $request->jenispengislamanmodal;
+
+        try {
+            $data = [
+                'no_sp' => $nospmodal,
+                'tgl_sp' => $tglspmodal,
+                'hari_sp' => $harispmodal,
+                'nama_sp' => $namaspmodal,
+                'jenkel_sp' => $jenkelspmodal,
+
+                'ttl_sp' => $ttlspmodal,
+                'agamasemula_sp' => $agamasemulaspmodal,
+                'pekerjaan_sp' => $pekerjaanspmodal,
+                'alamat_sp' => $alamatspmodal,
+                'alamat2_sp' => $alamat2spmodal,
+                'jam_sp' => $jamspmodal,
+                'namabaru_sp' => $namabaruspmodal,
+                'tglmasehi_sp' => $tglmasehispmodal,
+                'tahunmasehi_sp' => $tahunmasehispmodal,
+                'tglhijriyah_sp' => $tglhijriyahspmodal,
+                'tahunhijriyah_sp' => $tahunhijriyahspmodal,
+
+                'id_imam' => $imamspmodal,
+                'saksi_sp' => $saksispmodal,
+                'saksi2_sp' => $saksi2spmodal,
+                'saksi3_sp' => $saksi3spmodal,
+                'alasan_sp' => $alasanspmodal,
+                'nohp_sp' => $nohpspmodal,
+                'email_sp' => $emailspmodal,
+                'id_jenispengislaman' => $jenispengislamanmodal,
+
+            ];
+
+            $update = DB::table('tbl_sertifikatpengislaman')->where('id_sp', $id_sp)->update($data);
+            if ($update) {
+                return redirect()->back()->with(['success' => 'Data berhasil diupdate']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function frontlayanan_hapusdatapengislaman($id_sp)
+    {
+        $delete = DB::table('tbl_sertifikatpengislaman')->where('id_sp', $id_sp)->delete();
+        if ($delete) {
+            return Redirect::back()->with(['success' => 'Data Berhasil Dihapus']);
+        } else {
+            return Redirect::back()->with(['warning' => 'Data Gagal Dihapus']);
+        }
+    }
+
+    public function frontlayanan_cetaksp(Request $request)
+    {
+        $id = $request->id_sp;
+        $cetaksp = DB::table('tbl_sertifikatpengislaman')->where('id_sp', $id)->first();
+
+        return view('frontlayanan.layanan_cetaksp', compact('cetaksp'));
     }
 }
