@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <table class="table table-responsive table-bordered table-striped dataTable no-footer"
-                                role="grid" aria-describedby="example1_info" id="example2">
+                                role="grid" aria-describedby="example1_info" id="example1">
                                 <thead class="text-center">
                                     <tr role="row">
                                         <th style="width: auto;">No Agenda</th>
@@ -245,15 +245,12 @@
     </script>
     <script>
         $(function() {
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
+            $("#example1").DataTable({
                 "responsive": true,
-            });
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
     </script>
 @endpush

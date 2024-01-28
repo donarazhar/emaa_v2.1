@@ -65,27 +65,8 @@
                                                 <div id="example1_wrapper"
                                                     class="dataTables_wrapper dt-bootstrap4 no-footer">
                                                     <div class="row">
-                                                        <div class="col-sm-12 col-md-6">
-                                                            <div class="dataTables_length" id="example1_length"><label>Show
-                                                                    <select name="example1_length" aria-controls="example1"
-                                                                        class="custom-select custom-select-sm form-control form-control-sm">
-                                                                        <option value="10">10</option>
-                                                                        <option value="25">25</option>
-                                                                        <option value="50">50</option>
-                                                                        <option value="100">100</option>
-                                                                    </select> entries</label></div>
-                                                        </div>
-                                                        <div class="col-sm-12 col-md-6">
-                                                            <div id="example1_filter" class="dataTables_filter">
-                                                                <label>Search:<input type="search"
-                                                                        class="form-control form-control-sm" placeholder=""
-                                                                        aria-controls="example1"></label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
                                                         <div class="col-sm-12">
-                                                            <table id="example2"
+                                                            <table id="example1"
                                                                 class="table table-bordered table-striped dataTable no-footer"
                                                                 role="grid" aria-describedby="example1_info">
                                                                 <thead class="text-center">
@@ -137,8 +118,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header bg-primary">
                                             <h6 class="far fa-envelope modal-title">&nbsp;&nbsp;Menambahkan Data</h6>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">×</span></button>
                                         </div>
                                         <div class="modal-body">
@@ -202,32 +182,11 @@
                                     <div class="col-md-12">
                                         <div class="card">
                                             <div class="card-body">
-                                                <div id="example3_wrapper"
+                                                <div id="example2_wrapper"
                                                     class="dataTables_wrapper dt-bootstrap4 no-footer">
                                                     <div class="row">
-                                                        <div class="col-sm-12 col-md-6">
-                                                            <div class="dataTables_length" id="example3_length">
-                                                                <label>Show <select name="example3_length"
-                                                                        aria-controls="example3"
-                                                                        class="custom-select custom-select-sm form-control form-control-sm">
-                                                                        <option value="10">10</option>
-                                                                        <option value="25">25</option>
-                                                                        <option value="50">50</option>
-                                                                        <option value="100">100</option>
-                                                                    </select> entries</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-12 col-md-6">
-                                                            <div id="example3_filter" class="dataTables_filter">
-                                                                <label>Search:<input type="search"
-                                                                        class="form-control form-control-sm"
-                                                                        placeholder="" aria-controls="example3"></label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
                                                         <div class="col-sm-12">
-                                                            <table id="example3"
+                                                            <table id="example2"
                                                                 class="table table-bordered table-striped dataTable no-footer"
                                                                 role="grid" aria-describedby="example3_info">
                                                                 <thead class="text-center">
@@ -346,34 +305,13 @@
                                         <div class="card">
                                             <!-- /.card-header -->
                                             <div class="card-body">
-                                                <div id="example5_wrapper"
+                                                <div id="example3_wrapper"
                                                     class="dataTables_wrapper dt-bootstrap4 no-footer">
                                                     <div class="row">
-                                                        <div class="col-sm-12 col-md-6">
-                                                            <div class="dataTables_length" id="example5_length">
-                                                                <label>Show <select name="example5_length"
-                                                                        aria-controls="example5"
-                                                                        class="custom-select custom-select-sm form-control form-control-sm">
-                                                                        <option value="10">10</option>
-                                                                        <option value="25">25</option>
-                                                                        <option value="50">50</option>
-                                                                        <option value="100">100</option>
-                                                                    </select> entries</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-12 col-md-6">
-                                                            <div id="example5_filter" class="dataTables_filter">
-                                                                <label>Search:<input type="search"
-                                                                        class="form-control form-control-sm"
-                                                                        placeholder="" aria-controls="example5"></label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
                                                         <div class="col-sm-12">
-                                                            <table id="example4"
+                                                            <table id="example3"
                                                                 class="table table-bordered table-striped dataTable no-footer"
-                                                                role="grid" aria-describedby="example5_info">
+                                                                role="grid" aria-describedby="example3_info">
                                                                 <thead class="text-center">
                                                                     <tr role="row">
                                                                         <th style="width: auto;">No</th>
@@ -616,37 +554,28 @@
 
     <script>
         $(function() {
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
+            $("#example1").DataTable({
                 "responsive": true,
-            });
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
         $(function() {
-            $('#example3').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
+            $("#example2").DataTable({
                 "responsive": true,
-            });
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
         });
         $(function() {
-            $('#example4').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
+            $("#example3").DataTable({
                 "responsive": true,
-            });
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
         });
     </script>
 @endpush

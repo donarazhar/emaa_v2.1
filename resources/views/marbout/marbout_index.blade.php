@@ -24,9 +24,9 @@
                             <div class="card-body">
                                 <div class="card card-dark card-outline">
                                     <div class="card-body text-left">
-                                        <a href="#" type="button" class="btn btn-primary btn-sm btn-flat"
-                                            id="btnTambahMarbout">
-                                            <i class=" fa fa-plus"></i>Tambah</a>
+                                        <button type="button" class="btn btn-primary btn-sm btn-flat" data-toggle="modal"
+                                            data-target="#modal-frmmarbout">
+                                            <i class=" fa fa-plus"></i>&nbsp;&nbsp;Masukkan Data Baru</button>
                                     </div>
                                     {{-- Datatable Marbout --}}
                                     <div class="card-body text-left">
@@ -35,7 +35,7 @@
                                                 <div class="col-sm-12">
                                                     <table
                                                         class="table table-responsive table-bordered table-striped dataTable no-footer"
-                                                        role="grid" aria-describedby="example1_info" id="example2">
+                                                        role="grid" aria-describedby="example1_info" id="example1">
                                                         <thead>
                                                             <tr role="row">
                                                                 <th style="width: auto;">No</th>
@@ -342,15 +342,12 @@
     </script>
     <script>
         $(function() {
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
+            $("#example1").DataTable({
                 "responsive": true,
-            });
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
     </script>
 @endpush

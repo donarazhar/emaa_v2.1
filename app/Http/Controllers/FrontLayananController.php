@@ -435,4 +435,118 @@ class FrontLayananController extends Controller
             return Redirect::back()->with(['warning' => 'Data Gagal Dihapus']);
         }
     }
+
+    // DATA IMAM
+    public function frontlayanan_dataimam()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_imam = DB::table('tbl_imam')->get();
+
+        return view('frontlayanan.layanan_dataimam', compact('tbl_userID', 'tbl_imam'));
+    }
+
+    public function frontlayanan_tambahdataimam(Request $request)
+    {
+        $namamodalimam = $request->namamodalimam;
+        $nohpmodalimam = $request->nohpmodalimam;
+        $keteranganmodalimam = $request->keteranganmodalimam;
+
+        try {
+            $data = [
+                'nama_imam' => $namamodalimam,
+                'nohp_imam' => $nohpmodalimam,
+                'keterangan' => $keteranganmodalimam,
+
+            ];
+
+            $simpan = DB::table('tbl_imam')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function frontlayanan_editdataimam(Request $request)
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_imamID = DB::table('tbl_imam')
+            ->where('id_imam', $request->id)
+            ->first();
+
+        return view('frontlayanan.layanan_editdataimam', compact('tbl_userID', 'tbl_imamID'));
+    }
+
+    public function frontlayanan_updatedataimam($id_imam, Request $request)
+    {
+        // Ambil data dari tabel tbl_marbout dengan ID yang diberikan
+        $imam = DB::table('tbl_imam')->where('id_imam', $id_imam)->first();
+
+        if (!$imam) {
+            // Handle jika data tidak ditemukan
+            return redirect()->back()->with(['warning' => 'Data tidak ditemukan.']);
+        }
+
+        $namamodalimam = $request->namamodalimam;
+        $nohpmodalimam = $request->nohpmodalimam;
+        $keteranganmodalimam = $request->keteranganmodalimam;
+        try {
+            $data = [
+                'nama_imam' => $namamodalimam,
+                'nohp_imam' => $nohpmodalimam,
+                'keterangan' => $keteranganmodalimam,
+            ];
+
+            $update = DB::table('tbl_imam')->where('id_imam', $id_imam)->update($data);
+            if ($update) {
+                return redirect()->back()->with(['success' => 'Data berhasil diupdate']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function frontlayanan_hapusdataimam($id_imam)
+    {
+        $delete = DB::table('tbl_imam')->where('id_imam', $id_imam)->delete();
+        if ($delete) {
+            return Redirect::back()->with(['success' => 'Data Berhasil Dihapus']);
+        } else {
+            return Redirect::back()->with(['warning' => 'Data Gagal Dihapus']);
+        }
+    }
+
+
+    public function frontlayanan_datalayanan()
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        return view('frontlayanan.layanan_datalayanan', compact('tbl_userID'));
+    }
 }
