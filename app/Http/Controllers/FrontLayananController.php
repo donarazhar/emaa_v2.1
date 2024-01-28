@@ -547,6 +547,23 @@ class FrontLayananController extends Controller
             ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
             ->first();
 
-        return view('frontlayanan.layanan_datalayanan', compact('tbl_userID'));
+        $tbl_tamu = DB::table('tbl_tamu')
+            ->orderBy('tgl_tamu', 'DESC')
+            ->get();
+
+        $tbl_pengislaman = DB::table('tbl_sertifikatpengislaman')
+            ->leftJoin('tbl_imam', 'tbl_sertifikatpengislaman.id_imam', '=', 'tbl_imam.id_imam')
+            ->select('tbl_sertifikatpengislaman.*', 'nama_imam')
+            ->orderBy('id_sp', 'DESC')
+            ->get();
+
+        $tbl_konsultasi = DB::table('tbl_formulirkonsultasi')
+            ->leftJoin('tbl_jeniskonsultasi', 'tbl_formulirkonsultasi.id_jeniskonsultasi', '=', 'tbl_jeniskonsultasi.id_jeniskonsultasi')
+            ->leftJoin('tbl_imam', 'tbl_formulirkonsultasi.id_imam', '=', 'tbl_imam.id_imam')
+            ->select('tbl_formulirkonsultasi.*', 'nama_imam', 'nama_jeniskonsultasi')
+            ->orderBy('id_fk', 'DESC')
+            ->get();
+
+        return view('frontlayanan.layanan_datalayanan', compact('tbl_userID', 'tbl_tamu', 'tbl_pengislaman', 'tbl_konsultasi'));
     }
 }
