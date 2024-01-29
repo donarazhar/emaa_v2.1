@@ -178,4 +178,14 @@ class HomeController extends Controller
             return redirect('/');
         }
     }
+
+    public function user_login()
+    {
+        return view('user.user_login');
+    }
+
+    public function user_register()
+    {
+        return view('user.user_register');
+    }
 }

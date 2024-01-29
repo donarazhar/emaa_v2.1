@@ -198,7 +198,6 @@
                             </div>
                             <!-- AKHIR PENGISLAMAN -->
 
-
                             {{-- Modal Edit Data Pengislaman --}}
                             <div class="modal modal-blur fade" id="modal-editdatapengislaman" tabindex="-1"
                                 role="dialog" aria-hidden="true">
@@ -308,7 +307,7 @@
                                                 <span aria-hidden="true">×</span></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="/frontlayanan_tambahdatakonsultasi" method="post"
+                                            <form action="/frontlayanan_tambahjadwalkonsultasi" method="post"
                                                 accept-charset="utf-8">
                                                 @csrf
                                                 <div class="box-body">
@@ -354,9 +353,12 @@
                                                                 <select id="jeniskonsultasifkmodal" class="form-control"
                                                                     name="jeniskonsultasifkmodal">
                                                                     <option value="">--Pilih--</option>
-                                                                    <option value="22">Hukum Islam</option>
-                                                                    <option value="19">Rumah Tangga</option>
-                                                                    <option value="18">Hukum Waris</option>
+                                                                    @foreach ($tbl_jeniskonsultasi as $konsultasi)
+                                                                        <option
+                                                                            value="{{ $konsultasi->id_jeniskonsultasi }}">
+                                                                            {{ $konsultasi->nama_jeniskonsultasi }}
+                                                                        </option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -366,19 +368,11 @@
                                                                 <select id="imamfkmodal" class="form-control"
                                                                     name="imamfkmodal">
                                                                     <option value="">--Pilih--</option>
-                                                                    <option value="32">H. Bukhari Muslim, SQ., MH
-                                                                    </option>
-                                                                    <option value="31">Dr. H. Yusup Hidayat, S.Ag.,
-                                                                        M.H</option>
-                                                                    <option value="30">H. Risdin Zein Said</option>
-                                                                    <option value="29">H. Mukhtar Ibnu, M.Pd.I
-                                                                    </option>
-                                                                    <option value="28">H. Achmad Khotib, SQ., MA
-                                                                    </option>
-                                                                    <option value="19">Dr. H. Shobahussurur, MA
-                                                                    </option>
-                                                                    <option value="18">H. Agus Nur Qowim, SQ., M.Pd.I
-                                                                    </option>
+                                                                    @foreach ($tbl_imam as $imam)
+                                                                        <option value="{{ $imam->id_imam }}">
+                                                                            {{ $imam->nama_imam }}
+                                                                        </option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -394,6 +388,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
