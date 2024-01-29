@@ -25,19 +25,14 @@ Route::middleware(['guest:karyawan'])->group(function () {
     Route::get('/login', [HomeController::class, 'h_login']);
     Route::post('/proseslogin', [HomeController::class, 'h_proseslogin']);
     Route::post('/prosesdaftar', [HomeController::class, 'h_prosesdaftar']);
-
-    Route::get('/frontlayanan_bukutamu', [FrontLayananController::class, 'frontlayanan_bukutamu']);
-    Route::post('/frontlayanan_tambahdatatamu', [FrontLayananController::class, 'frontlayanan_tambahdatatamu']);
-    Route::get('/frontlayanan_pengislaman', [FrontLayananController::class, 'frontlayanan_pengislaman']);
-    Route::post('/frontlayanan_tambahdatapengislaman', [FrontLayananController::class, 'frontlayanan_tambahdatapengislaman']);
-    Route::get('/frontlayanan_konsultasi', [FrontLayananController::class, 'frontlayanan_konsultasi']);
-    Route::post('/frontlayanan_tambahdatakonsultasi', [FrontLayananController::class, 'frontlayanan_tambahdatakonsultasi']);
 });
 
 Route::middleware(['guest:user'])->group(function () {
 
-    Route::get('/loginuser', [HomeController::class, 'user_login']);
+    Route::get('/loginuser', [HomeController::class, 'user_login'])->name('loginuser');
     Route::get('/registeruser', [HomeController::class, 'user_register']);
+    Route::post('/prosesloginuser', [HomeController::class, 'user_proseslogin']);
+    Route::post('/prosesregisteruser', [HomeController::class, 'user_prosesregister']);
 });
 
 Route::middleware(['auth:karyawan'])->group(function () {
@@ -109,12 +104,6 @@ Route::middleware(['auth:karyawan'])->group(function () {
 
     Route::get('/front_laporansurat', [FrontofficeController::class, 'front_laporansurat']);
 
-    // Route::get('/frontlayanan_bukutamu', [FrontLayananController::class, 'frontlayanan_bukutamu']);
-    // Route::post('/frontlayanan_tambahdatatamu', [FrontLayananController::class, 'frontlayanan_tambahdatatamu']);
-    // Route::get('/frontlayanan_pengislaman', [FrontLayananController::class, 'frontlayanan_pengislaman']);
-    // Route::post('/frontlayanan_tambahdatapengislaman', [FrontLayananController::class, 'frontlayanan_tambahdatapengislaman']);
-    // Route::get('/frontlayanan_konsultasi', [FrontLayananController::class, 'frontlayanan_konsultasi']);
-    // Route::post('/frontlayanan_tambahdatakonsultasi', [FrontLayananController::class, 'frontlayanan_tambahdatakonsultasi']);
 
     Route::get('/frontlayanan_kategorilayanan', [FrontLayananController::class, 'frontlayanan_kategorilayanan']);
     Route::post('/frontlayanan_tambahkategorilayanan', [FrontLayananController::class, 'frontlayanan_tambahkategorilayanan']);
@@ -149,4 +138,17 @@ Route::middleware(['auth:karyawan'])->group(function () {
     Route::post('/frontlayanan_cetaksp/{id_sp}', [FrontLayananController::class, 'frontlayanan_cetaksp']);
 
     Route::post('/frontlayanan_tambahjadwalkonsultasi', [FrontLayananController::class, 'frontlayanan_tambahjadwalkonsultasi']);
+});
+
+Route::middleware(['auth:user'])->group(function () {
+
+    Route::get('/panel/dashboarduser', [DashboardController::class, 'dashuser_index']);
+    Route::get('/proseslogoutuser', [HomeController::class, 'user_proseslogout']);
+    Route::get('/frontlayanan_daftarkonsultasi/{id_fk}', [FrontLayananController::class, 'user_daftarkonsultasi']);
+    Route::get('/frontlayanan_bukutamu', [FrontLayananController::class, 'frontlayanan_bukutamu']);
+    Route::post('/frontlayanan_tambahdatatamu', [FrontLayananController::class, 'frontlayanan_tambahdatatamu']);
+    Route::get('/frontlayanan_pengislaman', [FrontLayananController::class, 'frontlayanan_pengislaman']);
+    Route::post('/frontlayanan_tambahdatapengislaman', [FrontLayananController::class, 'frontlayanan_tambahdatapengislaman']);
+    Route::get('/frontlayanan_konsultasi', [FrontLayananController::class, 'frontlayanan_konsultasi']);
+    Route::post('/frontlayanan_tambahdatakonsultasi/{id_fk}', [FrontLayananController::class, 'frontlayanan_tambahdatakonsultasi']);
 });

@@ -156,7 +156,7 @@ class HomeController extends Controller
         return view('home.h_login');
     }
 
-    // Login user
+    // Login karyawan
     public function h_proseslogin(Request $request)
     {
         // Untuk mengetahui Hash dari sebuah angka
@@ -187,5 +187,53 @@ class HomeController extends Controller
     public function user_register()
     {
         return view('user.user_register');
+    }
+
+    public function user_prosesregister(Request $request)
+    {
+        $namauser = $request->namauser;
+        $emailuser = $request->emailuser;
+        $nohpuser = $request->nohpuser;
+        $passworduser = $request->passworduser;
+
+        try {
+            $data = [
+                'nama_user' => $namauser,
+                'email' => $emailuser,
+                'nohp' => $nohpuser,
+                'password' => Hash::make($passworduser),
+            ];
+
+            $simpan = DB::table('tbl_jamaah')->insert($data);
+
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Email sudah terdaftar. Silakan gunakan email yang berbeda.']);
+        }
+    }
+    // Login user
+    public function user_proseslogin(Request $request)
+    {
+        // Untuk mengetahui Hash dari sebuah angka
+        // $pass = 123;
+        // echo Hash::make($pass);
+
+        if (Auth::guard('user')->attempt(['email' => $request->emailuser, 'password' => $request->passworduser])) {
+            return redirect('/frontlayanan_konsultasi');
+        } else {
+            return redirect('/loginuser')->with(['warning' => 'Email / Password Salah']);
+        }
+    }
+
+    public function user_proseslogout()
+    {
+        // logout karyawan
+        if (Auth::guard('user')->check()) {
+            Auth::guard('user')->logout();
+            return redirect('/frontlayanan_konsultasi');
+        }
     }
 }

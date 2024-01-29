@@ -5,6 +5,10 @@
             <nav class="navbar navbar-expand navbar-primary navbar-dark" style="padding-right: 0px">
                 <ul class="navbar-nav" style="padding-right: 0px">
                     <li class="nav-item">
+                        <a href="/panel/dashboarduser" class="nav-link" style="padding-right: 0px"><i
+                                class="fas fa-home mr-2"></i>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
                         <a href="/frontlayanan_bukutamu" class="nav-link" style="padding-right: 0px"><i
                                 class="fas fa-address-book mr-2"></i>Buku Tamu</a>
                     </li>
@@ -63,7 +67,8 @@
                                                     @foreach ($tbl_jadwalkonsultasi as $jadwalkonsultasi)
                                                         <tr class="odd">
                                                             <td width="10px" class="sorting_1">{{ $loop->iteration }}</td>
-                                                            <td>{{ $jadwalkonsultasi->hari_fk }}/{{ $jadwalkonsultasi->tgl_fk }}
+                                                            <td>{{ $jadwalkonsultasi->hari_fk }},
+                                                                {{ $jadwalkonsultasi->tgl_fk }}
                                                             </td>
                                                             <td>{{ $jadwalkonsultasi->jam_fk }}</td>
                                                             <td>{{ $jadwalkonsultasi->nama_imam }}</td>
@@ -84,10 +89,21 @@
                                                                 </span>
                                                             </td>
                                                             <td class="text-center inline-block">
-                                                                <a class="fa fa-edit btn btn-xs btn-primary edit"
-                                                                    href="/loginuser" id="{{ $jadwalkonsultasi->id_fk }}">
-                                                                    Daftar
-                                                                </a>
+                                                                <!-- Menggunakan kondisi untuk menentukan apakah harus menambahkan href atau tidak -->
+                                                                @if ($jadwalkonsultasi->status !== 1)
+                                                                    <a class="fa fa-edit-alt btn btn-primary btn-xs text-light"
+                                                                        href="/frontlayanan_daftarkonsultasi/{{ $jadwalkonsultasi->id_fk }}">
+                                                                        <strong>Daftar</strong>
+                                                                    </a>
+                                                                @else
+                                                                    <!-- Jika status adalah 1, maka href tidak ditambahkan -->
+                                                                    <span class="fa fa-edit-alt btn btn-danger btn-xs"
+                                                                        style="color: rgb(255, 255, 255); cursor: not-allowed;">
+                                                                        <strong>Sudah Terisi</strong>
+                                                                    </span>
+                                                                @endif
+                                                            </td>
+
                                                         </tr>
                                                     @endforeach
                                                 </tbody>

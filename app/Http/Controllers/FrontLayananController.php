@@ -11,17 +11,6 @@ class FrontLayananController extends Controller
 {
     public function frontlayanan_bukutamu()
     {
-        // $email = Auth::guard('karyawan')->user()->email;
-        // $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
-        // $tbl_userID = DB::table('tbl_user')
-        //     ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
-        //     ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
-        //     ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
-        //     ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
-        //     ->first();
-
-
-        // return view('frontlayanan.layanan_bukutamu', compact('tbl_userID'));
         return view('frontlayanan.layanan_bukutamu');
     }
 
@@ -57,16 +46,6 @@ class FrontLayananController extends Controller
     // PENGISLAMAN
     public function frontlayanan_pengislaman()
     {
-        // $email = Auth::guard('karyawan')->user()->email;
-        // $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
-        // $tbl_userID = DB::table('tbl_user')
-        //     ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
-        //     ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
-        //     ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
-        //     ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
-        //     ->first();
-
-        // return view('frontlayanan.layanan_pengislaman', compact('tbl_userID'));
         return view('frontlayanan.layanan_pengislaman');
     }
 
@@ -139,50 +118,66 @@ class FrontLayananController extends Controller
         return view('frontlayanan.layanan_konsultasi', compact('tbl_jadwalkonsultasi'));
     }
 
-    public function frontlayanan_tambahdatakonsultasi(Request $request)
+    public function frontlayanan_tambahdatakonsultasi($id_fk, Request $request)
     {
-        $namaspmodal = $request->namaspmodal;
-        $jenkelspmodal = $request->jenkelspmodal;
-        $ttlspmodal = $request->ttlspmodal;
-        $agamasemulaspmodal = $request->agamasemulaspmodal;
-        $alamatspmodal = $request->alamatspmodal;
-        $alamat2spmodal = $request->alamat2spmodal;
-        $pekerjaanspmodal = $request->pekerjaanspmodal;
-        $nohpspmodal = $request->nohpspmodal;
-        $saksispmodal = $request->saksispmodal;
-        $saksi2spmodal = $request->saksi2spmodal;
-        $saksi3spmodal = $request->saksi3spmodal;
-        $namabaruspmodal = $request->namabaruspmodal;
-        $emailspmodal = $request->emailspmodal;
-        $alasanspmodal = $request->alasanspmodal;
+        $namajamaah = $request->namajamaah;
+        $ttljamaah = $request->ttljamaah;
+        $emailjamaah = $request->emailjamaah;
+        $nohpjamaah = $request->nohpjamaah;
+        $jenkeljamaah = $request->jenkeljamaah;
+        $alamat1jamaah = $request->alamat1jamaah;
+        $alamat2jamaah = $request->alamat2jamaah;
+        $pendidikanjamaah = $request->pendidikanjamaah;
+        $pekerjaanjamaah = $request->pekerjaanjamaah;
+        $deskripsijamaah = $request->deskripsijamaah;
+        $status = 1;
+
 
         try {
             $data = [
-                'nama_sp' => $namaspmodal,
-                'jenkel_sp' => $jenkelspmodal,
-                'ttl_sp' => $ttlspmodal,
-                'agamasemula_sp' => $agamasemulaspmodal,
-                'alamat_sp' => $alamatspmodal,
-                'alamat2_sp' =>  $alamat2spmodal,
-                'pekerjaan_sp' =>  $pekerjaanspmodal,
-                'nohp_sp' =>  $nohpspmodal,
-                'saksi_sp' =>  $saksispmodal,
-                'saksi2_sp' =>  $saksi2spmodal,
-                'saksi3_sp' =>  $saksi3spmodal,
-                'namabaru_sp' =>  $namabaruspmodal,
-                'email_sp' =>  $emailspmodal,
-                'alasan_sp' =>  $alasanspmodal,
+                'nama_fk' => $namajamaah,
+                'jenkel_fk' => $jenkeljamaah,
+                'ttl_fk' => $ttljamaah,
+                'alamat_fk' => $ttljamaah,
+                'alamat2_fk' => $alamat1jamaah,
+                'alamat2_fk' =>  $alamat2jamaah,
+                'pekerjaan_fk' =>  $pekerjaanjamaah,
+                'pendidikan_fk' =>  $pendidikanjamaah,
+                'nohp_fk' =>  $nohpjamaah,
+                'email_fk' =>  $emailjamaah,
+                'deskripsi_fk' =>  $deskripsijamaah,
+                'status' =>  $status
 
             ];
 
-            $simpan = DB::table('tbl_sertifikatpengislaman')->insert($data);
-            if ($simpan) {
-                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            $update = DB::table('tbl_formulirkonsultasi')->where('id_fk', $id_fk)->update($data);
+            if ($update) {
+                return redirect('/frontlayanan_konsultasi')->with(['success' => 'Data berhasil disimpan']);
             }
         } catch (\Exception $e) {
             // Tampilkan pesan kesalahan
-            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+            return redirect('/frontlayanan_konsultasi')->with(['warning' => 'Terjadi kesalahan input data']);
         }
+    }
+
+    // KONSULTASI
+    public function user_daftarkonsultasi($id_fk, Request $request)
+    {
+        $email = Auth::guard('user')->user()->email;
+        $id_jamaah = DB::table('tbl_jamaah')->select('tbl_jamaah.id_user')->where('email', $email)->first();
+        $tbl_jamaahID = DB::table('tbl_jamaah')
+            ->select('tbl_jamaah.*')
+            ->where('tbl_jamaah.id_user', $id_jamaah->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_daftarkonsultasiID = DB::table('tbl_formulirkonsultasi')
+            ->leftJoin('tbl_imam', 'tbl_formulirkonsultasi.id_imam', '=', 'tbl_imam.id_imam')
+            ->leftJoin('tbl_jeniskonsultasi', 'tbl_formulirkonsultasi.id_jeniskonsultasi', '=', 'tbl_jeniskonsultasi.id_jeniskonsultasi')
+            ->select('tbl_formulirkonsultasi.*', 'tbl_imam.nama_imam', 'tbl_jeniskonsultasi.nama_jeniskonsultasi')
+            ->where('id_fk', $id_fk)
+            ->first();
+
+        return view('user.user_daftarkonsultasi', compact('tbl_daftarkonsultasiID', 'tbl_jamaahID'));
     }
 
     // KATEGORI LAYANAN

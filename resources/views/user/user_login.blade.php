@@ -2,9 +2,8 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-12 col-sm-9 col-md-7 col-lg-6 col-xl-5">
-            <div class="text-center px-4"><img class="login-intro-img" src="{{ asset('app_ui/img/bg-img/login.png') }}"
-                    alt="">
-            </div>
+            <div class="text-center px-4"><img class="thumbnail-img" style="width: 50%;"
+                    src="{{ asset('app_ui/img/bg-img/logo.png') }}" alt=""></div>
             {{-- Pesan error --}}
             @if (Session::get('success'))
                 <div class="alert alert-success">
@@ -22,10 +21,10 @@
                 <form action="/prosesloginuser" method="POST">
                     @csrf
                     <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Username">
+                        <input class="form-control" type="text" placeholder="Masukkan email" name="emailuser">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="password" placeholder="Enter Password">
+                        <input class="form-control" type="password" placeholder="Masukkan password" name="passworduser">
                     </div>
                     <button class="btn btn-primary w-100" type="submit">Login</button>
                 </form>

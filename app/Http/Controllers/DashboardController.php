@@ -108,4 +108,23 @@ class DashboardController extends Controller
 
         return view('dashboard.dash_index', compact('tbl_userID', 'tbl_user', 'labelssurat', 'datasurat', 'laporkerja', 'datainventaris', 'dataIslamKonsul', 'labelsdata'));
     }
+
+    public function dashuser_index(Request $request)
+    {
+        $email = Auth::guard('user')->user()->email;
+        $id_jamaah = DB::table('tbl_jamaah')->select('tbl_jamaah.id_user')->where('email', $email)->first();
+        $tbl_jamaahID = DB::table('tbl_jamaah')
+            ->select('tbl_jamaah.*')
+            ->where('tbl_jamaah.id_user', $id_jamaah->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_daftarkonsultasiEmail = DB::table('tbl_formulirkonsultasi')
+            ->leftJoin('tbl_imam', 'tbl_formulirkonsultasi.id_imam', '=', 'tbl_imam.id_imam')
+            ->leftJoin('tbl_jeniskonsultasi', 'tbl_formulirkonsultasi.id_jeniskonsultasi', '=', 'tbl_jeniskonsultasi.id_jeniskonsultasi')
+            ->select('tbl_formulirkonsultasi.*', 'tbl_imam.nama_imam', 'tbl_jeniskonsultasi.nama_jeniskonsultasi')
+            ->where('email_fk', $email)
+            ->get();
+
+        return view('user.user_history', compact('tbl_daftarkonsultasiEmail', 'tbl_jamaahID'));
+    }
 }
