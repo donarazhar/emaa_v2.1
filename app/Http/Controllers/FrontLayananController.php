@@ -152,11 +152,11 @@ class FrontLayananController extends Controller
 
             $update = DB::table('tbl_formulirkonsultasi')->where('id_fk', $id_fk)->update($data);
             if ($update) {
-                return redirect('/frontlayanan_konsultasi')->with(['success' => 'Data berhasil disimpan']);
+                return redirect('/panel/dashboarduser')->with(['success' => 'Data berhasil disimpan']);
             }
         } catch (\Exception $e) {
             // Tampilkan pesan kesalahan
-            return redirect('/frontlayanan_konsultasi')->with(['warning' => 'Terjadi kesalahan input data']);
+            return redirect('/panel/frontlayanan_konsultasi')->with(['warning' => 'Terjadi kesalahan input data']);
         }
     }
 
@@ -784,5 +784,17 @@ class FrontLayananController extends Controller
             // Tampilkan pesan kesalahan
             return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
         }
+    }
+
+    public function frontlayanan_infaq()
+    {
+        $email = Auth::guard('user')->user()->email;
+        $id_jamaah = DB::table('tbl_jamaah')->select('tbl_jamaah.id_user')->where('email', $email)->first();
+        $tbl_jamaahID = DB::table('tbl_jamaah')
+            ->select('tbl_jamaah.*')
+            ->where('tbl_jamaah.id_user', $id_jamaah->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        return view('user.user_infaq', compact('tbl_jamaahID'));
     }
 }

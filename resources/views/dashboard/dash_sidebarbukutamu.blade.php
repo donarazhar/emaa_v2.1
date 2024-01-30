@@ -36,7 +36,7 @@
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0rem">
             <!-- Right navbar links -->
-            <a class="nav-link" href="/proseslogoutuser" aria-expanded="true">
+            <a class="nav-link" href="/panel/proseslogoutuser" aria-expanded="true">
                 <i class="fas fa-lock"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="badge badge-danger navbar-badge">Logout</span>
             </a>

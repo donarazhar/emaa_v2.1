@@ -34,7 +34,7 @@
 
 <body>
     <!-- Back Button-->
-    <div class="login-back-button"><a href="/frontlayanan_konsultasi">
+    <div class="login-back-button"><a href="/panel/frontlayanan_konsultasi">
             <svg width="32" height="32" viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"

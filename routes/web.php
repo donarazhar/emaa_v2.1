@@ -29,10 +29,10 @@ Route::middleware(['guest:karyawan'])->group(function () {
 
 Route::middleware(['guest:user'])->group(function () {
 
-    Route::get('/loginuser', [HomeController::class, 'user_login'])->name('loginuser');
-    Route::get('/registeruser', [HomeController::class, 'user_register']);
-    Route::post('/prosesloginuser', [HomeController::class, 'user_proseslogin']);
-    Route::post('/prosesregisteruser', [HomeController::class, 'user_prosesregister']);
+    Route::get('/jamaah', [HomeController::class, 'user_login'])->name('jamaah');
+    Route::get('/registerjamaah', [HomeController::class, 'user_register']);
+    Route::post('/prosesloginjamaah', [HomeController::class, 'user_proseslogin']);
+    Route::post('/prosesregisterjamaah', [HomeController::class, 'user_prosesregister']);
 });
 
 Route::middleware(['auth:karyawan'])->group(function () {
@@ -143,12 +143,13 @@ Route::middleware(['auth:karyawan'])->group(function () {
 Route::middleware(['auth:user'])->group(function () {
 
     Route::get('/panel/dashboarduser', [DashboardController::class, 'dashuser_index']);
-    Route::get('/proseslogoutuser', [HomeController::class, 'user_proseslogout']);
-    Route::get('/frontlayanan_daftarkonsultasi/{id_fk}', [FrontLayananController::class, 'user_daftarkonsultasi']);
-    Route::get('/frontlayanan_bukutamu', [FrontLayananController::class, 'frontlayanan_bukutamu']);
-    Route::post('/frontlayanan_tambahdatatamu', [FrontLayananController::class, 'frontlayanan_tambahdatatamu']);
-    Route::get('/frontlayanan_pengislaman', [FrontLayananController::class, 'frontlayanan_pengislaman']);
-    Route::post('/frontlayanan_tambahdatapengislaman', [FrontLayananController::class, 'frontlayanan_tambahdatapengislaman']);
-    Route::get('/frontlayanan_konsultasi', [FrontLayananController::class, 'frontlayanan_konsultasi']);
-    Route::post('/frontlayanan_tambahdatakonsultasi/{id_fk}', [FrontLayananController::class, 'frontlayanan_tambahdatakonsultasi']);
+    Route::get('/panel/proseslogoutuser', [HomeController::class, 'user_proseslogout']);
+    Route::get('/panel/frontlayanan_infaq', [FrontLayananController::class, 'frontlayanan_infaq']);
+    Route::get('/panel/frontlayanan_daftarkonsultasi/{id_fk}', [FrontLayananController::class, 'user_daftarkonsultasi']);
+    Route::get('/panel/frontlayanan_bukutamu', [FrontLayananController::class, 'frontlayanan_bukutamu']);
+    Route::post('/panel/frontlayanan_tambahdatatamu', [FrontLayananController::class, 'frontlayanan_tambahdatatamu']);
+    Route::get('/panel/frontlayanan_pengislaman', [FrontLayananController::class, 'frontlayanan_pengislaman']);
+    Route::post('/panel/frontlayanan_tambahdatapengislaman', [FrontLayananController::class, 'frontlayanan_tambahdatapengislaman']);
+    Route::get('/panel/frontlayanan_konsultasi', [FrontLayananController::class, 'frontlayanan_konsultasi']);
+    Route::post('/panel/frontlayanan_tambahdatakonsultasi/{id_fk}', [FrontLayananController::class, 'frontlayanan_tambahdatakonsultasi']);
 });

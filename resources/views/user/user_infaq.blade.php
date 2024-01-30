@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags-->
     <!-- Title-->
-    <title>Konsultasi a.n {{ $tbl_jamaahID->nama_user }}</title>
+    <title>Infaq a.n {{ $tbl_jamaahID->nama_user }}</title>
     <!-- Fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link
@@ -42,15 +42,17 @@
             <div
                 class="header-content header-style-five position-relative d-flex align-items-center justify-content-between">
                 <!-- Back Button-->
-                <div class="back-button"><a href="pages.html"><svg width="32" height="32" viewBox="0 0 16 16"
-                            class="bi bi-arrow-left-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <div class="back-button"><a href="/panel/frontlayanan_konsultasi"><svg width="32" height="32"
+                            viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
                         </svg></a></div>
                 <!-- Page Title-->
                 <div class="page-heading">
-                    <h6 class="mb-0">Konsultasi a.n {{ $tbl_jamaahID->nama_user }}</h6>
+                    <h6 class="mb-0">History a.n {{ $tbl_jamaahID->nama_user }}</h6>
                 </div>
+                <!-- Navbar Toggler-->
                 <div class="navbar--toggler" id="affanNavbarToggler">
                     <div class="logo-wrapper">
                         <a href="#">
@@ -64,88 +66,81 @@
 
     <div class="page-content-wrapper py-3">
         <div class="container">
-            <div class="card product-details-card mb-3"> <span
-                    class="badge bg-warning text-dark position-absolute product-badge">Jenis Konsultasi :
-                    {{ $tbl_daftarkonsultasiID->nama_jeniskonsultasi }}</span>
-                <div class="card-body">
+            <!-- Cart Wrapper-->
+            <div class="cart-wrapper-area">
+                <div class="cart-table card mb-3">
+                    <div class="table-responsive card-body">
+                        <table class="table mb-0 text-center">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row"><img src="img/bg-img/p1.jpg" alt=""></th>
+                                    <td>
+                                        <h6 class="mb-1">Wooden Tool</h6><span>$9.89 × 1</span>
+                                    </td>
+                                    <td>
+                                        <div class="quantity">
+                                            <input class="qty-text" type="text" value="1">
+                                        </div>
+                                    </td>
+                                    <td><a class="remove-product" href="#"><i class="fa fa-close"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><img src="img/bg-img/p3.jpg" alt=""></th>
+                                    <td>
+                                        <h6 class="mb-1">Black T-shirt</h6><span>$10.99 × 2</span>
+                                    </td>
+                                    <td>
+                                        <div class="quantity">
+                                            <input class="qty-text" type="text" value="2">
+                                        </div>
+                                    </td>
+                                    <td><a class="remove-product" href="#"><i class="fa fa-close"></i></a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><img src="img/bg-img/p5.jpg" alt=""></th>
+                                    <td>
+                                        <h6 class="mb-1">Crispy Biscuit</h6><span>$0.78 × 9</span>
+                                    </td>
+                                    <td>
+                                        <div class="quantity">
+                                            <input class="qty-text" type="text" value="9">
+                                        </div>
+                                    </td>
+                                    <td><a class="remove-product" href="#"><i class="fa fa-close"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-body border-top">
+                        <div class="apply-coupon">
+                            <h6 class="mb-0">Have a coupon?</h6>
+                            <p class="mb-2">Enter your coupon code here &amp; get awesome discounts!</p>
+                            <div class="coupon-form">
+                                <form action="#">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input
+                                                class="form-control input-group-text text-start form-control-clicked"
+                                                type="text" placeholder="OFFER30">
+                                            <button class="btn btn-primary" type="submit">Apply</button>
+                                        </div>
+                                    </div>
+                                    <!-- Checkout--><a class="btn btn-danger w-100 mt-4"
+                                        href="page-checkout.html">$38.89 &amp; Pay</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="card product-details-card mb-2 direction-rtl">
-                <div class="card-body">
-                    <h3>{{ $tbl_daftarkonsultasiID->hari_fk }}, {{ $tbl_daftarkonsultasiID->tgl_fk }}</h3>
-                    <h1>Jam : {{ $tbl_daftarkonsultasiID->jam_fk }}</h1>
-                    <p>Silahkan lengkapi dahulu data pribadi anda untuk bisa memilih jadwal ini.</p>
-                    <form action="/panel/frontlayanan_tambahdatakonsultasi/{{ $tbl_daftarkonsultasiID->id_fk }}"
-                        method="post" accept-charset="utf-8">
-                        @csrf
-                        <div class="card user-data-card">
-                            <div class="card-body">
-                                <div class="form-group mb-3">
-                                    <label class="form-label" for="Username">Nama Lengkap</label>
-                                    <input class="form-control form-control-clicked" id="Username" name="namajamaah"
-                                        type="text" value="{{ $tbl_jamaahID->nama_user }}">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label class="form-label" for="email">Alamat Email</label>
-                                    <input class="form-control form-control-clicked" id="email" name="emailjamaah"
-                                        type="email" value="{{ $tbl_jamaahID->email }}" readonly>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label class="form-label" for="nohp">No Handphone</label>
-                                    <input class="form-control form-control-clicked" id="nohp" name="nohpjamaah"
-                                        type="text" value="{{ $tbl_jamaahID->nohp }}">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label class="form-label" for="ttl">Tempat/ Tanggal Lahir</label>
-                                    <input class="form-control" id="ttljamaah" name="ttljamaah"
-                                        value="{{ $tbl_daftarkonsultasiID->ttl_fk }}">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <select class="form-select mb-3" id="jenkeljamaah" name="jenkeljamaah"
-                                        aria-label="Default select example">
-                                        <option value="{{ $tbl_daftarkonsultasiID->jenkel_fk }}">--Jenis Kelamin--
-                                        </option>
-                                        <option value="Laki-Laki">Laki-Laki</option>
-                                        <option value="Perempuan">Perempuan</option>
-                                    </select>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label class="form-label" for="alamat1jamaah">Alamat Jalan</label>
-                                    <input class="form-control" id="alamat1jamaah" name="alamat1jamaah"
-                                        value="{{ $tbl_daftarkonsultasiID->alamat_fk }}">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label class="form-label" for="alamat2jamaah">Kel/Kec/Provinsi</label>
-                                    <input class="form-control" id="alamat2jamaah" name="alamat2jamaah"
-                                        value="{{ $tbl_daftarkonsultasiID->alamat2_fk }}">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <select class="form-select mb-3" id="pendidikanjamaah" name="pendidikanjamaah"
-                                        aria-label="Default select example">
-                                        <option value="{{ $tbl_daftarkonsultasiID->pendidikan_fk }}">
-                                            --Pendidikan--</option>
-                                        <option value="SD">1. SD/Sederajat</option>
-                                        <option value="SMP">2. SMP/Sederajat</option>
-                                        <option value="SMA">3. SMA/Sederajat</option>
-                                        <option value="S1">4. Sarjana 1</option>
-                                        <option value="S2">5. Sarjana 2</option>
-                                    </select>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label class="form-label" for="pekerjaanjamaah">Pekerjaan</label>
-                                    <input class="form-control" id="pekerjaanjamaah" name="pekerjaanjamaah"
-                                        value="{{ $tbl_daftarkonsultasiID->pekerjaan_fk }}">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label class="form-label" for="deskripsijamaah">Deskripsi Masalah</label>
-                                    <input class="form-control" id="deskripsijamaah" name="deskripsijamaah"
-                                        value="{{ $tbl_daftarkonsultasiID->deskripsi_fk }}">
-                                </div>
-                                <button class="btn btn-success w-100" type="submit">Simpan Data</button>
-                    </form>
-                </div>
-            </div>
-            </form>
         </div>
     </div>
 
@@ -155,23 +150,25 @@
             <!-- Footer Content-->
             <div class="footer-nav position-relative">
                 <ul class="h-100 d-flex align-items-center justify-content-between ps-0">
-                    <li class="{{ request()->is(['/panel/frontlayanan_konsultasi']) ? 'active' : '' }}"><a
-                            href="/panel/frontlayanan_konsultasi">
+                    <li>
+                        <a href="/panel/frontlayanan_konsultasi">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                 fill="currentColor" class="bi bi-calendar-check-fill" viewBox="0 0 16 16">
                                 <path
                                     d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708" />
                             </svg>
-                            <span>Jadwal</span></a></li>
-                    <li class="{{ request()->is(['/panel/dashboarduser']) ? 'active' : '' }}"><a
-                            href="/panel/dashboarduser">
+                            <span>Jadwal</span></a>
+                    </li>
+                    <li>
+                        <a href="/panel/dashboarduser">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                 fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 16 16">
                                 <path
                                     d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8z" />
                             </svg>
-                            <span>History</span></a></li>
-                    <li><a href="/panel/frontlayanan_infaq">
+                            <span>History</span></a>
+                    </li>
+                    <li class="active"><a href="/panel/frontlayanan_infaq">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                 fill="currentColor" class="bi bi-collection-fill" viewBox="0 0 16 16">
                                 <path

@@ -8,16 +8,16 @@
                         <a href="/panel/dashboarduser" class="nav-link" style="padding-right: 0px"><i
                                 class="fas fa-home mr-2"></i>Dashboard</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="/frontlayanan_bukutamu" class="nav-link" style="padding-right: 0px"><i
+                    {{-- <li class="nav-item">
+                        <a href="/panel/frontlayanan_bukutamu" class="nav-link" style="padding-right: 0px"><i
                                 class="fas fa-address-book mr-2"></i>Buku Tamu</a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
-                        <a href="/frontlayanan_konsultasi" class="nav-link"><i
+                        <a href="/panel/frontlayanan_konsultasi" class="nav-link"><i
                                 class="fas fa-calendar-alt mr-2"></i>Konsultasi</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/frontlayanan_pengislaman" class="nav-link"><i
+                        <a href="/panel/frontlayanan_pengislaman" class="nav-link"><i
                                 class="fas fa-concierge-bell mr-2"></i>Pengislaman</a>
                     </li>
                 </ul>
@@ -92,7 +92,7 @@
                                                                 <!-- Menggunakan kondisi untuk menentukan apakah harus menambahkan href atau tidak -->
                                                                 @if ($jadwalkonsultasi->status !== 1)
                                                                     <a class="fa fa-edit-alt btn btn-primary btn-xs text-light"
-                                                                        href="/frontlayanan_daftarkonsultasi/{{ $jadwalkonsultasi->id_fk }}">
+                                                                        href="/panel/frontlayanan_daftarkonsultasi/{{ $jadwalkonsultasi->id_fk }}">
                                                                         <strong>Daftar</strong>
                                                                     </a>
                                                                 @else

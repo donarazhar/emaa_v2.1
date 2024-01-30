@@ -207,7 +207,7 @@ class HomeController extends Controller
             $simpan = DB::table('tbl_jamaah')->insert($data);
 
             if ($simpan) {
-                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+                return redirect('/jamaah')->with(['success' => 'Berhasil ! Silahkan Login.']);
             }
         } catch (\Exception $e) {
             // Tampilkan pesan kesalahan
@@ -217,14 +217,11 @@ class HomeController extends Controller
     // Login user
     public function user_proseslogin(Request $request)
     {
-        // Untuk mengetahui Hash dari sebuah angka
-        // $pass = 123;
-        // echo Hash::make($pass);
 
         if (Auth::guard('user')->attempt(['email' => $request->emailuser, 'password' => $request->passworduser])) {
-            return redirect('/frontlayanan_konsultasi');
+            return redirect('/panel/frontlayanan_konsultasi');
         } else {
-            return redirect('/loginuser')->with(['warning' => 'Email / Password Salah']);
+            return redirect('/jamaah')->with(['warning' => 'Email / Password Salah']);
         }
     }
 
@@ -233,7 +230,7 @@ class HomeController extends Controller
         // logout karyawan
         if (Auth::guard('user')->check()) {
             Auth::guard('user')->logout();
-            return redirect('/frontlayanan_konsultasi');
+            return redirect('/panel/frontlayanan_konsultasi');
         }
     }
 }
