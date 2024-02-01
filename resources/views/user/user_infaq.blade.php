@@ -276,7 +276,7 @@
             <div class="footer-nav position-relative">
                 <ul class="h-100 d-flex align-items-center justify-content-between ps-0">
                     <li>
-                        <a href="/panel/frontlayanan_konsultasi">
+                        <a href="/panel/frontlayanan_jadwalkonsultasi">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                 fill="currentColor" class="bi bi-calendar-check-fill" viewBox="0 0 16 16">
                                 <path

@@ -118,6 +118,44 @@ class FrontLayananController extends Controller
         // return view('frontlayanan.layanan_konsultasi', compact('tbl_userID', 'tbl_jadwalkonsultasi'));
         return view('frontlayanan.layanan_konsultasi', compact('tbl_jadwalkonsultasi'));
     }
+    public function frontlayanan_jadwalkonsultasi()
+    {
+        $email = Auth::guard('user')->user()->email;
+        $id_jamaah = DB::table('tbl_jamaah')->select('tbl_jamaah.id_user')->where('email', $email)->first();
+        $tbl_jamaahID = DB::table('tbl_jamaah')
+            ->select('tbl_jamaah.*')
+            ->where('tbl_jamaah.id_user', $id_jamaah->id_user)
+            ->first();
+
+        $tbl_jadwalkonsultasi = DB::table('tbl_formulirkonsultasi')
+            ->leftJoin('tbl_imam', 'tbl_formulirkonsultasi.id_imam', '=', 'tbl_imam.id_imam')
+            ->leftJoin('tbl_jeniskonsultasi', 'tbl_formulirkonsultasi.id_jeniskonsultasi', '=', 'tbl_jeniskonsultasi.id_jeniskonsultasi')
+            ->select('tbl_formulirkonsultasi.*', 'tbl_imam.nama_imam', 'tbl_jeniskonsultasi.nama_jeniskonsultasi')
+            ->orderBy('id_fk', 'DESC')
+            ->get();
+
+        // return view('frontlayanan.layanan_konsultasi', compact('tbl_userID', 'tbl_jadwalkonsultasi'));
+        return view('user.user_jadwalkonsultasi', compact('tbl_jadwalkonsultasi', 'tbl_jamaahID'));
+    }
+    public function frontlayanan_jadwalpengislaman()
+    {
+        $email = Auth::guard('user')->user()->email;
+        $id_jamaah = DB::table('tbl_jamaah')->select('tbl_jamaah.id_user')->where('email', $email)->first();
+        $tbl_jamaahID = DB::table('tbl_jamaah')
+            ->select('tbl_jamaah.*')
+            ->where('tbl_jamaah.id_user', $id_jamaah->id_user)
+            ->first();
+
+        $tbl_jadwalkonsultasi = DB::table('tbl_formulirkonsultasi')
+            ->leftJoin('tbl_imam', 'tbl_formulirkonsultasi.id_imam', '=', 'tbl_imam.id_imam')
+            ->leftJoin('tbl_jeniskonsultasi', 'tbl_formulirkonsultasi.id_jeniskonsultasi', '=', 'tbl_jeniskonsultasi.id_jeniskonsultasi')
+            ->select('tbl_formulirkonsultasi.*', 'tbl_imam.nama_imam', 'tbl_jeniskonsultasi.nama_jeniskonsultasi')
+            ->orderBy('id_fk', 'DESC')
+            ->get();
+
+        // return view('frontlayanan.layanan_konsultasi', compact('tbl_userID', 'tbl_jadwalkonsultasi'));
+        return view('user.user_jadwalpengislaman', compact('tbl_jadwalkonsultasi', 'tbl_jamaahID'));
+    }
 
     public function frontlayanan_tambahdatakonsultasi($id_fk, Request $request)
     {

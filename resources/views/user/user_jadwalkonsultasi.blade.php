@@ -12,7 +12,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags-->
     <link rel="shortcut icon" href="https://siap.al-azhar.id/upload/favicon.ico" type="image/x-icon">
     <!-- Title-->
-    <title>History a.n {{ $tbl_jamaahID->nama_user }}</title>
+    <title>Jadwal Konsultasi</title>
     <!-- Fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link
@@ -51,7 +51,7 @@
                         </svg></a></div>
                 <!-- Page Title-->
                 <div class="page-heading">
-                    <h6 class="mb-0">History a.n {{ $tbl_jamaahID->nama_user }}</h6>
+                    <h6 class="mb-0">Jadwal Konsultasi</h6>
                 </div>
                 <!-- Navbar Toggler-->
                 <div class="navbar--toggler" id="affanNavbarToggler">
@@ -65,67 +65,102 @@
         </div>
     </div>
 
-    <div class="page-content-wrapper py-1">
+    <div class="page-content-wrapper py-4">
         <div class="container">
-            {{-- Menampilkan data dari tbl_formulirkonsultasi --}}
-            @foreach ($tbl_historyEmail->whereNotNull('email_fk') as $konsultasi)
-                <div class="card service-card bg-info bg-gradient mb-3">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="service-text">
-                                <span class="badge bg-primary">Konsultasi</span>
-                                <h5>{{ $konsultasi->nama_jeniskonsultasi }}</h5>
-                                <p class="mb-0">{{ $konsultasi->hari_fk }}, {{ $konsultasi->tgl_fk }} |
-                                    {{ $konsultasi->jam_fk }}
-                                </p>
-                                <h3 class="mb-0">{{ $konsultasi->nohp_fk }}</h3>
-                            </div>
-                            <div class="service-img">
-                                <img src="{{ asset('app_ui/img/bg-img/logo.png') }}" alt=""
-                                    style="height: 80px;">
-                            </div>
-                        </div>
-                    </div>
+            <ul class="h-100 d-flex align-items-center ps-0">
+                <li>
+                    <a href="/panel/frontlayanan_jadwalkonsultasi" style="color:#000000;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-terminal-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm9.5 5.5h-3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1m-6.354-.354a.5.5 0 1 0 .708.708l2-2a.5.5 0 0 0 0-.708l-2-2a.5.5 0 1 0-.708.708L4.793 6.5z" />
+                        </svg>&nbsp;<strong>Konsultasi &nbsp;&nbsp;&nbsp;</strong></a>
+                </li>
+                <li>
+                    <a href="/panel/frontlayanan_jadwalpengislaman" style="color:#000000;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-file-earmark-plus-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M8.5 7v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 1 0" />
+                        </svg> <strong>Pengislaman</strong></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="cart-wrapper-area py-3">
+            <div class="cart-table card mb-3">
+                <div class="table-responsive card-body">
+                    <table class="table mb-0 text-center table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Tanggal</th>
+                                <th>Jam</th>
+                                <th>Nama Konsultan</th>
+                                <th>Jenis Konsultasi</th>
+                                <th>Sts</th>
+                                <th>Act</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($tbl_jadwalkonsultasi as $jadwalkonsultasi)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td style="overflow-x: auto; max-width: 100px;">
+                                        {{ $jadwalkonsultasi->hari_fk }},
+                                        {{ $jadwalkonsultasi->tgl_fk }}
+                                    </td>
+                                    <td>
+                                        {{ $jadwalkonsultasi->jam_fk }}
+                                    </td>
+                                    <td>
+                                        {{ $jadwalkonsultasi->nama_imam }}</td>
+                                    <td>
+                                        {{ $jadwalkonsultasi->nama_jeniskonsultasi }}</td>
+                                    <td>
+                                        <span
+                                            class="badge 
+                                                @if ($jadwalkonsultasi->status === 1) bg-info
+                                                @else
+                                                    @if ($jadwalkonsultasi->status === null)
+                                                        bg-success @endif
+                                                @endif">
+                                            @if ($jadwalkonsultasi->status === 1)
+                                                Booked
+                                            @elseif ($jadwalkonsultasi->status === null)
+                                                Available
+                                            @endif
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="text-center inline-block">
+                                            <!-- Menggunakan kondisi untuk menentukan apakah harus menambahkan href atau tidak -->
+                                            @if ($jadwalkonsultasi->status !== 1)
+                                                <a class="btn btn-success btn-sm text-light"
+                                                    href="/panel/frontlayanan_daftarkonsultasi/{{ $jadwalkonsultasi->id_fk }}">
+                                                    <small>Daftar</small>
+                                                </a>
+                                            @else
+                                                <!-- Jika status adalah 1, maka href tidak ditambahkan -->
+                                                <span class="badge bg-primary"
+                                                    style="color: rgb(255, 255, 255); cursor: not-allowed;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor"
+                                                        class="bi bi-exclamation-circle-fill" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2" />
+                                                    </svg>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-            @endforeach
-
-            {{-- Menampilkan data dari tbl_infaq --}}
-            @foreach ($tbl_historyEmail->whereNotNull('email') as $infaq)
-                <div class="card service-card bg-success bg-gradient mb-3">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="service-text">
-                                <span class="badge bg-primary">Donasi Online</span>
-                                <h5 class="mb-1">Pada : {{ date('d-m-Y', strtotime($infaq->created_at)) }} | Total
-                                    Donasi :
-                                    {{ number_format($infaq->jumlah) }},-
-                                </h5>
-                                <p class="mb-0">
-                                    @if ($infaq->infaqkonsultasi != 0)
-                                        {{ 'Infaq Konsultasi' }} sebesar : Rp.
-                                        {{ number_format($infaq->infaqkonsultasi) }},- |
-                                    @endif
-
-                                    @if ($infaq->infaqpengislaman != 0)
-                                        {{ 'Infaq Pengislaman' }} sebesar : Rp.
-                                        {{ number_format($infaq->infaqpengislaman) }},- |
-                                    @endif
-
-                                    @if ($infaq->infaqoperasional != 0)
-                                        {{ 'Infaq Operasional' }} sebesar : Rp.
-                                        {{ number_format($infaq->infaqoperasional) }},-
-                                    @endif
-                                </p>
-                                <p class="">{{ $infaq->pesan }}</p>
-                            </div>
-                            <div class="service-img">
-                                <img src="{{ asset('app_ui/img/bg-img/logo.png') }}" alt=""
-                                    style="height: 80px;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+            </div>
         </div>
     </div>
 
@@ -135,16 +170,16 @@
             <!-- Footer Content-->
             <div class="footer-nav position-relative">
                 <ul class="h-100 d-flex align-items-center justify-content-between ps-0">
-                    <li>
+                    <li class="active">
                         <a href="/panel/frontlayanan_jadwalkonsultasi">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                class="bi bi-calendar-check-fill" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                fill="currentColor" class="bi bi-calendar-check-fill" viewBox="0 0 16 16">
                                 <path
                                     d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708" />
                             </svg>
                             <span>Jadwal</span></a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="/panel/dashboarduser">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                 fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 16 16">
