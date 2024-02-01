@@ -24,7 +24,7 @@
                             placeholder="Masukkan password" name="passworduser">
                     </div>
 
-                    <button class="btn btn-primary w-100" type="submit">Daftar Akun</button>
+                    <button class="btn btn-info w-100" type="submit">Daftar Akun</button>
                 </form>
             </div>
             <!-- Login Meta-->

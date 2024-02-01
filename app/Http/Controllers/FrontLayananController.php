@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Midtrans\Snap;
 
 class FrontLayananController extends Controller
 {
@@ -788,13 +789,97 @@ class FrontLayananController extends Controller
 
     public function frontlayanan_infaq()
     {
-        $email = Auth::guard('user')->user()->email;
-        $id_jamaah = DB::table('tbl_jamaah')->select('tbl_jamaah.id_user')->where('email', $email)->first();
-        $tbl_jamaahID = DB::table('tbl_jamaah')
-            ->select('tbl_jamaah.*')
-            ->where('tbl_jamaah.id_user', $id_jamaah->id_user) // Menggunakan $id_user->id_user
-            ->first();
+        try {
+            $email = Auth::guard('user')->user()->email;
+            $id_jamaah = DB::table('tbl_jamaah')->select('tbl_jamaah.id_user')->where('email', $email)->first();
+            $tbl_jamaahID = DB::table('tbl_jamaah')
+                ->select('tbl_jamaah.*')
+                ->where('tbl_jamaah.id_user', $id_jamaah->id_user)
+                ->first();
+            // Ambil data yang diperlukan dari tabel tbl_infaq
+            $tbl_bayarDonasi = DB::table('tbl_infaq')->where('email', $email)->get();
 
-        return view('user.user_infaq', compact('tbl_jamaahID'));
+            // Jika tabel masih kosong, set variabel $tbl_bayarDonasi ke koleksi kosong
+            if ($tbl_bayarDonasi->isEmpty()) {
+                $tbl_bayarDonasi = collect(); // Ubah ke koleksi kosong              
+            }
+            // Ambil data yang diperlukan dari tabel tbl_infaq
+            $updatedData = DB::table('tbl_infaq')->where('email', $email)->first();
+
+            // Periksa apakah data ada dan snap_token tidak null
+            if (!$updatedData || is_null($updatedData->snap_token)) {
+                // Atur nilai default jika data tidak tersedia atau snap_token bernilai null
+                $defaultSnapToken = 'DEFAULT_SNAP_TOKEN';
+                return view('user.user_infaq', compact('tbl_jamaahID', 'defaultSnapToken', 'tbl_bayarDonasi'));
+            }
+
+            return view('user.user_infaq', compact('tbl_jamaahID', 'updatedData', 'tbl_bayarDonasi'));
+        } catch (\Exception $e) {
+            // Tangani pengecualian jika diperlukan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        }
+    }
+
+    public function frontlayanan_tambahinfaq(Request $request)
+    {
+        try {
+            // Menggunakan fasilitas Auth di Laravel untuk mendapatkan ID pengguna yang sedang masuk
+            $email = Auth::guard('user')->user()->email;
+
+            // Menggunakan objek $request untuk mengakses data input
+            $infaqkonsultasi = $request->input('infaqkonsultasi', 0);
+            $infaqpengislaman = $request->input('infaqpengislaman', 0);
+            $infaqoperasional = $request->input('infaqoperasional', 0);
+            $pesan = $request->input('pesan', '');
+            $jumlah = $request->input('jumlah', 0); // Menggunakan 'jumlah' sebagai referensi
+
+            // Lakukan sesuatu dengan nilai $jumlah (misalnya, proses data)
+
+            $data = [
+                'email' => $email,
+                'jumlah' => $jumlah,
+                'pesan' => $pesan,
+                'infaqkonsultasi' => $infaqkonsultasi,
+                'infaqpengislaman' => $infaqpengislaman,
+                'infaqoperasional' => $infaqoperasional,
+                'created_at' => now(),
+            ];
+
+            // Jika menggunakan Query Builder
+            $simpan = DB::table('tbl_infaq')->insertGetId($data);
+
+            if ($simpan) {
+                // Set your Merchant Server Key
+                \Midtrans\Config::$serverKey = config('midtrans.serveyKey');
+                // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+                \Midtrans\Config::$isProduction = false;
+                // Set sanitization on (default)
+                \Midtrans\Config::$isSanitized = true;
+                // Set 3DS transaction for credit card to true
+                \Midtrans\Config::$is3ds = true;
+
+                // Dapatkan SnapToken baru dari Midtrans API
+                $params = [
+                    'transaction_details' => [
+                        'order_id' => uniqid(), // Menggunakan uniqid() untuk mendapatkan ID yang unik
+                        'gross_amount' => $data['jumlah'],
+                    ],
+                    'customer_details' => [
+                        'first_name' => Auth::guard('user')->user()->nama_user,
+                        'email' => Auth::guard('user')->user()->email,
+                    ],
+                ];
+                $snapToken = Snap::getSnapToken($params);
+
+                // Update SnapToken di dalam tabel tbl_infaq hanya untuk entri yang baru saja ditambahkan
+                DB::table('tbl_infaq')->where('id_infaq', $simpan)->update(['snap_token' => $snapToken]);
+
+                // Kirim $data ke view bersamaan dengan pesan success
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan yang lebih deskriptif
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data: ' . $e->getMessage()]);
+        }
     }
 }

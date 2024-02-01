@@ -118,13 +118,23 @@ class DashboardController extends Controller
             ->where('tbl_jamaah.id_user', $id_jamaah->id_user) // Menggunakan $id_user->id_user
             ->first();
 
-        $tbl_daftarkonsultasiEmail = DB::table('tbl_formulirkonsultasi')
+        $tbl_formulirkonsultasi = DB::table('tbl_jamaah')
+            ->leftJoin('tbl_formulirkonsultasi', 'tbl_formulirkonsultasi.email_fk', '=', 'tbl_jamaah.email')
             ->leftJoin('tbl_imam', 'tbl_formulirkonsultasi.id_imam', '=', 'tbl_imam.id_imam')
             ->leftJoin('tbl_jeniskonsultasi', 'tbl_formulirkonsultasi.id_jeniskonsultasi', '=', 'tbl_jeniskonsultasi.id_jeniskonsultasi')
             ->select('tbl_formulirkonsultasi.*', 'tbl_imam.nama_imam', 'tbl_jeniskonsultasi.nama_jeniskonsultasi')
-            ->where('email_fk', $email)
+            ->where('tbl_jamaah.email', $email)
             ->get();
 
-        return view('user.user_history', compact('tbl_daftarkonsultasiEmail', 'tbl_jamaahID'));
+        $tbl_infaq = DB::table('tbl_jamaah')
+            ->leftJoin('tbl_infaq', 'tbl_infaq.email', '=', 'tbl_jamaah.email')
+            ->select('tbl_infaq.*')
+            ->where('tbl_jamaah.email', $email)
+            ->get();
+
+        // Gabungkan hasil kedua query
+        $tbl_historyEmail = $tbl_formulirkonsultasi->merge($tbl_infaq);
+
+        return view('user.user_history', compact('tbl_historyEmail', 'tbl_jamaahID'));
     }
 }

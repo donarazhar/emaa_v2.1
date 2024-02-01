@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <input class="form-control" type="password" placeholder="Masukkan password" name="passworduser">
                     </div>
-                    <button class="btn btn-primary w-100" type="submit">Login</button>
+                    <button class="btn btn-info w-100" type="submit">Login</button>
                 </form>
             </div>
             <!-- Login Meta-->

@@ -10,6 +10,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags-->
+    <link rel="shortcut icon" href="https://siap.al-azhar.id/upload/favicon.ico" type="image/x-icon">
     <!-- Title-->
     <title>Infaq a.n {{ $tbl_jamaahID->nama_user }}</title>
     <!-- Fonts-->
@@ -31,6 +32,38 @@
     <link rel="stylesheet" href="{{ asset('app_ui/style.css') }}">
     <!-- Web App Manifest-->
     <link rel="manifest" href="{{ asset('app_ui/manifest.json') }}">
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
+    </script>
+    <script>
+        function submitPaymentForm(donationId) {
+            var snapToken = getSnapToken(donationId);
+
+            if (snapToken) {
+                snap.pay(snapToken, {
+                    onSuccess: function(result) {
+                        // Handle ketika pembayaran sukses
+                        console.log(result);
+                    },
+                    onPending: function(result) {
+                        // Handle ketika pembayaran masih tertunda
+                        console.log(result);
+                    },
+                    onError: function(result) {
+                        // Handle ketika pembayaran error
+                        console.log(result);
+                    }
+                });
+            } else {
+                console.error('SnapToken is not available.');
+            }
+        }
+
+        function getSnapToken(donationId) {
+            // Dapatkan SnapToken dari hidden input
+            var snapTokenInput = document.getElementById('snap-token-' + donationId);
+            return snapTokenInput ? snapTokenInput.value : null;
+        }
+    </script>
 </head>
 
 <body>
@@ -50,7 +83,7 @@
                         </svg></a></div>
                 <!-- Page Title-->
                 <div class="page-heading">
-                    <h6 class="mb-0">History a.n {{ $tbl_jamaahID->nama_user }}</h6>
+                    <h6 class="mb-0">Infaq a.n {{ $tbl_jamaahID->nama_user }}</h6>
                 </div>
                 <!-- Navbar Toggler-->
                 <div class="navbar--toggler" id="affanNavbarToggler">
@@ -66,78 +99,170 @@
 
     <div class="page-content-wrapper py-3">
         <div class="container">
+            {{-- Pesan error --}}
+            @if (Session::get('success'))
+                <div class="alert alert-success">
+                    {{ Session::get('success') }}
+                </div>
+            @endif
+            @if (Session::get('warning'))
+                <div class="alert alert-warning">
+                    {{ Session::get('warning') }}
+                </div>
+            @endif
             <!-- Cart Wrapper-->
+            <div class="cart-wrapper-area">
+                <form action="/panel/frontlayanan_tambahinfaq" method="POST">
+                    @csrf
+                    <div class="cart-table card mb-3">
+                        <div class="table-responsive card-body">
+                            <table class="table mb-0 text-center">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No.</th>
+                                        <th scope="col">Deskripsi</th>
+                                        <th scope="col">Nominal Infaq</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1.</th>
+                                        <td>
+                                            <h6 class="mb-1">Infaq Konsultasi</h6>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <a class="btn btn-info">Rp</a>
+                                                    <input class="form-control input-group-text text-start"
+                                                        type="text" name="infaqkonsultasi" id="infaqInputKonsultasi"
+                                                        value="0">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2.</th>
+                                        <td>
+                                            <h6 class="mb-1">Infaq Pengislaman</h6>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <a class="btn btn-info">Rp</a>
+                                                    <input class="form-control input-group-text text-start"
+                                                        type="text" name="infaqpengislaman"
+                                                        id="infaqInputPengislaman" value="0">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3.</th>
+                                        <td>
+                                            <h6 class="mb-1">Infaq Operasional</h6>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <a class="btn btn-info">Rp</a>
+                                                    <input class="form-control input-group-text text-start"
+                                                        type="text" name="infaqoperasional"
+                                                        id="infaqInputOperasional" value="0">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"></th>
+                                        <td>
+                                            <h6 class="mb-1"><strong>TOTAL DONASI</strong></h6>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <a class="btn btn-info">Rp</a>
+                                                    <input class="form-control" type="text" name="jumlah"
+                                                        id="jumlah" value="0" readonly>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <input type="hidden" name="snap_token" id="snap-token"
+                            value="{{ $updatedData->snap_token ?? '' }}">
+                        <div class="card-body border-top">
+                            <p class="mb-2"><strong>Pesan atau Doa yang ingin disampaikan !</strong></p>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control input-group-text text-start form-control-clicked"
+                                        type="text" placeholder="Masukkan pesan atau doa anda !" name="pesan">
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info w-100 mt-4" value="Simpan Donasi">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
             <div class="cart-wrapper-area">
                 <div class="cart-table card mb-3">
                     <div class="table-responsive card-body">
                         <table class="table mb-0 text-center">
                             <thead>
                                 <tr>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Remove</th>
+                                    <th scope="col" style="width: auto;">No.</th>
+                                    <th scope="col" style="width: auto;">Deskripsi</th>
+                                    <th scope="col" style="width: auto;">Jumlah Donasi</th>
+                                    <th scope="col" style="width: auto;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row"><img src="img/bg-img/p1.jpg" alt=""></th>
-                                    <td>
-                                        <h6 class="mb-1">Wooden Tool</h6><span>$9.89 × 1</span>
-                                    </td>
-                                    <td>
-                                        <div class="quantity">
-                                            <input class="qty-text" type="text" value="1">
-                                        </div>
-                                    </td>
-                                    <td><a class="remove-product" href="#"><i class="fa fa-close"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><img src="img/bg-img/p3.jpg" alt=""></th>
-                                    <td>
-                                        <h6 class="mb-1">Black T-shirt</h6><span>$10.99 × 2</span>
-                                    </td>
-                                    <td>
-                                        <div class="quantity">
-                                            <input class="qty-text" type="text" value="2">
-                                        </div>
-                                    </td>
-                                    <td><a class="remove-product" href="#"><i class="fa fa-close"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><img src="img/bg-img/p5.jpg" alt=""></th>
-                                    <td>
-                                        <h6 class="mb-1">Crispy Biscuit</h6><span>$0.78 × 9</span>
-                                    </td>
-                                    <td>
-                                        <div class="quantity">
-                                            <input class="qty-text" type="text" value="9">
-                                        </div>
-                                    </td>
-                                    <td><a class="remove-product" href="#"><i class="fa fa-close"></i></a></td>
-                                </tr>
+                                @if (!$tbl_bayarDonasi->isEmpty())
+                                    @foreach ($tbl_bayarDonasi as $bayar)
+                                        <tr>
+                                            <th scope="row">{{ $loop->iteration }}</th>
+                                            <td>
+                                                <h6>
+                                                    @if ($bayar->infaqkonsultasi != 0)
+                                                        {{ 'Infaq Konsultasi' }},
+                                                    @endif
+
+                                                    @if ($bayar->infaqpengislaman != 0)
+                                                        {{ 'Infaq Pengislaman' }},
+                                                    @endif
+
+                                                    @if ($bayar->infaqoperasional != 0)
+                                                        {{ 'Infaq Operasional' }}
+                                                    @endif
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <h6 class="mb-1">Rp. {{ number_format($bayar->jumlah) }} ,-</h6>
+                                            </td>
+                                            <td>
+                                                <form id="payment-form-{{ $bayar->id_infaq }}" class="payment-form">
+                                                    @csrf
+                                                    <input type="hidden" name="donation_id"
+                                                        value="{{ $bayar->id_infaq }}">
+                                                    <input type="hidden" id="snap-token-{{ $bayar->id_infaq }}"
+                                                        value="{{ $bayar->snap_token }}">
+                                                    <button type="button" class="btn btn-info w-100 mt-4 pay-button"
+                                                        onclick="submitPaymentForm('{{ $bayar->id_infaq }}')">
+                                                        Bayar
+                                                    </button>
+                                                </form>
+                                            </td>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="5">Tidak ada data donasi saat ini.</td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
-                    </div>
-                    <div class="card-body border-top">
-                        <div class="apply-coupon">
-                            <h6 class="mb-0">Have a coupon?</h6>
-                            <p class="mb-2">Enter your coupon code here &amp; get awesome discounts!</p>
-                            <div class="coupon-form">
-                                <form action="#">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <input
-                                                class="form-control input-group-text text-start form-control-clicked"
-                                                type="text" placeholder="OFFER30">
-                                            <button class="btn btn-primary" type="submit">Apply</button>
-                                        </div>
-                                    </div>
-                                    <!-- Checkout--><a class="btn btn-danger w-100 mt-4"
-                                        href="page-checkout.html">$38.89 &amp; Pay</a>
-                                </form>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -175,13 +300,13 @@
                                     d="M0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zM2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3m2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1" />
                             </svg>
                             <span>Infaq</span></a></li>
-                    <li><a href="#">
+                    <li><a href="/panel/frontlayanan_profile">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                fill="currentColor" class="bi bi-chat-square-text-fill" viewBox="0 0 16 16">
+                                fill="currentColor" class="bi bi-file-person-fill" viewBox="0 0 16 16">
                                 <path
-                                    d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z" />
+                                    d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2m-1 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-3 4c2.623 0 4.146.826 5 1.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1.245C3.854 11.825 5.377 11 8 11" />
                             </svg>
-                            <span>Chat</span></a></li>
+                            <span>Profile</span></a></li>
                     <li><a href="/panel/proseslogoutuser">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                 fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
@@ -213,6 +338,26 @@
     <script src="{{ asset('app_ui/js/default/clipboard.js') }}"></script>
     <!-- PWA-->
     <script src="{{ asset('app_ui/js/pwa.js') }}"></script>
+    <script>
+        // Function untuk menghitung jumlah dan memasukkan nilai ke input jumlah
+        function hitungJumlah() {
+            // Ambil nilai dari input infaqkonsultasi, infaqpengislaman, dan infaqoperasional
+            var infaqKonsultasi = parseInt(document.getElementById('infaqInputKonsultasi').value) || 0;
+            var infaqPengislaman = parseInt(document.getElementById('infaqInputPengislaman').value) || 0;
+            var infaqOperasional = parseInt(document.getElementById('infaqInputOperasional').value) || 0;
+
+            // Hitung total donasi
+            var totalDonasi = infaqKonsultasi + infaqPengislaman + infaqOperasional;
+
+            // Masukkan hasil ke input jumlah
+            document.getElementById('jumlah').value = totalDonasi;
+        }
+
+        // Panggil fungsi hitungJumlah() saat nilai input berubah
+        document.getElementById('infaqInputKonsultasi').addEventListener('input', hitungJumlah);
+        document.getElementById('infaqInputPengislaman').addEventListener('input', hitungJumlah);
+        document.getElementById('infaqInputOperasional').addEventListener('input', hitungJumlah);
+    </script>
 </body>
 
 </html>
