@@ -356,13 +356,6 @@
                                             </a>
                                             <ul class="nav nav-treeview"
                                                 style="{{ request()->is(['frontlayanan_kategorilayanan', 'frontlayanan_dataimam']) ? 'display: block;' : 'display: none;' }}">
-                                                <li class="nav-item">
-                                                    <a href="/frontlayanan_bukutamu" class="nav-link"
-                                                        target="_blank">
-                                                        <i class="far fa-dot-circle nav-icon"></i>
-                                                        <p>Buku Tamu</p>
-                                                    </a>
-                                                </li>
                                                 <li
                                                     class="nav-item {{ request()->is(['frontlayanan_kategorilayanan']) ? 'active' : '' }}">
                                                     <a href="/frontlayanan_kategorilayanan"

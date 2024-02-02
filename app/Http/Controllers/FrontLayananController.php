@@ -112,7 +112,7 @@ class FrontLayananController extends Controller
             ->leftJoin('tbl_imam', 'tbl_formulirkonsultasi.id_imam', '=', 'tbl_imam.id_imam')
             ->leftJoin('tbl_jeniskonsultasi', 'tbl_formulirkonsultasi.id_jeniskonsultasi', '=', 'tbl_jeniskonsultasi.id_jeniskonsultasi')
             ->select('tbl_formulirkonsultasi.*', 'tbl_imam.nama_imam', 'tbl_jeniskonsultasi.nama_jeniskonsultasi')
-            ->orderBy('id_fk', 'DESC')
+            ->orderBy('tgl_fk', 'DESC')
             ->get();
 
         // return view('frontlayanan.layanan_konsultasi', compact('tbl_userID', 'tbl_jadwalkonsultasi'));
@@ -615,7 +615,7 @@ class FrontLayananController extends Controller
         return view('frontlayanan.layanan_datalayanan', compact('tbl_userID', 'tbl_tamu', 'tbl_pengislaman', 'tbl_konsultasi', 'tbl_imam', 'tbl_jeniskonsultasi'));
     }
 
-    public function frontlayanan_editdatatamu(Request $request)
+    public function frontlayanan_editdatakonsultasi(Request $request)
     {
         $email = Auth::guard('karyawan')->user()->email;
         $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
@@ -633,7 +633,7 @@ class FrontLayananController extends Controller
         return view('frontlayanan.layanan_editdatatamu', compact('tbl_userID', 'tbl_tamuID'));
     }
 
-    public function frontlayanan_updatedatatamu($id_tamu, Request $request)
+    public function frontlayanan_updatedatakonsultasi($id_tamu, Request $request)
     {
         // Ambil data dari tabel tbl_marbout dengan ID yang diberikan
         $tamu = DB::table('tbl_tamu')->where('id_tamu', $id_tamu)->first();
@@ -667,9 +667,9 @@ class FrontLayananController extends Controller
         }
     }
 
-    public function frontlayanan_hapusdatatamu($id_tamu)
+    public function frontlayanan_hapusdatakonsultasi($id_fk)
     {
-        $delete = DB::table('tbl_tamu')->where('id_tamu', $id_tamu)->delete();
+        $delete = DB::table('tbl_formulirkonsultasi')->where('id_fk', $id_fk)->delete();
         if ($delete) {
             return Redirect::back()->with(['success' => 'Data Berhasil Dihapus']);
         } else {
