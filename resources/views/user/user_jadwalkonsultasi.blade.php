@@ -108,7 +108,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td style="overflow-x: auto; max-width: 100px;">
                                         {{ $jadwalkonsultasi->hari_fk }},
-                                        {{ $jadwalkonsultasi->tgl_fk }}
+                                        {{ date('d-m-Y', strtotime($jadwalkonsultasi->tgl_fk)) }}
                                     </td>
                                     <td>
                                         {{ $jadwalkonsultasi->jam_fk }}
