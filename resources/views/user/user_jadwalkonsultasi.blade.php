@@ -120,14 +120,14 @@
                                     <td>
                                         <span
                                             class="badge 
-                                                @if ($jadwalkonsultasi->status === 1) bg-info
+                                                @if ($jadwalkonsultasi->status == 1) bg-info
                                                 @else
-                                                    @if ($jadwalkonsultasi->status === null)
+                                                    @if ($jadwalkonsultasi->status == null)
                                                         bg-success @endif
                                                 @endif">
-                                            @if ($jadwalkonsultasi->status === 1)
+                                            @if ($jadwalkonsultasi->status == 1)
                                                 Booked
-                                            @elseif ($jadwalkonsultasi->status === null)
+                                            @elseif ($jadwalkonsultasi->status == null)
                                                 Available
                                             @endif
                                         </span>
