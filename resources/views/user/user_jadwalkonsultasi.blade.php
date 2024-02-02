@@ -135,7 +135,7 @@
                                     <td>
                                         <div class="text-center inline-block">
                                             <!-- Menggunakan kondisi untuk menentukan apakah harus menambahkan href atau tidak -->
-                                            @if ($jadwalkonsultasi->status !== 1)
+                                            @if ($jadwalkonsultasi->status != 1)
                                                 <a class="btn btn-success btn-sm text-light"
                                                     href="/panel/frontlayanan_daftarkonsultasi/{{ $jadwalkonsultasi->id_fk }}">
                                                     <small>Daftar</small>
