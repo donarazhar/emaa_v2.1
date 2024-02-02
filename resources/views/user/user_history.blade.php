@@ -43,12 +43,14 @@
             <div
                 class="header-content header-style-five position-relative d-flex align-items-center justify-content-between">
                 <!-- Back Button-->
-                <div class="back-button"><a href="/panel/frontlayanan_konsultasi"><svg width="32" height="32"
-                            viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg">
+                <div class="back-button"><a href="/panel/frontlayanan_jadwalkonsultasi" style="color:#0d6efd;">
+                        <svg width="32" height="32" viewBox="0 0 16 16" class="bi bi-arrow-left-short"
+                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
-                        </svg></a></div>
+                        </svg>
+                    </a>
+                </div>
                 <!-- Page Title-->
                 <div class="page-heading">
                     <h6 class="mb-0">History a.n {{ $tbl_jamaahID->nama_user }}</h6>
@@ -128,7 +130,15 @@
             @endforeach
         </div>
     </div>
+    <style>
+        .footer-nav ul li.active a span {
+            color: #0d6efd;
+        }
 
+        .footer-nav ul li.active a {
+            color: #0d6efd;
+        }
+    </style>
     <!-- Footer Nav-->
     <div class="footer-nav-area" id="footerNav">
         <div class="container px-0">

@@ -64,6 +64,7 @@
             return snapTokenInput ? snapTokenInput.value : null;
         }
     </script>
+
 </head>
 
 <body>
@@ -75,9 +76,9 @@
             <div
                 class="header-content header-style-five position-relative d-flex align-items-center justify-content-between">
                 <!-- Back Button-->
-                <div class="back-button"><a href="/panel/frontlayanan_konsultasi"><svg width="32" height="32"
-                            viewBox="0 0 16 16" class="bi bi-arrow-left-short" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg">
+                <div class="back-button"><a href="/panel/frontlayanan_jadwalkonsultasi" style="color:#0d6efd;"><svg
+                            width="32" height="32" viewBox="0 0 16 16" class="bi bi-arrow-left-short"
+                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z" />
                         </svg></a></div>
@@ -210,35 +211,39 @@
             <div class="cart-wrapper-area">
                 <div class="cart-table card mb-3">
                     <div class="table-responsive card-body">
-                        <table class="table mb-0 text-center">
+                        <table class="table mb-0 text-center table-striped table-sm">
                             <thead>
                                 <tr>
-                                    <th scope="col" style="width: auto;">No.</th>
-                                    <th scope="col" style="width: auto;">Deskripsi</th>
-                                    <th scope="col" style="width: auto;">Jumlah Donasi</th>
-                                    <th scope="col" style="width: auto;">Aksi</th>
+                                    <th>No.</th>
+                                    <th>Jenis Infaq</th>
+                                    <th>Waktu</th>
+                                    <th>Pesan</th>
+                                    <th>Jumlah Donasi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @if (!$tbl_bayarDonasi->isEmpty())
                                     @foreach ($tbl_bayarDonasi as $bayar)
                                         <tr>
-                                            <th scope="row">{{ $loop->iteration }}</th>
+                                            <th>{{ $loop->iteration }}</th>
                                             <td>
                                                 <h6>
                                                     @if ($bayar->infaqkonsultasi != 0)
-                                                        {{ 'Infaq Konsultasi' }},
+                                                        {{ 'IKSL' }}
                                                     @endif
 
                                                     @if ($bayar->infaqpengislaman != 0)
-                                                        {{ 'Infaq Pengislaman' }},
+                                                        {{ 'IPGI' }}
                                                     @endif
 
                                                     @if ($bayar->infaqoperasional != 0)
-                                                        {{ 'Infaq Operasional' }}
+                                                        {{ 'IOPS' }}
                                                     @endif
                                                 </h6>
                                             </td>
+                                            <td>{{ date('d-m-Y', strtotime($bayar->created_at)) }}</td>
+                                            <td style="overflow-x: auto; max-width: 100px;">{{ $bayar->pesan }}</td>
                                             <td>
                                                 <h6 class="mb-1">Rp. {{ number_format($bayar->jumlah) }} ,-</h6>
                                             </td>
@@ -249,7 +254,8 @@
                                                         value="{{ $bayar->id_infaq }}">
                                                     <input type="hidden" id="snap-token-{{ $bayar->id_infaq }}"
                                                         value="{{ $bayar->snap_token }}">
-                                                    <button type="button" class="btn btn-info w-100 mt-4 pay-button"
+                                                    <button type="button"
+                                                        class="btn btn-info btn-sm w-100 mt-4 pay-button"
                                                         onclick="submitPaymentForm('{{ $bayar->id_infaq }}')">
                                                         Bayar
                                                     </button>
@@ -268,7 +274,15 @@
             </div>
         </div>
     </div>
+    <style>
+        .footer-nav ul li.active a span {
+            color: #0d6efd;
+        }
 
+        .footer-nav ul li.active a {
+            color: #0d6efd;
+        }
+    </style>
     <!-- Footer Nav-->
     <div class="footer-nav-area" id="footerNav">
         <div class="container px-0">
@@ -338,25 +352,62 @@
     <script src="{{ asset('app_ui/js/default/clipboard.js') }}"></script>
     <!-- PWA-->
     <script src="{{ asset('app_ui/js/pwa.js') }}"></script>
+    <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
     <script>
+        $(document).ready(function() {
+            // Konfigurasi jQuery Mask Plugin
+            $('#infaqInputKonsultasi').mask('000,000,000', {
+                reverse: true
+            });
+            $('#infaqInputPengislaman').mask('000,000,000', {
+                reverse: true
+            });
+            $('#infaqInputOperasional').mask('000,000,000', {
+                reverse: true
+            });
+        });
+    </script>
+    <script>
+        // Function untuk menghilangkan tanda titik dari nilai input
+        function unmaskValue(value) {
+            return value.replace(/\./g, '').replace(/,/g, '');
+        }
+
+        // Function untuk format angka menjadi number_format
+        function formatNumber(number) {
+            return new Intl.NumberFormat('id-ID').format(number);
+        }
+
         // Function untuk menghitung jumlah dan memasukkan nilai ke input jumlah
         function hitungJumlah() {
             // Ambil nilai dari input infaqkonsultasi, infaqpengislaman, dan infaqoperasional
-            var infaqKonsultasi = parseInt(document.getElementById('infaqInputKonsultasi').value) || 0;
-            var infaqPengislaman = parseInt(document.getElementById('infaqInputPengislaman').value) || 0;
-            var infaqOperasional = parseInt(document.getElementById('infaqInputOperasional').value) || 0;
+            var infaqKonsultasi = unmaskValue($('#infaqInputKonsultasi').val()) || 0;
+            var infaqPengislaman = unmaskValue($('#infaqInputPengislaman').val()) || 0;
+            var infaqOperasional = unmaskValue($('#infaqInputOperasional').val()) || 0;
 
             // Hitung total donasi
-            var totalDonasi = infaqKonsultasi + infaqPengislaman + infaqOperasional;
+            var totalDonasi = parseInt(infaqKonsultasi) + parseInt(infaqPengislaman) + parseInt(infaqOperasional);
 
-            // Masukkan hasil ke input jumlah
-            document.getElementById('jumlah').value = totalDonasi;
+            // Format hasil ke format number_format dan masukkan ke input jumlah
+            $('#jumlah').val(formatNumber(totalDonasi));
         }
 
         // Panggil fungsi hitungJumlah() saat nilai input berubah
-        document.getElementById('infaqInputKonsultasi').addEventListener('input', hitungJumlah);
-        document.getElementById('infaqInputPengislaman').addEventListener('input', hitungJumlah);
-        document.getElementById('infaqInputOperasional').addEventListener('input', hitungJumlah);
+        $(document).ready(function() {
+            $('#infaqInputKonsultasi').mask('000,000,000', {
+                reverse: true
+            });
+            $('#infaqInputPengislaman').mask('000,000,000', {
+                reverse: true
+            });
+            $('#infaqInputOperasional').mask('000,000,000', {
+                reverse: true
+            });
+
+            $('#infaqInputKonsultasi').on('input', hitungJumlah);
+            $('#infaqInputPengislaman').on('input', hitungJumlah);
+            $('#infaqInputOperasional').on('input', hitungJumlah);
+        });
     </script>
 </body>
 

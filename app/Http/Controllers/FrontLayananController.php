@@ -870,8 +870,7 @@ class FrontLayananController extends Controller
             $infaqoperasional = $request->input('infaqoperasional', 0);
             $pesan = $request->input('pesan', '');
             $jumlah = $request->input('jumlah', 0); // Menggunakan 'jumlah' sebagai referensi
-
-            // Lakukan sesuatu dengan nilai $jumlah (misalnya, proses data)
+            $jumlah = str_replace('.', '', $jumlah);
 
             $data = [
                 'email' => $email,
@@ -882,6 +881,8 @@ class FrontLayananController extends Controller
                 'infaqoperasional' => $infaqoperasional,
                 'created_at' => now(),
             ];
+
+
 
             // Jika menggunakan Query Builder
             $simpan = DB::table('tbl_infaq')->insertGetId($data);
