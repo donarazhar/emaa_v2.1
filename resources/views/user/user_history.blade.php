@@ -105,17 +105,17 @@
                                 <p class="mb-0">
                                     @if ($infaq->infaqkonsultasi != 0)
                                         {{ 'Infaq Konsultasi' }} sebesar : Rp.
-                                        {{ number_format($infaq->infaqkonsultasi) }},- |
+                                        {{ isset($infaq->infaqkonsultasi) ? number_format(floatval($infaq->infaqkonsultasi)) : 'Data tidak tersedia' }},-
                                     @endif
 
                                     @if ($infaq->infaqpengislaman != 0)
                                         {{ 'Infaq Pengislaman' }} sebesar : Rp.
-                                        {{ number_format($infaq->infaqpengislaman) }},- |
+                                        {{ isset($infaq->infaqpengislaman) ? number_format(floatval($infaq->infaqpengislaman)) : 'Data tidak tersedia' }},-
                                     @endif
 
                                     @if ($infaq->infaqoperasional != 0)
                                         {{ 'Infaq Operasional' }} sebesar : Rp.
-                                        {{ number_format($infaq->infaqoperasional) }},-
+                                        {{ isset($infaq->infaqoperasional) ? number_format(floatval($infaq->infaqoperasional)) : 'Data tidak tersedia' }},-
                                     @endif
                                 </p>
                                 <p class="">{{ $infaq->pesan }}</p>
