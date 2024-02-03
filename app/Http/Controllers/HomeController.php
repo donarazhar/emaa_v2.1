@@ -181,12 +181,12 @@ class HomeController extends Controller
 
     public function user_login()
     {
-        return view('user.user_login');
+        return view('user.user_jamaah');
     }
 
     public function user_register()
     {
-        return view('user.user_register');
+        return view('user.user_registerjamaah');
     }
 
     public function user_prosesregister(Request $request)
@@ -230,7 +230,7 @@ class HomeController extends Controller
         // logout karyawan
         if (Auth::guard('user')->check()) {
             Auth::guard('user')->logout();
-            return redirect('/panel/frontlayanan_konsultasi');
+            return redirect('/jamaah');
         }
     }
 }
