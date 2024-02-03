@@ -97,7 +97,7 @@
             <div id="hideSwitcher">&times;</div>
         </div>
     </div>
-    <div id="showSwitcher" class="styleSecondColor" hidden><i class="fa fa-cog fa-spin"></i></div>
+    <div id="showSwitcher" class="styleSecondColor"><i class="fa fa-cog fa-spin"></i></div>
     <!-- Live Style Switcher Ends - demo only -->
     <!-- Header Starts -->
     <header class="header" id="navbar-collapse-toggle">
