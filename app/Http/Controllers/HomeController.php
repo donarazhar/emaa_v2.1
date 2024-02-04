@@ -179,9 +179,13 @@ class HomeController extends Controller
         }
     }
 
-    public function user_login()
+    public function user_jamaah()
     {
         return view('user.user_jamaah');
+    }
+    public function user_login()
+    {
+        return view('user.user_loginjamaah');
     }
 
     public function user_register()
@@ -207,7 +211,7 @@ class HomeController extends Controller
             $simpan = DB::table('tbl_jamaah')->insert($data);
 
             if ($simpan) {
-                return redirect('/jamaah')->with(['success' => 'Berhasil ! Silahkan Login.']);
+                return redirect('/loginjamaah')->with(['success' => 'Berhasil ! Silahkan Login.']);
             }
         } catch (\Exception $e) {
             // Tampilkan pesan kesalahan

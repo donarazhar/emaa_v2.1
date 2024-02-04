@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <link rel="shortcut icon" href="https://siap.al-azhar.id/upload/favicon.ico" type="image/x-icon">
-    <title>Jamaah Masjid Agung Al Azhar</title>
+    <title>Login Jamaah</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Template Google Fonts -->
@@ -38,14 +38,14 @@
     <link rel="alternate stylesheet" type="text/css" title="purple" href="{{ asset('light/css/skins/purple.css') }}" />
     <link rel="alternate stylesheet" type="text/css" title="red" href="{{ asset('light/css/skins/red.css') }}" />
     <link rel="alternate stylesheet" type="text/css" title="yellowgreen"
-        href="{{ asset('light/css/skins/yellowgreen.css') }}" />
+        href="{{ asset('light/css/skins/blue.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('light/css/styleswitcher.css') }}" />
 
     <!-- Modernizr JS File -->
     <script src="{{ asset('light/js/modernizr.custom.js') }}"></script>
 </head>
 
-<body class="home light">
+<body class="contact light">
     <!-- Live Style Switcher Starts - demo only -->
     <div id="switcher" class="">
         <div class="content-switcher">
@@ -103,15 +103,15 @@
     <header class="header" id="navbar-collapse-toggle">
         <!-- Fixed Navigation Starts -->
         <ul class="icon-menu d-none d-lg-block revealator-slideup revealator-once revealator-delay1">
-            <li class="icon-box active">
+            <li class="icon-box">
                 <i class="fa fa-home"></i>
                 <a href="/jamaah">
                     <h2>Home</h2>
                 </a>
             </li>
-            <li class="icon-box">
+            <li class="icon-box active">
                 <i class="fa fa-user"></i>
-                <a href="/registerjamaah">
+                <a href="/loginjamaah">
                     <h2>Login</h2>
                 </a>
             </li>
@@ -125,18 +125,96 @@
                 <span></span>
                 <span></span>
                 <ul class="list-unstyled" id="menu">
-                    <li class="active"><a href="index.html"><i class="fa fa-home"></i><span>Home</span></a></li>
-                    <li><a href="/registerjamaah"><i class="fa fa-user"></i><span>Login</span></a></li>
+                    <li><a href="/jamaah"><i class="fa fa-home"></i><span>Home</span></a></li>
+                    <li class="active"><a href="/loginjamaah"><i class="fa fa-user"></i><span>Login</span></a></li>
+
                 </ul>
             </div>
         </nav>
         <!-- Mobile Menu Ends -->
     </header>
     <!-- Header Ends -->
+    <!-- Page Title Starts -->
+    <section class="title-section text-left text-sm-center revealator-slideup revealator-once revealator-delay1">
+        <h1>akun <span>jamaah</span></h1>
+        <span class="title-bg">login</span>
+    </section>
+    <!-- Page Title Ends -->
     <!-- Main Content Starts -->
-    @yield('content')
-    <!-- Main Content Ends -->
-
+    <section class="main-content revealator-slideup revealator-once revealator-delay1">
+        <div class="container">
+            <div class="row">
+                <!-- Left Side Starts -->
+                <div class="col-12 col-lg-4">
+                    <h3 class="text-uppercase custom-title mb-0 ft-wt-600 pb-3">Jamaah Terhormat !</h3>
+                    <p class="open-sans-font mb-3">Jangan ragu untuk menghubungi kami. <br>Silahkan login untuk lebih
+                        dekat dengan kami.</p>
+                    <p class="open-sans-font custom-span-contact position-relative">
+                        <i class="fa fa-envelope-open position-absolute"></i>
+                        <span class="d-block">email masjid</span>masjidagungalazhar@gmail.com
+                    </p>
+                    <p class="open-sans-font custom-span-contact position-relative">
+                        <i class="fa fa-phone-square position-absolute"></i>
+                        <span class="d-block">whatsapp center</span>0882 1211 4771
+                    </p>
+                </div>
+                <!-- Left Side Ends -->
+                <div class="col-12 col-lg-8">
+                    {{-- Pesan error --}}
+                    @if (Session::get('success'))
+                        <div class="alert alert-success">
+                            {{ Session::get('success') }}
+                        </div>
+                    @endif
+                    @if (Session::get('warning'))
+                        <div class="alert alert-warning">
+                            {{ Session::get('warning') }}
+                        </div>
+                    @endif
+                    <form method="post" action="/prosesloginjamaah">
+                        @csrf
+                        <div class="contactform">
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <input type="email" name="emailuser" placeholder="EMAIL ANDA" required>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <input type="text" name="passworduser" placeholder="PASSWORD ANDA" required>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-contact">Masuk</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-12 col-md-6 mt-3">
+                        <p class="output_message font-weight-600 text-uppercase">Apakah anda sudah punya akun ?
+                            <br>
+                            <a class="output_message font-weight-600 text-uppercase stretched-link"
+                                href="/registerjamaah">Daftarkan diri anda !</a>
+                        </p>
+                    </div>
+                </div>
+                <!-- Contact Form Ends -->
+            </div>
+            <div class="row">
+                <!-- Left Side Starts -->
+                <div class="col-12 col-lg-4">
+                    <ul class="social list-unstyled pt-1 mb-5">
+                        <li class="facebook"><a title="Facebook" href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li class="twitter"><a title="Twitter" href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li class="youtube"><a title="Youtube" href="#"><i class="fa fa-youtube"></i></a>
+                        </li>
+                        <li class="dribbble"><a title="Website" href="#"><i class="fa fa-dribbble"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-12 col-lg-8"> </div>
+            </div>
+        </div>
+    </section>
     <!-- Template JS Files -->
     <script src="{{ asset('light/js/jquery-3.5.0.min.js') }}"></script>
     <script src="{{ asset('light/js/styleswitcher.js') }}"></script>

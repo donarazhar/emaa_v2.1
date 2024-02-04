@@ -29,7 +29,8 @@ Route::middleware(['guest:karyawan'])->group(function () {
 
 Route::middleware(['guest:user'])->group(function () {
 
-    Route::get('/jamaah', [HomeController::class, 'user_login'])->name('jamaah');
+    Route::get('/jamaah', [HomeController::class, 'user_jamaah']);
+    Route::get('/loginjamaah', [HomeController::class, 'user_login']);
     Route::get('/registerjamaah', [HomeController::class, 'user_register']);
     Route::post('/prosesloginjamaah', [HomeController::class, 'user_proseslogin']);
     Route::post('/prosesregisterjamaah', [HomeController::class, 'user_prosesregister']);
