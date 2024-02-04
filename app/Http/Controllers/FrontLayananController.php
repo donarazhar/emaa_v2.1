@@ -921,4 +921,21 @@ class FrontLayananController extends Controller
             return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data: ' . $e->getMessage()]);
         }
     }
+
+    public function frontlayanan_program()
+    {
+        try {
+            $email = Auth::guard('user')->user()->email;
+            $id_jamaah = DB::table('tbl_jamaah')->select('tbl_jamaah.id_user')->where('email', $email)->first();
+            $tbl_jamaahID = DB::table('tbl_jamaah')
+                ->select('tbl_jamaah.*')
+                ->where('tbl_jamaah.id_user', $id_jamaah->id_user)
+                ->first();
+
+            return view('user.user_program', compact('tbl_jamaahID'));
+        } catch (\Exception $e) {
+            // Tangani pengecualian jika diperlukan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        }
+    }
 }

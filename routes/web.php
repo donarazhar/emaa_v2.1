@@ -153,4 +153,5 @@ Route::middleware(['auth:user'])->group(function () {
     Route::post('/panel/frontlayanan_tambahdatakonsultasi/{id_fk}', [FrontLayananController::class, 'frontlayanan_tambahdatakonsultasi']);
     Route::post('/panel/frontlayanan_tambahinfaq', [FrontLayananController::class, 'frontlayanan_tambahinfaq']);
     Route::post('/panel/get-snap-token', 'FrontLayananController@getSnapToken');
+    Route::get('/panel/frontlayanan_program', [FrontLayananController::class, 'frontlayanan_program']);
 });

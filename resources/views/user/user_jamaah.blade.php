@@ -53,45 +53,45 @@
             <ul>
                 <li>
                     <a href="#" onclick="setActiveStyleSheet('purple');" title="purple" class="color"><img
-                            src="{{ asset(asset('light/img/styleswitcher/purple.png')) }}" alt="purple" /></a>
+                            src="{{ asset('light/img/styleswitcher/purple.png') }}" alt="purple" /></a>
                 </li>
                 <li>
                     <a href="#" onclick="setActiveStyleSheet('red');" title="red" class="color"><img
-                            src="{{ asset(asset('light/img/styleswitcher/red.png')) }}" alt="red" /></a>
+                            src="{{ asset('light/img/styleswitcher/red.png') }}" alt="red" /></a>
                 </li>
                 <li>
                     <a href="#" onclick="setActiveStyleSheet('blueviolet');" title="blueviolet"
-                        class="color"><img src="{{ asset(asset('light/img/styleswitcher/blueviolet.png')) }}"
+                        class="color"><img src="{{ asset('light/img/styleswitcher/blueviolet.png') }}"
                             alt="blueviolet" /></a>
                 </li>
                 <li>
                     <a href="#" onclick="setActiveStyleSheet('blue');" title="blue" class="color"><img
-                            src="{{ asset(asset('light/img/styleswitcher/blue.png')) }}" alt="blue" /></a>
+                            src="{{ asset('light/img/styleswitcher/blue.png') }}" alt="blue" /></a>
                 </li>
                 <li>
                     <a href="#" onclick="setActiveStyleSheet('goldenrod');" title="goldenrod" class="color"><img
-                            src="{{ asset(asset('light/img/styleswitcher/goldenrod.png')) }}" alt="goldenrod" /></a>
+                            src="{{ asset('light/img/styleswitcher/goldenrod.png') }}" alt="goldenrod" /></a>
                 </li>
                 <li>
                     <a href="#" onclick="setActiveStyleSheet('magenta');" title="magenta" class="color"><img
-                            src="{{ asset(asset('light/img/styleswitcher/magenta.png')) }}" alt="magenta" /></a>
+                            src="{{ asset('light/img/styleswitcher/magenta.png') }}" alt="magenta" /></a>
                 </li>
                 <li>
                     <a href="#" onclick="setActiveStyleSheet('yellowgreen');" title="yellowgreen"
-                        class="color"><img src="{{ asset(asset('light/img/styleswitcher/yellowgreen.png')) }}"
+                        class="color"><img src="{{ asset('light/img/styleswitcher/yellowgreen.png') }}"
                             alt="yellowgreen" /></a>
                 </li>
                 <li>
                     <a href="#" onclick="setActiveStyleSheet('orange');" title="orange" class="color"><img
-                            src="{{ asset(asset('light/img/styleswitcher/orange.png')) }}" alt="orange" /></a>
+                            src="{{ asset('light/img/styleswitcher/orange.png') }}" alt="orange" /></a>
                 </li>
                 <li>
                     <a href="#" onclick="setActiveStyleSheet('green');" title="green" class="color"><img
-                            src="{{ asset(asset('light/img/styleswitcher/green.png')) }}" alt="green" /></a>
+                            src="{{ asset('light/img/styleswitcher/green.png') }}" alt="green" /></a>
                 </li>
                 <li>
                     <a href="#" onclick="setActiveStyleSheet('yellow');" title="yellow" class="color"><img
-                            src="{{ asset(asset('light/img/styleswitcher/yellow.png')) }}" alt="yellow" /></a>
+                            src="{{ asset('light/img/styleswitcher/yellow.png') }}" alt="yellow" /></a>
                 </li>
             </ul>
             <div id="hideSwitcher">&times;</div>
