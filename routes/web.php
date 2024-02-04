@@ -21,23 +21,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest:karyawan'])->group(function () {
     Route::get('/', [HomeController::class, 'h_index'])->name('/');
-    Route::get('/daftar', [HomeController::class, 'h_daftar']);
-    Route::get('/login', [HomeController::class, 'h_login']);
+    Route::get('/daftar', [HomeController::class, 'h_daftar'])->name('daftar');
+    Route::get('/login', [HomeController::class, 'h_login'])->name('login');
     Route::post('/proseslogin', [HomeController::class, 'h_proseslogin']);
     Route::post('/prosesdaftar', [HomeController::class, 'h_prosesdaftar']);
 });
 
 Route::middleware(['guest:user'])->group(function () {
 
-    Route::get('/jamaah', [HomeController::class, 'user_jamaah']);
-    Route::get('/loginjamaah', [HomeController::class, 'user_login']);
-    Route::get('/registerjamaah', [HomeController::class, 'user_register']);
+    Route::get('/jamaah', [HomeController::class, 'user_jamaah'])->name('jamaah');
+    Route::get('/loginjamaah', [HomeController::class, 'user_login'])->name('loginjamaah');
+    Route::get('/registerjamaah', [HomeController::class, 'user_register'])->name('registerjamaah');
     Route::post('/prosesloginjamaah', [HomeController::class, 'user_proseslogin']);
     Route::post('/prosesregisterjamaah', [HomeController::class, 'user_prosesregister']);
 });
 
 Route::middleware(['auth:karyawan'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'dash_index']);
+    Route::get('/dashboard', [DashboardController::class, 'dash_index'])->name('dashboard');
     Route::get('/proseslogout', [HomeController::class, 'h_proseslogout']);
 
     Route::get('/marbout_index', [MarboutController::class, 'marbout_index']);
@@ -142,7 +142,7 @@ Route::middleware(['auth:karyawan'])->group(function () {
 
 Route::middleware(['auth:user'])->group(function () {
 
-    Route::get('/panel/dashboarduser', [DashboardController::class, 'dashuser_index']);
+    Route::get('/panel/dashboarduser', [DashboardController::class, 'dashuser_index'])->name('panel/dashboarduser');
     Route::get('/panel/proseslogoutuser', [HomeController::class, 'user_proseslogout']);
     Route::get('/panel/frontlayanan_infaq', [FrontLayananController::class, 'frontlayanan_infaq']);
     Route::get('/panel/frontlayanan_daftarkonsultasi/{id_fk}', [FrontLayananController::class, 'user_daftarkonsultasi']);
