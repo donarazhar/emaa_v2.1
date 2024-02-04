@@ -105,6 +105,11 @@ Route::middleware(['auth:karyawan'])->group(function () {
 
     Route::get('/front_laporansurat', [FrontofficeController::class, 'front_laporansurat']);
 
+    Route::get('/frontlayanan_dataprogram', [FrontLayananController::class, 'frontlayanan_dataprogram']);
+    Route::post('/frontlayanan_tambahdataprogram', [FrontLayananController::class, 'frontlayanan_tambahdataprogram']);
+    Route::post('/frontlayanan_editdataprogram', [FrontLayananController::class, 'frontlayanan_editdataprogram']);
+    Route::post('/frontlayanan_updatedataprogram/{id}', [FrontLayananController::class, 'frontlayanan_updatedataprogram']);
+    Route::post('/frontlayanan_hapusdataprogram/{id_progam}', [FrontLayananController::class, 'frontlayanan_hapusdataprogram']);
 
     Route::get('/frontlayanan_kategorilayanan', [FrontLayananController::class, 'frontlayanan_kategorilayanan']);
     Route::post('/frontlayanan_tambahkategorilayanan', [FrontLayananController::class, 'frontlayanan_tambahkategorilayanan']);
@@ -154,4 +159,6 @@ Route::middleware(['auth:user'])->group(function () {
     Route::post('/panel/frontlayanan_tambahinfaq', [FrontLayananController::class, 'frontlayanan_tambahinfaq']);
     Route::post('/panel/get-snap-token', 'FrontLayananController@getSnapToken');
     Route::get('/panel/frontlayanan_program', [FrontLayananController::class, 'frontlayanan_program']);
+    Route::get('/panel/frontlayanan_program', [FrontLayananController::class, 'frontlayanan_program']);
+    Route::get('/panel/blogprogram/{id_program}', [FrontLayananController::class, 'frontlayanan_blogprogram']);
 });

@@ -34,6 +34,8 @@
     <link rel="stylesheet"
         href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <script src="https://cdn.tiny.cloud/1/ke2yr843uv7kjydevaiblj2mi0zm9uwvu9tikkn3sph5wdpc/tinymce/6/tinymce.min.js"
+        referrerpolicy="origin"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -273,7 +275,7 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview"
-                                style="{{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan', 'front_laporansurat', 'frontlayanan_kategorilayanan', 'frontlayanan_dataimam', 'frontlayanan_datalayanan']) ? 'display: block;' : 'display: none;' }}">
+                                style="{{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan', 'front_laporansurat', 'frontlayanan_kategorilayanan', 'frontlayanan_dataimam', 'frontlayanan_datalayanan', 'frontlayanan_dataprogram']) ? 'display: block;' : 'display: none;' }}">
                                 <li
                                     class="nav-item {{ request()->is(['front_kategorisurat', 'front_asalsurat', 'front_datasurat', 'front_bukutamu', 'front_kategorilayanan', 'front_dataimam', 'front_layanan', 'front_laporansurat', 'frontlayanan_kategorilayanan', 'frontlayanan_dataimam', 'frontlayanan_datalayanan']) ? 'active' : '' }}">
                                     <a href="#"
@@ -336,7 +338,7 @@
 
                                 <li class="nav-item">
                                     <a href="#"
-                                        class="nav-link {{ request()->is(['frontlayanan_kategorilayanan', 'frontlayanan_dataimam', 'frontlayanan_datalayanan']) ? 'active' : '' }}">
+                                        class="nav-link {{ request()->is(['frontlayanan_kategorilayanan', 'frontlayanan_dataimam', 'frontlayanan_datalayanan', 'frontlayanan_dataprogram']) ? 'active' : '' }}">
                                         <i class="fas fa-address-card nav-icon"></i>
                                         <p>
                                             Layanan
@@ -344,10 +346,10 @@
                                         </p>
                                     </a>
                                     <ul class="nav nav-treeview"
-                                        style="{{ request()->is(['frontlayanan_kategorilayanan', 'frontlayanan_dataimam', 'frontlayanan_datalayanan']) ? 'display: block;' : 'display: none;' }}">
+                                        style="{{ request()->is(['frontlayanan_kategorilayanan', 'frontlayanan_dataimam', 'frontlayanan_datalayanan', 'frontlayanan_dataprogram']) ? 'display: block;' : 'display: none;' }}">
                                         <li class="nav-item">
                                             <a href="#"
-                                                class="nav-link {{ request()->is(['frontlayanan_kategorilayanan', 'frontlayanan_dataimam']) ? 'active' : '' }}">
+                                                class="nav-link {{ request()->is(['frontlayanan_kategorilayanan', 'frontlayanan_dataimam', 'frontlayanan_dataprogram']) ? 'active' : '' }}">
                                                 <i class="fas fa-caret-right nav-icon"></i>
                                                 <p>
                                                     Master
@@ -355,7 +357,15 @@
                                                 </p>
                                             </a>
                                             <ul class="nav nav-treeview"
-                                                style="{{ request()->is(['frontlayanan_kategorilayanan', 'frontlayanan_dataimam']) ? 'display: block;' : 'display: none;' }}">
+                                                style="{{ request()->is(['frontlayanan_kategorilayanan', 'frontlayanan_dataimam', 'frontlayanan_dataprogram']) ? 'display: block;' : 'display: none;' }}">
+                                                <li
+                                                    class="nav-item {{ request()->is(['frontlayanan_kategorilayanan']) ? 'active' : '' }}">
+                                                    <a href="/frontlayanan_dataprogram"
+                                                        class="nav-link {{ request()->is(['frontlayanan_dataprogram']) ? 'active' : '' }}">
+                                                        <i class="far fa-dot-circle nav-icon"></i>
+                                                        <p>Data Program</p>
+                                                    </a>
+                                                </li>
                                                 <li
                                                     class="nav-item {{ request()->is(['frontlayanan_kategorilayanan']) ? 'active' : '' }}">
                                                     <a href="/frontlayanan_kategorilayanan"

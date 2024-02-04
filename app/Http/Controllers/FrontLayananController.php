@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Midtrans\Snap;
 
 class FrontLayananController extends Controller
@@ -218,6 +220,128 @@ class FrontLayananController extends Controller
 
         return view('user.user_daftarkonsultasi', compact('tbl_daftarkonsultasiID', 'tbl_jamaahID'));
     }
+
+    // DATA PROGRAM
+    public function frontlayanan_dataprogram()
+    {
+
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_program = DB::table('tbl_program')->get();
+
+        return view('frontlayanan.layanan_dataprogram', compact('tbl_userID', 'tbl_program'));
+    }
+
+    public function frontlayanan_tambahdataprogram(Request $request)
+    {
+        $namamodalimam = $request->namamodalimam;
+        $nohpmodalimam = $request->nohpmodalimam;
+        $keteranganmodalimam = $request->keteranganmodalimam;
+
+        try {
+            $data = [
+                'nama_imam' => $namamodalimam,
+                'nohp_imam' => $nohpmodalimam,
+                'keterangan' => $keteranganmodalimam,
+
+            ];
+
+            $simpan = DB::table('tbl_imam')->insert($data);
+            if ($simpan) {
+                return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            }
+        } catch (\Exception $e) {
+            // Tampilkan pesan kesalahan
+            return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
+        }
+    }
+
+    public function frontlayanan_editdataprogram(Request $request)
+    {
+        $email = Auth::guard('karyawan')->user()->email;
+        $id_user = DB::table('tbl_user')->select('tbl_user.id_user')->where('email', $email)->first();
+        $tbl_userID = DB::table('tbl_user')
+            ->select('tbl_user.*', 'tbl_marbout.*', 'nama_unitkerja')
+            ->leftJoin('tbl_marbout', 'tbl_user.id_user', '=', 'tbl_marbout.id_user')
+            ->leftJoin('tbl_unitkerja', 'tbl_marbout.id_unitkerja', '=', 'tbl_unitkerja.id_unitkerja')
+            ->where('tbl_user.id_user', $id_user->id_user) // Menggunakan $id_user->id_user
+            ->first();
+
+        $tbl_programID = DB::table('tbl_program')
+            ->where('id_program', $request->id)
+            ->first();
+
+        return view('frontlayanan.layanan_editdataprogram', compact('tbl_userID', 'tbl_programID'));
+    }
+
+    public function frontlayanan_updatedataprogram($id_program, Request $request)
+    {
+
+        try {
+            // Mengambil data berita dari database
+            $program = DB::table('tbl_program')->where('id_program', $id_program)->first();
+
+            // Foto lama
+            $fotoFileLama = $request->file('fotoeditlama');
+            $fotoLama = $program->foto;
+
+            // Foto baru
+            $fotoFile = $request->file('fotoedit');
+            $foto = $fotoLama; // Default to the old photo
+
+            // Proses Upload Foto baru
+            if ($fotoFile) {
+                // Menentukan nama file foto yang akan digunakan
+                $extension = $fotoFile->getClientOriginalExtension();
+                $filename = substr(Hash::make($fotoFile->getClientOriginalName()), 0, 10) . '.' . $extension;
+                $foto = $filename;
+
+                // Upload foto baru
+                $fotoFile->storeAs('public/uploads/blog/', $filename);
+
+                // Hapus foto lama jika berhasil mengunggah foto baru
+                if ($fotoLama && Storage::exists('public/uploads/blog/' . $fotoLama)) {
+                    Storage::delete('public/uploads/blog/' . $fotoLama);
+                }
+            }
+
+            // Data yang akan diupdate
+            $data = [
+                'foto' => $foto,
+                'judul' => $request->input('juduledit'),
+                'subjudul' => $request->input('subjuduledit'),
+                'isi' => $request->input('isiberitaedit'),
+                'link' => $request->input('linkedit'),
+            ];
+
+            // Lakukan update
+            DB::table('tbl_program')->where('id_program', $id_program)->update($data);
+
+            // Redirect dengan pesan sukses
+            return redirect()->back()->with('success', 'Berita berhasil diperbarui');
+        } catch (\Exception $e) {
+            // Redirect dengan pesan error
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function frontlayanan_hapusdataprogram($id_program)
+    {
+        $delete = DB::table('tbl_program')->where('id_program', $id_program)->delete();
+        if ($delete) {
+            return Redirect::back()->with(['success' => 'Data Berhasil Dihapus']);
+        } else {
+            return Redirect::back()->with(['warning' => 'Data Gagal Dihapus']);
+        }
+    }
+
 
     // KATEGORI LAYANAN
     public function frontlayanan_kategorilayanan()
@@ -921,21 +1045,29 @@ class FrontLayananController extends Controller
             return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data: ' . $e->getMessage()]);
         }
     }
-
     public function frontlayanan_program()
     {
-        try {
-            $email = Auth::guard('user')->user()->email;
-            $id_jamaah = DB::table('tbl_jamaah')->select('tbl_jamaah.id_user')->where('email', $email)->first();
-            $tbl_jamaahID = DB::table('tbl_jamaah')
-                ->select('tbl_jamaah.*')
-                ->where('tbl_jamaah.id_user', $id_jamaah->id_user)
-                ->first();
+        $email = Auth::guard('user')->user()->email;
+        $id_jamaah = DB::table('tbl_jamaah')->select('tbl_jamaah.id_user')->where('email', $email)->first();
+        $tbl_jamaahID = DB::table('tbl_jamaah')
+            ->select('tbl_jamaah.*')
+            ->where('tbl_jamaah.id_user', $id_jamaah->id_user)
+            ->first();
+        $tbl_program = DB::table('tbl_program')->get();
 
-            return view('user.user_program', compact('tbl_jamaahID'));
-        } catch (\Exception $e) {
-            // Tangani pengecualian jika diperlukan
-            return redirect()->back()->with(['warning' => 'Terjadi kesalahan: ' . $e->getMessage()]);
-        }
+        return view('user.user_program', compact('tbl_jamaahID', 'tbl_program'));
+    }
+    public function frontlayanan_blogprogram($id_program, Request $request)
+    {
+
+        $email = Auth::guard('user')->user()->email;
+        $id_jamaah = DB::table('tbl_jamaah')->select('tbl_jamaah.id_user')->where('email', $email)->first();
+        $tbl_jamaahID = DB::table('tbl_jamaah')
+            ->select('tbl_jamaah.*')
+            ->where('tbl_jamaah.id_user', $id_jamaah->id_user)
+            ->first();
+        $tbl_programID = DB::table('tbl_program')->where('id_program', $id_program)->first();
+
+        return view('user.user_blogprogram', compact('tbl_jamaahID', 'tbl_programID'));
     }
 }

@@ -56,7 +56,7 @@
                 <div
                     class="header-content header-style-five position-relative d-flex align-items-center justify-content-between">
                     <!-- Back Button-->
-                    <div class="back-button"><a href="/panel/frontlayanan_jadwalkonsultasi" style="color:#0d6efd;">
+                    <div class="back-button"><a href="/panel/frontlayanan_program" style="color:#0d6efd;">
                             <svg width="32" height="32" viewBox="0 0 16 16" class="bi bi-arrow-left-short"
                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
@@ -82,52 +82,27 @@
     </header>
     <!-- Header Ends -->
     <section class="title-section text-left text-sm-center revealator-slideup revealator-once revealator-delay1 mt-5">
-        <h1>program <span>kami</span></h1>
+        <h1>detail<span> program</span></h1>
         <span class="title-bg">masjid</span>
     </section>
     <!-- Page Title Ends -->
-    <section class="main-content revealator-slideup revealator-once revealator-delay1 mt-5 mb-5">
+    <section class="main-content revealator-slideup revealator-once revealator-delay1 mt-5">
         <div class="container">
-            <!-- Articles Starts -->
             <div class="row">
-                @foreach ($tbl_program as $program)
-                    <div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-30">
-                        <article class="post-container">
-                            <div class="post-thumb">
-                                <a href="{{ $program->link }}" class="d-block position-relative overflow-hidden">
-                                    @php
-                                        $path = Storage::url('uploads/blog/' . $program->foto);
-                                    @endphp
-                                    <img src="{{ $path }}" class="img-fluid" alt="Blog Post">
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <div class="entry-header">
-                                    <h3><a href="{{ $program->link }}">{{ $program->judul }}</a>
-                                    </h3>
-                                </div>
-                                <div class="entry-content open-sans-font">
-                                    <p>{{ $program->subjudul }}
-                                </div>
-                            </div>
-                            <a href="{{ $program->link }}"></a>
-                        </article>
+                <!-- Article Starts -->
+                <article class="col-12">
+                    <h1 class="text-uppercase text-capitalize">{{ $tbl_programID->judul }}</h1>
+                    @php
+                        $path = Storage::url('uploads/blog/' . $tbl_programID->foto);
+                    @endphp
+                    <img src="{{ $path }}" class="img-fluid" alt="Blog Image">
+                    <div class="blog-excerpt open-sans-font pb-5">
+                        <p>{!! $tbl_programID->isi !!}</p>
                     </div>
-                @endforeach
-                <!-- Pagination Starts -->
-                <div class="col-12 mt-4">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center mb-0">
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <!-- Pagination Ends -->
+                    <!-- Article Content Ends -->
+                </article>
+                <!-- Article Ends -->
             </div>
-            <!-- Articles Ends -->
         </div>
     </section>
     <!-- Footer Nav-->
