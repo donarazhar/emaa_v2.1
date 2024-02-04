@@ -93,9 +93,9 @@
         </div>
     </div>
 
-    {{-- Modal Tambah Data Imam --}}
-    <div class="modal fade" id="tambahdataimam" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+    {{-- Modal Tambah Data Program --}}
+    <div class="modal fade" id="tambahdataprogram" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content ">
                 <div class="modal-header bg-dark">
                     <h6 class=" fa fa-archive modal-title">&nbsp;&nbsp;Menambah Data</h6>
@@ -104,38 +104,69 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/frontlayanan_tambahdataimam" method="post" accept-charset="utf-8">
+                    <form action="/frontlayanan_tambahdataprogram" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group">
-                            <div class="form-group">
-                                <label for="namamodalimam">Nama Imam</label>
-                                <input type="text" class="form-control" id="namamodalimam" name="namamodalimam"
-                                    placeholder="Masukkan nama imam..." required>
+                        <div class="row">
+                            <div class="card-body">
+                                <div class="row text-center">
+
+                                    <div class="col-lg-6">
+                                        <img id="preview-image" style="height:120px"
+                                            src="{{ asset('assets/img/preview.png') }}" alt="Preview" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="form-group">
-                                <label for="nohpmodalimam">No Handphone</label>
-                                <input class="form-control" name="nohpmodalimam" type="text" id="nohpmodalimam"
-                                    placeholder="Masukkan no handphone..." required>
-                            </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="fotomodal">Ubah Foto</label>
+                            <input class="form-control" id="fotomodal" name="fotomodal" type="file" accept="image/*"
+                                onchange="previewImage()">
                         </div>
-                        <div class="form-group">
-                            <label for="keteranganmodalimam">Keterangan</label>
-                            <input type="text" class="form-control" id="keteranganmodalimam" name="keteranganmodalimam"
-                                placeholder="Masukkan keterangan..." required>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="judulmodal">Judul</label>
+                            <input class="form-control" id="judulmodal" name="judulmodal" type="text" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="subjudulmodal">Sub Judul</label>
+                            <input class="form-control" id="subjudulmodal" name="subjudulmodal" type="text" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="isiberitamodal">Isi Berita</label>
+                            <textarea class="form-control" id="isiberitamodal" name="isiberitamodal" cols="10" rows="5"></textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="linkmodal">Link</label>
+                            <input class="form-control" id="linkmodal" name="linkmodal" value="{{ $linkblog }}"
+                                type="text" readonly required>
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>
+                    <script>
+                        tinymce.init({
+                            selector: '#isiberitamodal',
+                            height: 300,
+                            plugins: [
+                                'advlist autolink lists link image charmap print preview anchor',
+                                'searchreplace visualblocks code fullscreen',
+                                'insertdatetime media table paste code help wordcount'
+                            ],
+                            toolbar: 'undo redo | formatselect | ' +
+                                'bold italic backcolor | alignleft aligncenter ' +
+                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                'removeformat | help',
+                            content_style: 'body { font-family: "Helvetica", sans-serif; font-size: 14px }'
+                        });
+                    </script>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Modal Edit Data Surat --}}
+    {{-- Modal Edit Data Program --}}
     <div class="modal modal-blur fade" id="modal-editdataprogram" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -210,7 +241,6 @@
 
         });
     </script>
-
     <script>
         $(function() {
             $("#example1").DataTable({
@@ -220,5 +250,28 @@
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
+    </script>
+    <script>
+        function previewImage() {
+            const input = document.getElementById('fotoedit');
+            const previewContainer = document.getElementById('preview-container');
+            const previewImage = document.getElementById('preview-image');
+
+            const file = input.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.style.display = 'flex';
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                previewImage.src = '{{ asset('assets/img/preview.png') }}';
+                previewContainer.style.display = 'flex';
+            }
+        }
     </script>
 @endpush

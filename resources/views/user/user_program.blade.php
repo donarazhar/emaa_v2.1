@@ -91,7 +91,7 @@
             <!-- Articles Starts -->
             <div class="row">
                 @foreach ($tbl_program as $program)
-                    <div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-30">
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-3">
                         <article class="post-container">
                             <div class="post-thumb">
                                 <a href="{{ $program->link }}" class="d-block position-relative overflow-hidden">
@@ -114,20 +114,17 @@
                         </article>
                     </div>
                 @endforeach
-                <!-- Pagination Starts -->
-                <div class="col-12 mt-4">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center mb-0">
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        </ul>
-                    </nav>
+            </div>
+            <!-- Articles Ends -->
+            <div>
+                <div class="row">
+                    <!-- Pagination Starts -->
+                    <div class="col-12 col-lg-12 mt-4 pagination justify-content-center">
+                        {{ $tbl_program->links('pagination::simple-bootstrap-5') }}
+                    </div>
                 </div>
                 <!-- Pagination Ends -->
             </div>
-            <!-- Articles Ends -->
         </div>
     </section>
     <!-- Footer Nav-->

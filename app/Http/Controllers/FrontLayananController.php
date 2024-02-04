@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -235,27 +236,47 @@ class FrontLayananController extends Controller
             ->first();
 
         $tbl_program = DB::table('tbl_program')->get();
+        // Mendapatkan id_program terakhir
+        $IDProgram = Program::latest('id_program')->first();
+        // Menghitung id_program baru
+        $newIdProgram = $IDProgram ? $IDProgram->id_program + 1 : 1;
+        // Menyusun sintaks dan menetapkan ke input
+        $linkblog = "/panel/blogprogram/{$newIdProgram}";
 
-        return view('frontlayanan.layanan_dataprogram', compact('tbl_userID', 'tbl_program'));
+        return view('frontlayanan.layanan_dataprogram', compact('tbl_userID', 'tbl_program', 'linkblog'));
     }
 
     public function frontlayanan_tambahdataprogram(Request $request)
     {
-        $namamodalimam = $request->namamodalimam;
-        $nohpmodalimam = $request->nohpmodalimam;
-        $keteranganmodalimam = $request->keteranganmodalimam;
-
         try {
-            $data = [
-                'nama_imam' => $namamodalimam,
-                'nohp_imam' => $nohpmodalimam,
-                'keterangan' => $keteranganmodalimam,
+            $judulmodal = $request->input('judulmodal');
+            $subjudulmodal = $request->input('subjudulmodal');
+            $isiberitamodal = $request->input('isiberitamodal');
+            $linkmodal = $request->input('linkmodal');
 
+            // Periksa apakah file foto diupload
+            if ($request->hasFile('fotomodal')) {
+                $fotoFile = $request->file('fotomodal');
+                $fotoblog = substr(hash('sha256', time()), 0, 25) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoFile->storeAs('public/uploads/blog/', $fotoblog);
+            } else {
+                // Jika tidak ada file foto diupload, beri nilai default atau sesuaikan dengan kebutuhan Anda
+                $fotoblog = 'preview.png'; // Ganti dengan nama file default yang Anda inginkan
+            }
+
+            $data = [
+                'foto' => $fotoblog,
+                'judul' => $judulmodal,
+                'subjudul' => $subjudulmodal,
+                'isi' => $isiberitamodal,
+                'link' => $linkmodal,
             ];
 
-            $simpan = DB::table('tbl_imam')->insert($data);
+            $simpan = DB::table('tbl_program')->insert($data);
             if ($simpan) {
                 return redirect()->back()->with(['success' => 'Data berhasil disimpan']);
+            } else {
+                return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data']);
             }
         } catch (\Exception $e) {
             // Tampilkan pesan kesalahan
@@ -1053,7 +1074,8 @@ class FrontLayananController extends Controller
             ->select('tbl_jamaah.*')
             ->where('tbl_jamaah.id_user', $id_jamaah->id_user)
             ->first();
-        $tbl_program = DB::table('tbl_program')->get();
+        $tbl_program = DB::table('tbl_program')->orderBy('id_program', 'DESC')
+            ->paginate(6);
 
         return view('user.user_program', compact('tbl_jamaahID', 'tbl_program'));
     }

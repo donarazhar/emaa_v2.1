@@ -80,7 +80,7 @@
     {{-- Modal Tambah Data Imam --}}
     <div class="modal fade" id="tambahdataimam" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content ">
+            <div class="modal-content">
                 <div class="modal-header bg-dark">
                     <h6 class=" fa fa-archive modal-title">&nbsp;&nbsp;Menambah Data</h6>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
