@@ -5,6 +5,7 @@ use App\Http\Controllers\FrontLayananController;
 use App\Http\Controllers\FrontofficeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MarboutController;
+use App\Http\Controllers\PresensiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -143,6 +144,10 @@ Route::middleware(['auth:karyawan'])->group(function () {
     Route::post('/frontlayanan_updatedatapengislaman/{id}', [FrontLayananController::class, 'frontlayanan_updatedatapengislaman']);
     Route::post('/frontlayanan_hapusdatapengislaman/{id_sp}', [FrontLayananController::class, 'frontlayanan_hapusdatapengislaman']);
     Route::post('/frontlayanan_cetaksp/{id_sp}', [FrontLayananController::class, 'frontlayanan_cetaksp']);
+
+
+    Route::get('/presensi_index', [PresensiController::class, 'presensi_index']);
+    Route::get('/presensi_laporkerja', [PresensiController::class, 'presensi_laporkerja']);
 });
 
 Route::middleware(['auth:user'])->group(function () {

@@ -336,7 +336,7 @@
                                     </ul>
                                 </li>
 
-                                <li class="nav-item">
+                                <li class="nav-item ">
                                     <a href="#"
                                         class="nav-link {{ request()->is(['frontlayanan_kategorilayanan', 'frontlayanan_dataimam', 'frontlayanan_datalayanan', 'frontlayanan_dataprogram']) ? 'active' : '' }}">
                                         <i class="fas fa-address-card nav-icon"></i>
@@ -404,6 +404,36 @@
                                     <a href="#" class="nav-link">
                                         <i class="far fa-calendar-alt nav-icon"></i>
                                         <p>Kegiatan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {{-- SIDEBAR PRESENSI --}}
+                        <li class="nav-item">
+                            <a href="#" class="nav-link  {{ request()->is(['*']) ? 'active' : '' }}">
+                                <i class="fas fa-cash-register nav-icon"></i>
+                                <p>
+                                    eMAA Presensi
+                                    <i class="right fas fa-angle-down"></i>
+                                    <span class="right badge badge-danger">Klik</span>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview"
+                                style="{{ request()->is(['presensi_index', 'presensi_laporkerja']) ? 'display: block;' : 'display: none;' }}">
+                                >
+                                <li class="nav-item {{ request()->is(['presensi_index']) ? 'active' : '' }}">
+                                    <a href="/presensi_index"
+                                        class="nav-link {{ request()->is(['presensi_index']) ? 'active' : '' }}">
+                                        <i class="fas fa-fingerprint nav-icon"></i>
+                                        <p>Presensi</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ request()->is(['presensi_laporkerja']) ? 'active' : '' }}">
+                                    <a href="/presensi_laporkerja"
+                                        class="nav-link {{ request()->is(['presensi_laporkerja']) ? 'active' : '' }}">
+                                        <i class="fas fa-camera nav-icon"></i>
+                                        <p>Lapor Kerja</p>
                                     </a>
                                 </li>
                             </ul>
