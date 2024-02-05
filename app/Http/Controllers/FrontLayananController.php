@@ -980,14 +980,13 @@ class FrontLayananController extends Controller
                 ->where('tbl_jamaah.id_user', $id_jamaah->id_user)
                 ->first();
             // Ambil data yang diperlukan dari tabel tbl_infaq
-            $tbl_bayarDonasi = DB::table('tbl_infaq')->where('email', $email)->get();
-
+            $tbl_bayarDonasi = DB::table('tbl_infaq')->orderBy('created_at', 'DESC')->where('email', $email)->get();
             // Jika tabel masih kosong, set variabel $tbl_bayarDonasi ke koleksi kosong
             if ($tbl_bayarDonasi->isEmpty()) {
                 $tbl_bayarDonasi = collect(); // Ubah ke koleksi kosong              
             }
             // Ambil data yang diperlukan dari tabel tbl_infaq
-            $updatedData = DB::table('tbl_infaq')->orderBy('created_at', 'DESC')->where('email', $email)->first();
+            $updatedData = DB::table('tbl_infaq')->where('email', $email)->first();
 
             // Periksa apakah data ada dan snap_token tidak null
             if (!$updatedData || is_null($updatedData->snap_token)) {
