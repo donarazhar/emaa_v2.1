@@ -117,7 +117,7 @@
                     @csrf
                     <div class="cart-table card mb-3">
                         <div class="table-responsive card-body">
-                            <table class="table mb-0 text-center">
+                            <table class="table mb-0 text-center table-striped table-sm">
                                 <thead>
                                     <tr>
                                         <th scope="col">No.</th>
@@ -170,6 +170,40 @@
                                                     <input class="form-control input-group-text text-start"
                                                         type="text" name="infaqoperasional"
                                                         id="infaqInputOperasional" value="0">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4.</th>
+                                        <td>
+                                            <h6 class="mb-1">Infaq Peduli Yatim & Dhuafa</h6>
+                                            <small>Program Ramadan 1445 H</small>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <a class="btn btn-info">Rp</a>
+                                                    <input class="form-control input-group-text text-start"
+                                                        type="text" name="infaqyatim" id="infaqInputYatim"
+                                                        value="0">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">5.</th>
+                                        <td>
+                                            <h6 class="mb-1">Infaq Buka Puasa Harian</h6>
+                                            <small>Program Ramadan 1445 H</small>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <a class="btn btn-info">Rp</a>
+                                                    <input class="form-control input-group-text text-start"
+                                                        type="text" name="infaqbukapuasa" id="infaqInputBukapuasa"
+                                                        value="0">
                                                 </div>
                                             </div>
                                         </td>
@@ -240,6 +274,14 @@
                                                     @if ($bayar->infaqoperasional != 0)
                                                         {{ 'IOPS' }}
                                                     @endif
+
+                                                    @if ($bayar->infaqyatim != 0)
+                                                        {{ 'IYTM' }}
+                                                    @endif
+
+                                                    @if ($bayar->infaqbukapuasa != 0)
+                                                        {{ 'IBKP' }}
+                                                    @endif
                                                 </h6>
                                             </td>
                                             <td>{{ date('d-m-Y', strtotime($bayar->created_at)) }}</td>
@@ -264,7 +306,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5">Tidak ada data donasi saat ini.</td>
+                                        <td colspan="6">Tidak ada data donasi saat ini</td>
                                     </tr>
                                 @endif
                             </tbody>
@@ -365,6 +407,12 @@
             $('#infaqInputOperasional').mask('000,000,000', {
                 reverse: true
             });
+            $('#infaqInputYatim').mask('000,000,000', {
+                reverse: true
+            });
+            $('#infaqInputBukapuasa').mask('000,000,000', {
+                reverse: true
+            });
         });
     </script>
     <script>
@@ -384,9 +432,12 @@
             var infaqKonsultasi = unmaskValue($('#infaqInputKonsultasi').val()) || 0;
             var infaqPengislaman = unmaskValue($('#infaqInputPengislaman').val()) || 0;
             var infaqOperasional = unmaskValue($('#infaqInputOperasional').val()) || 0;
+            var infaqYatim = unmaskValue($('#infaqInputYatim').val()) || 0;
+            var infaqBukapuasa = unmaskValue($('#infaqInputBukapuasa').val()) || 0;
 
             // Hitung total donasi
-            var totalDonasi = parseInt(infaqKonsultasi) + parseInt(infaqPengislaman) + parseInt(infaqOperasional);
+            var totalDonasi = parseInt(infaqKonsultasi) + parseInt(infaqPengislaman) + parseInt(infaqOperasional) +
+                parseInt(infaqYatim) + parseInt(infaqBukapuasa);
 
             // Format hasil ke format number_format dan masukkan ke input jumlah
             $('#jumlah').val(formatNumber(totalDonasi));
@@ -403,10 +454,18 @@
             $('#infaqInputOperasional').mask('000,000,000', {
                 reverse: true
             });
+            $('#infaqInputYatim').mask('000,000,000', {
+                reverse: true
+            });
+            $('#infaqInputBukapuasa').mask('000,000,000', {
+                reverse: true
+            });
 
             $('#infaqInputKonsultasi').on('input', hitungJumlah);
             $('#infaqInputPengislaman').on('input', hitungJumlah);
             $('#infaqInputOperasional').on('input', hitungJumlah);
+            $('#infaqInputYatim').on('input', hitungJumlah);
+            $('#infaqInputBukapuasa').on('input', hitungJumlah);
         });
     </script>
 </body>

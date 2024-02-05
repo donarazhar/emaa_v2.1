@@ -223,7 +223,7 @@ class HomeController extends Controller
     {
 
         if (Auth::guard('user')->attempt(['email' => $request->emailuser, 'password' => $request->passworduser])) {
-            return redirect('/panel/frontlayanan_jadwalkonsultasi');
+            return redirect('/panel/frontlayanan_program');
         } else {
             return redirect('/jamaah')->with(['warning' => 'Email / Password Salah']);
         }

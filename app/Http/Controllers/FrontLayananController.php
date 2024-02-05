@@ -987,7 +987,7 @@ class FrontLayananController extends Controller
                 $tbl_bayarDonasi = collect(); // Ubah ke koleksi kosong              
             }
             // Ambil data yang diperlukan dari tabel tbl_infaq
-            $updatedData = DB::table('tbl_infaq')->where('email', $email)->first();
+            $updatedData = DB::table('tbl_infaq')->orderBy('created_at', 'DESC')->where('email', $email)->first();
 
             // Periksa apakah data ada dan snap_token tidak null
             if (!$updatedData || is_null($updatedData->snap_token)) {
@@ -995,7 +995,6 @@ class FrontLayananController extends Controller
                 $defaultSnapToken = 'DEFAULT_SNAP_TOKEN';
                 return view('user.user_infaq', compact('tbl_jamaahID', 'defaultSnapToken', 'tbl_bayarDonasi'));
             }
-
             return view('user.user_infaq', compact('tbl_jamaahID', 'updatedData', 'tbl_bayarDonasi'));
         } catch (\Exception $e) {
             // Tangani pengecualian jika diperlukan
@@ -1013,6 +1012,8 @@ class FrontLayananController extends Controller
             $infaqkonsultasi = $request->input('infaqkonsultasi', 0);
             $infaqpengislaman = $request->input('infaqpengislaman', 0);
             $infaqoperasional = $request->input('infaqoperasional', 0);
+            $infaqyatim = $request->input('infaqyatim', 0);
+            $infaqbukapuasa = $request->input('infaqbukapuasa', 0);
             $pesan = $request->input('pesan', '');
             $jumlah = $request->input('jumlah', 0); // Menggunakan 'jumlah' sebagai referensi
             $jumlah = str_replace('.', '', $jumlah);
@@ -1024,9 +1025,10 @@ class FrontLayananController extends Controller
                 'infaqkonsultasi' => $infaqkonsultasi,
                 'infaqpengislaman' => $infaqpengislaman,
                 'infaqoperasional' => $infaqoperasional,
+                'infaqyatim' => $infaqyatim,
+                'infaqbukapuasa' => $infaqbukapuasa,
                 'created_at' => now(),
             ];
-
 
 
             // Jika menggunakan Query Builder
@@ -1066,6 +1068,7 @@ class FrontLayananController extends Controller
             return redirect()->back()->with(['warning' => 'Terjadi kesalahan input data: ' . $e->getMessage()]);
         }
     }
+
     public function frontlayanan_program()
     {
         $email = Auth::guard('user')->user()->email;
