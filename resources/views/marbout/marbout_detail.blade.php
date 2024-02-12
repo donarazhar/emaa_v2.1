@@ -295,10 +295,10 @@
                                                                                     </td>
                                                                                     <td class="text-center">
                                                                                         @php
-                                                                                            $path = Storage::url('uploads/marbout/datakel3/' . $datakel->foto);
+                                                                                            $path = Storage::url('uploads/marbout/datakel3/' . $datakel3->foto3);
                                                                                         @endphp
 
-                                                                                        @if (empty($datakel->foto))
+                                                                                        @if (empty($datakel3->foto))
                                                                                             <img src="{{ asset('adminlte/img/nophoto.png') }}"
                                                                                                 width="80px">
                                                                                         @else

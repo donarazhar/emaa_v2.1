@@ -423,7 +423,7 @@
                                 style="{{ request()->is(['presensi_index', 'presensi_laporkerja']) ? 'display: block;' : 'display: none;' }}">
                                 >
                                 <li class="nav-item {{ request()->is(['presensi_index']) ? 'active' : '' }}">
-                                    <a href="/presensi_index"
+                                    <a href="https://presensigps.masjidagungalazhar.com/" target="_blank"
                                         class="nav-link {{ request()->is(['presensi_index']) ? 'active' : '' }}">
                                         <i class="fas fa-fingerprint nav-icon"></i>
                                         <p>Presensi</p>
