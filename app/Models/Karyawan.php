@@ -13,19 +13,30 @@ class Karyawan extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = "tbl_user";
+    protected $primaryKey = "id_user";
 
     // Agar tanda string -," muncul di datatable
     // public $incrementing = false;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'email',
+        'nama_user',
+        'password',
+    ];
 
 
-    protected $hidden = [];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    protected $casts = [];
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 }
